@@ -7,7 +7,7 @@ export default function HomePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <h1 className="text-2xl font-bold text-black">Hi 18th FE Camp</h1>
-      <p className="mt-2 text-xl">{click}</p>
+      <p className="mt-2 text-xl">Count: {click}</p>
       <Button
         className="mt-4"
         onClick={() => {
