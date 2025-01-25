@@ -6,7 +6,7 @@ export default function HomePage() {
   const [click, setClick] = useState(0);
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
-      <h1 className="text-2xl font-bold text-black">Hi FEcamp18</h1>
+      <h1 className="text-2xl font-bold text-black">Hi 18th FE Camp</h1>
       <p className="mt-2 text-xl">{click}</p>
       <Button
         className="mt-4"
