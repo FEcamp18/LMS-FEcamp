@@ -1,87 +1,65 @@
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 async function main() {
-  // Create Gingerbread parts
-  const prisma = global.prisma || new PrismaClient();
+  console.log("Seeding database...");
 
-  // Create Items
-  const item1 = await prisma.item.create({
+  // Create mock accounts
+  await prisma.account.createMany({
+    data: [
+      { username: "admin", password: "securepassword1", role: "BOARD" },
+      { username: "staff", password: "securepassword2", role: "STAFF" },
+      { username: "camper1", password: "securepassword3", role: "CAMPER" },
+    ],
+  });
+
+  // Create mock staff
+  await prisma.staff.createMany({
+    data: [
+      { staffId: "staff1", name: "Alice" },
+      { staffId: "staff2", name: "Bob" },
+    ],
+  });
+
+  // Create mock subjects
+  const subject1 = await prisma.subject.create({
     data: {
-      item_name: "Candy Cane",
-      item_model: "model_1",
-      item_description: "A sweet candy cane.",
-      item_position: "left hand",
-      x_position: 1.0,
-      y_position: 1.0,
-      z_position: 1.0,
-      x_rotation: 0.0,
-      y_rotation: 90.0,
-      z_rotation: 0.0,
-      scale: 1.0,
+      subjectId: "math",
+      subjectName: "Mathematics",
+      subjectTopic: "Algebra and Geometry",
+      subjectPicture: "/image/subject-picture/temp-subject-image.jpg",
+      subjectDescription: "An introduction to mathematics.",
     },
   });
 
-  const item2 = await prisma.item.create({
+  const subject2 = await prisma.subject.create({
     data: {
-      item_name: "Crownd",
-      item_model: "crownd_1",
-      item_description: "crownd",
-      item_position: "head",
-      x_position: 1.0,
-      y_position: 1.0,
-      z_position: 1.0,
-      x_rotation: 45.0,
-      y_rotation: 56.0,
-      z_rotation: 54.0,
-      scale: 1.0,
+      subjectId: "science",
+      subjectName: "Science",
+      subjectTopic: "Physics and Chemistry",
+      subjectPicture: "/image/subject-picture/temp-subject-image.jpg",
+      subjectDescription: "Learn the fundamentals of science.",
     },
   });
 
-  const item3 = await prisma.item.create({
-    data: {
-      item_name: "Pie",
-      item_model: "pie_1",
-      item_description: "yummy",
-      item_position: "right_hand",
-      x_position: 1.0,
-      y_position: 2.0,
-      z_position: 3.0,
-      x_rotation: 0.0,
-      y_rotation: 5.0,
-      z_rotation: 2.8,
-      scale: 1.0,
-    },
+  // Create mock classes
+  await prisma.class.createMany({
+    data: [
+      { classId: "math101", subjectId: subject1.subjectId },
+      { classId: "science101", subjectId: subject2.subjectId },
+    ],
   });
 
-  const user1 = await fetch(
-    `${process.env.NEXT_PUBLIC_BASEURL}/api/auth/signup`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        username: "aisha",
-        email: "aisha@gmail.com",
-        thanks_message: "aisha say thx",
-        GGB_type: "girl",
-      }),
-    },
-  );
-
-  const user2 = await fetch(
-    `${process.env.NEXT_PUBLIC_BASEURL}/api/auth/signup`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        username: "aida",
-        email: "aida@gmail.com",
-        thanks_message: "aida say thx",
-        GGB_type: "girl",
-      }),
-    },
-  );
-  console.log("Mock data created successfully!");
+  console.log("Seeding completed.");
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

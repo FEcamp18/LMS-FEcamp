@@ -22,6 +22,7 @@ pnpm install
 docker-compose up -d
 pnpm add @prisma/client prisma
 pnpm prisma generate
+node prisma/seed/init_seed.js
 ```
 
 - when you change prisma schmema and want to migrate it
