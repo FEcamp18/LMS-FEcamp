@@ -26,7 +26,7 @@ async function main() {
   const subject1 = await prisma.subject.create({
     data: {
       subjectId: "math",
-      subjectName: "Mathematics",
+      subjectName: "MATHS",
       subjectTopic: "Algebra and Geometry",
       subjectPicture: "/image/subject-picture/temp-subject-image.jpg",
       subjectDescription: "An introduction to mathematics.",
@@ -36,7 +36,7 @@ async function main() {
   const subject2 = await prisma.subject.create({
     data: {
       subjectId: "science",
-      subjectName: "Science",
+      subjectName: "PHYSICS",
       subjectTopic: "Physics and Chemistry",
       subjectPicture: "/image/subject-picture/temp-subject-image.jpg",
       subjectDescription: "Learn the fundamentals of science.",

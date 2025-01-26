@@ -13,17 +13,18 @@ datasource db {
 model Account {
     username String @id @unique @default("user")
     password String @default("password")
-    role     String @default("CAMPER")
+    role     ROLE   @default(CAMPER)
 }
 
 model Staff {
-    staffId String @id @unique @default("")
-    name    String @default("staff")
+    staffId String  @id @unique @default("")
+    name    String  @default("staff")
+    Class   Class[]
 }
 
 model Subject {
     subjectId          String  @id @unique @default("subject-id")
-    subjectName        String  @default("subject-name")
+    subjectName        SUBJECT @default(MATHS)
     subjectTopic       String  @default("subject-topic")
     subjectPicture     String  @default("/image/subject-picture/temp-subject-image.jpg")
     subjectDescription String  @default("subject-descripion")
@@ -31,14 +32,26 @@ model Subject {
 }
 
 model Class {
-    classId   String  @id @unique @default("class-id")
-    subjectId String
-    subject   Subject @relation(fields: [subjectId], references: [subjectId])
+    classId    String   @id @unique @default("class-id")
+    subjectId  String
+    subject    Subject  @relation(fields: [subjectId], references: [subjectId])
+    staffId    String   @default("")
+    classTutor Staff    @relation(fields: [staffId], references: [staffId])
+    room       Int      @default(0)
+    time       DateTime @default(now())
+    location   String   @default("not assign")
 }
 
 // type ENUM
-enum Role {
+enum ROLE {
     BOARD
     STAFF
     CAMPER
+}
+
+enum SUBJECT {
+    MATHS
+    PHYSICS
+    CHEMISTRY
+    TPAT3
 }
