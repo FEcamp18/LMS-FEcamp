@@ -55,21 +55,26 @@ pnpm run seed
 # Convention about git
 
 ## Branch and Commit
+
 - Branch name : `<dev name>/<type>/<task name>`
   - ex. tonnam/feat/scan-qrcode
 - Commit message : `<type>(<project name>): <description>`
-   - แนวทางการเขียน type commit เพิ่มเติม : https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13
+  - แนวทางการเขียน type commit เพิ่มเติม : https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13
+
 ## PR Description
 
 **How to Write a PR Description**
 
 1. **Title:**
+
    - Use a clear, short title (e.g., "`feat/frontend-router-setup`").
 
 2. **Summary:**
+
    - Briefly explain what the PR does (e.g., "Added routing structure with new `page.tsx` files").
 
 3. **Details:** (optional)
+
    - List changes in sections (e.g., Camper, Staff, Feedback).
    - Use file paths to show affected areas.
 
@@ -82,6 +87,7 @@ Keep it clear and easy to read and then ask to review the pr!
 # Project Structure (create by T3 app)
 
 Overall
+
 ```
 .
 ├─ prisma
@@ -145,7 +151,5 @@ in `src`
 ├───styles
 └───types
 ```
-
-
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
