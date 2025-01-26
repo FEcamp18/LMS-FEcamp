@@ -44,7 +44,7 @@ node prisma/seed/{your_seed}.js
 ```
 docker-compose -f docker-compose.yml down
 docker volume ls
-docker volume rm 2tinkerbread_postgres-data
+docker volume rm {FE database}
 docker compose -f docker-compose.yml up -d
 
 // you have to run prisma migration again
