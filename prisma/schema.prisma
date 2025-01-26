@@ -13,7 +13,7 @@ datasource db {
 model Account {
     username String @id @unique @default("user")
     password String @default("password")
-    role     String
+    role     String @default("CAMPER")
 }
 
 model Staff {
@@ -34,4 +34,11 @@ model Class {
     classId   String  @id @unique @default("class-id")
     subjectId String
     subject   Subject @relation(fields: [subjectId], references: [subjectId])
+}
+
+// type ENUM
+enum Role {
+    BOARD
+    STAFF
+    CAMPER
 }

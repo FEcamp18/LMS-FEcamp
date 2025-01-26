@@ -14,13 +14,21 @@
 
 # Project Setup
 
+- copy `.env.example` then change name to `.env`
+- run these command
+
 ```
 pnpm install
 docker-compose up -d
 pnpm add @prisma/client prisma
 pnpm prisma generate
+```
+
+- when you change prisma schmema and want to migrate it
+
+```
 npx prisma migrate dev
-node prisma/seed/init.js
+node prisma/seed/{your_seed}.js
 ```
 
 ### Techs / Frameworks / Libs
