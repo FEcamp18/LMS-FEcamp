@@ -5,6 +5,11 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding subjects and classes database...");
 
+  // Clear Subject and Class tables
+  await prisma.class.deleteMany();
+  await prisma.subject.deleteMany();
+
+  // Create mock subjects
   await prisma.subject.createMany({
     data: [
       // MATHS
@@ -24,7 +29,6 @@ async function main() {
       // CHEMISTRY
       { subjectId: "CHEMISTRY-1", subjectName: "CHEMISTRY", subjectTopic: "Chem 1", subjectDescription: "Chemical Bond, Organic Chemistry, Electrochemistry", subjectPicture: "/image/subject-picture/temp-subject-image.jpg" },
       { subjectId: "CHEMISTRY-2", subjectName: "CHEMISTRY", subjectTopic: "Chem 2", subjectDescription: "Stoichiometry, Chemical Equilibrium, Acid & Base", subjectPicture: "/image/subject-picture/temp-subject-image.jpg" },
-      { subjectId: "CHEMISTRY-3", subjectName: "CHEMISTRY", subjectTopic: "ไม่มีการสอนในค่าย (แต่มีในหนังสือค่าย)", subjectDescription: "Periodic Table, Chemical Formula, Chemical Reaction Rate, Gas, Polymer", subjectPicture: "/image/subject-picture/temp-subject-image.jpg" },
     
       // TPAT3
       { subjectId: "TPAT3-1", subjectName: "TPAT3", subjectTopic: "TPAT3-1", subjectDescription: "Numerical, Mechanical, Scientifically", subjectPicture: "/image/subject-picture/temp-subject-image.jpg" },
@@ -33,14 +37,58 @@ async function main() {
   });
 
   const subjectsFECamp = await prisma.subject.findMany();
+  const l_subjects = subjectsFECamp.length;
+
+  // Conditions:
+  // Campers will be separated into 8 rooms.
+  // Each room will have a different time schedule.
+  // Camper will join many classes through time schedule
+  // ----------------------------------------------------------------
+  // From above, I decided to make every room has same subject in each time slot
+
+  const camper_rooms = [204, 205, 215, 302, 304, 305, 315, 405];
+  const day_time = [
+    { day: "2025-05-18", slots: ["09:00:00", "13:00:00"] },
+    { day: "2025-05-19", slots: ["09:00:00", "13:00:00"] },
+    { day: "2025-05-20", slots: ["09:00:00", "13:00:00"] },
+    { day: "2025-05-21", slots: ["09:00:00", "13:00:00"] },
+    { day: "2025-05-22", slots: ["09:00:00", "13:00:00"] },
+    { day: "2025-05-23", slots: ["09:00:00", "13:00:00"] },
+    { day: "2025-05-24", slots: ["09:00:00", "13:00:00"] },
+  ];
+  const totalSlots = day_time.length * 2;
 
   let classes = [];
 
-  for (let i = 0; i < subjectsFECamp.length; i++) {
-    const subject = subjectsFECamp[i];
-    const staffId = i % 2 === 0 ? "staff1" : "staff2";
-    if (subject)
-      classes.push({ classId: `${subject.subjectId}-101`, subjectId: subject.subjectId, staffId: staffId });
+  // Create mock classes
+  for (let roomIndex = 0; roomIndex < camper_rooms.length; roomIndex++) {
+    const room = camper_rooms[roomIndex];
+
+    for (let subjectIndex = 0; subjectIndex < l_subjects; subjectIndex++) {
+      const study_subject = subjectsFECamp[subjectIndex];
+      const staffId = subjectIndex % 2 === 0 ? "staff1" : "staff2";
+
+      const slotIndex = (roomIndex * l_subjects + subjectIndex) % totalSlots;
+      const dayIndex = Math.floor(slotIndex / 2);
+      const slotInDay = slotIndex % 2;
+
+      if (dayIndex >= day_time.length) continue;
+      const currentDay = day_time[dayIndex];
+      if(!currentDay) continue;
+      const timeSlot = currentDay.slots[slotInDay];
+      const time = `${currentDay.day}T${timeSlot}.000Z`;
+
+      if (study_subject) {
+        classes.push({
+          classId: `${study_subject.subjectId}-${room}`,
+          subjectId: study_subject.subjectId,
+          staffId: staffId,
+          room: room,
+          location: "ENG3",
+          time: time,
+        });
+      }
+    }
   }
 
   await prisma.class.createMany({
