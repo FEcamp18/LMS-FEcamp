@@ -22,35 +22,6 @@ async function main() {
     ],
   });
 
-  // Create mock subjects
-  const subject1 = await prisma.subject.create({
-    data: {
-      subjectId: "math",
-      subjectName: "MATHS",
-      subjectTopic: "Algebra and Geometry",
-      subjectPicture: "/image/subject-picture/temp-subject-image.jpg",
-      subjectDescription: "An introduction to mathematics.",
-    },
-  });
-
-  const subject2 = await prisma.subject.create({
-    data: {
-      subjectId: "science",
-      subjectName: "PHYSICS",
-      subjectTopic: "Physics and Chemistry",
-      subjectPicture: "/image/subject-picture/temp-subject-image.jpg",
-      subjectDescription: "Learn the fundamentals of science.",
-    },
-  });
-
-  // Create mock classes
-  await prisma.class.createMany({
-    data: [
-      { classId: "math101", subjectId: subject1.subjectId },
-      { classId: "science101", subjectId: subject2.subjectId },
-    ],
-  });
-
   console.log("Seeding completed.");
 }
 
