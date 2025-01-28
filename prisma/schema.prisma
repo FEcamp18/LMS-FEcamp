@@ -17,9 +17,9 @@ model Account {
 }
 
 model Staff {
-    staffId String  @id @unique @default("")
-    name    String  @default("staff")
-    Class   Class[]
+    staffId    String       @id @unique @default("")
+    name       String       @default("staff")
+    StaffClass StaffClass[]
 }
 
 model Subject {
@@ -32,14 +32,23 @@ model Subject {
 }
 
 model Class {
-    classId    String   @id @unique @default("class-id")
+    classId    String       @id @unique @default("class-id")
     subjectId  String
-    subject    Subject  @relation(fields: [subjectId], references: [subjectId])
-    staffId    String   @default("")
-    classTutor Staff    @relation(fields: [staffId], references: [staffId])
-    room       Int      @default(0)
-    time       DateTime @default(now())
-    location   String   @default("not assign")
+    subject    Subject      @relation(fields: [subjectId], references: [subjectId])
+    room       Int          @default(0)
+    time       DateTime     @default(now())
+    location   String       @default("not assign")
+    StaffClass StaffClass[]
+}
+
+model StaffClass {
+    staffId String
+    classId String
+
+    staff Staff @relation(fields: [staffId], references: [staffId])
+    class Class @relation(fields: [classId], references: [classId])
+
+    @@id([staffId, classId])
 }
 
 // type ENUM
