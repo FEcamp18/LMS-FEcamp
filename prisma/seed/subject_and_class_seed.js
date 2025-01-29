@@ -6,6 +6,7 @@ async function main() {
   console.log("Seeding subjects and classes database...");
 
   // Clear Subject and Class tables
+  await prisma.staffClass.deleteMany();
   await prisma.class.deleteMany();
   await prisma.subject.deleteMany();
 
@@ -66,7 +67,6 @@ async function main() {
 
     for (let subjectIndex = 0; subjectIndex < l_subjects; subjectIndex++) {
       const study_subject = subjectsFECamp[subjectIndex];
-      const staffId = subjectIndex % 2 === 0 ? "staff1" : "staff2";
 
       const slotIndex = (roomIndex * l_subjects + subjectIndex) % totalSlots;
       const dayIndex = Math.floor(slotIndex / 2);
@@ -82,9 +82,8 @@ async function main() {
         classes.push({
           classId: `${study_subject.subjectId}-${room}`,
           subjectId: study_subject.subjectId,
-          staffId: staffId,
           room: room,
-          location: "ENG3",
+          location: "ตึก 3",
           time: time,
         });
       }
@@ -94,6 +93,24 @@ async function main() {
   await prisma.class.createMany({
     data: classes,
   })
+
+  const staffsFECamp = await prisma.staff.findMany();
+  const l_classes = classes.length;
+  const l_staffs = staffsFECamp.length;
+
+  // Create mock staffClass
+  let staffClasses = [];
+  for (let i = 0; i < l_classes; i++) {
+    const class_data = classes[i];
+    const staff_data = staffsFECamp[i % l_staffs];
+    if(staff_data && class_data)
+      staffClasses.push({ staffId: staff_data.staffId, classId: class_data.classId });
+  }
+
+  await prisma.staffClass.createMany({
+    data: staffClasses,
+    skipDuplicates: true,
+  });
 
   console.log("Seeding subjects and classes completed!");
 }
