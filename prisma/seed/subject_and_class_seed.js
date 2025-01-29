@@ -102,9 +102,15 @@ async function main() {
   let staffClasses = [];
   for (let i = 0; i < l_classes; i++) {
     const class_data = classes[i];
-    const staff_data = staffsFECamp[i % l_staffs];
-    if(staff_data && class_data)
-      staffClasses.push({ staffId: staff_data.staffId, classId: class_data.classId });
+    const staff_1_data = staffsFECamp[i % l_staffs];
+    if(staff_1_data && class_data){
+      if(i % 2 == 1){
+        const staff_2_data = staffsFECamp[(i + 1) % l_staffs];
+        if(staff_2_data)
+          staffClasses.push({ staffId: staff_2_data.staffId, classId: class_data.classId });
+      }
+      staffClasses.push({ staffId: staff_1_data.staffId, classId: class_data.classId });
+    }
   }
 
   await prisma.staffClass.createMany({
