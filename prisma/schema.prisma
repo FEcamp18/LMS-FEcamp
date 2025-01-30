@@ -30,6 +30,7 @@ model Subject {
     subjectDescription String  @default("subject-descripion")
     Class              Class[]
     SubjectFiles       SubjectFiles[]
+    SubjectAnnouncements SubjectAnnouncements[]
 }
 
 model Class {
@@ -60,6 +61,16 @@ model SubjectFiles{
     fileDescription String @default("file-description")
     fileUpLoadTime DateTime @default(now())
 
+    subject Subject @relation(fields: [subjectId], references: [subjectId])
+}
+
+model SubjectAnnouncements{
+    annoId String @id @unique @default("anno-id")
+    subjectId String
+    annoTitle String @default("anno-title")
+    annoText String @default("anno-text")
+    annoTime DateTime @default(now())
+    
     subject Subject @relation(fields: [subjectId], references: [subjectId])
 }
 
