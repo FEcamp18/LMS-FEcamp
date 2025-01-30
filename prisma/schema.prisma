@@ -29,6 +29,7 @@ model Subject {
     subjectPicture     String  @default("/image/subject-picture/temp-subject-image.jpg")
     subjectDescription String  @default("subject-descripion")
     Class              Class[]
+    SubjectFiles       SubjectFiles[]
 }
 
 model Class {
@@ -49,6 +50,17 @@ model StaffClass {
     class Class @relation(fields: [classId], references: [classId])
 
     @@id([staffId, classId])
+}
+
+model SubjectFiles{
+    fileId String @id @unique @default("file-id")
+    subjectId String
+    fileTitle String @default("file-title")
+    fileLocation String @default("file-location")
+    fileDescription String @default("file-description")
+    fileUpLoadTime DateTime @default(now())
+
+    subject Subject @relation(fields: [subjectId], references: [subjectId])
 }
 
 // type ENUM
