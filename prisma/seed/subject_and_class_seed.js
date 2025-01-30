@@ -47,7 +47,7 @@ async function main() {
   // ----------------------------------------------------------------
   // From above, I decided to make every room has same subject in each time slot
 
-  const camper_rooms = [204, 205, 215, 302, 304, 305, 315, 405];
+  const camper_rooms = [1,2,3,4,5,6,7,8];
   const day_time = [
     { day: "2025-05-18", slots: ["09:00:00", "13:00:00"] },
     { day: "2025-05-19", slots: ["09:00:00", "13:00:00"] },
@@ -83,7 +83,7 @@ async function main() {
           classId: `${study_subject.subjectId}-${room}`,
           subjectId: study_subject.subjectId,
           room: room,
-          location: "ตึก 3",
+          location: "ตึก 3 ห้อง 315",
           time: time,
         });
       }
