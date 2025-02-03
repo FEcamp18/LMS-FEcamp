@@ -1,66 +1,117 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-    provider = "prisma-client-js"
+generator clientt{
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Account {
-    username String @id @unique @default("user")
-    password String @default("password")
-    role     ROLE   @default(CAMPER)
+  username String @id @unique @default("user")
+  password String @default("password")
+  role     ROLE   @default(CAMPER)
 }
 
 model Staff {
-    staffId    String       @id @unique @default("")
-    name       String       @default("staff")
-    StaffClass StaffClass[]
+  staffId            String                @id @unique @default("")
+  name               String                @default("staff")
+  surname            String                @default("staff")
+  nickname           String                @default("staff")
+  contactTel         String                @default("")
+  contactEmail       String                @default("")
+  FEYear             Int                   @default(0)
+  engineerDepartment ENGINEERINGDEPARTMENT
+  staffDepartment    STAFFDEPARTMENT[]
+  healthInfo         String                @default("")
+  foodInfo           String                @default("")
+  roomNumber         Int
+
+  account    Account      @relation(fields: [staffId], references: [username])
+  staffClass StaffClass[]
+  notes Notes[]
 }
 
 model Subject {
-    subjectId          String  @id @unique @default("subject-id")
-    subjectName        SUBJECT @default(MATHS)
-    subjectTopic       String  @default("subject-topic")
-    subjectPicture     String  @default("/image/subject-picture/temp-subject-image.jpg")
-    subjectDescription String  @default("subject-descripion")
-    Class              Class[]
+  subjectId          String  @id @unique @default("subject-id")
+  subjectName        SUBJECT @default(MATHS)
+  subjectTopic       String  @default("subject-topic")
+  subjectPicture     String  @default("/image/subject-picture/temp-subject-image.jpg")
+  subjectDescription String  @default("subject-descripion")
+  Class              Class[]
 }
 
 model Class {
-    classId    String       @id @unique @default("class-id")
-    subjectId  String
-    subject    Subject      @relation(fields: [subjectId], references: [subjectId])
-    room       Int          @default(0)
-    time       DateTime     @default(now())
-    location   String       @default("not assign")
-    StaffClass StaffClass[]
+  classId    String       @id @unique @default("class-id")
+  subjectId  String
+  subject    Subject      @relation(fields: [subjectId], references: [subjectId])
+  room       Int          @default(0)
+  time       DateTime     @default(now())
+  location   String       @default("not assign")
+  StaffClass StaffClass[]
 }
 
 model StaffClass {
-    staffId String
-    classId String
+  staffId String
+  classId String
 
-    staff Staff @relation(fields: [staffId], references: [staffId])
-    class Class @relation(fields: [classId], references: [classId])
+  staff Staff @relation(fields: [staffId], references: [staffId])
+  class Class @relation(fields: [classId], references: [classId])
 
-    @@id([staffId, classId])
+  @@id([staffId, classId])
 }
 
 // type ENUM
 enum ROLE {
-    BOARD
-    STAFF
-    CAMPER
+  BOARD
+  STAFF
+  CAMPER
 }
 
 enum SUBJECT {
-    MATHS
-    PHYSICS
-    CHEMISTRY
-    TPAT3
+  MATHS
+  PHYSICS
+  CHEMISTRY
+  TPAT3
+}
+
+enum ENGINEERINGDEPARTMENT {
+  Engineering
+  Civil
+  Electrical
+  Mechanical
+  Automotive
+  Industrial
+  Chemical
+  Mining
+  WaterResources
+  Georesources
+  Petroleum
+  Environmental
+  Survey
+  Metallurgical
+  // นิวเคลียร์และรังสี
+  Nuclear
+  CP
+  CEDT
+  ADME
+  AERO
+  AI
+  NANO
+  ICE
+  ChPE
+}
+
+enum STAFFDEPARTMENT {
+  NORMALSTAFF
+  ROOMSTAFF
+  REGISTER
+  VCK
+  NURSE
+  WELFARE
+  CENTRAL
+  BOARD
 }
