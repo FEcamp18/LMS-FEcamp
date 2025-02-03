@@ -23,13 +23,13 @@ model Staff {
 }
 
 model Subject {
-    subjectId          String  @id @unique @default("subject-id")
-    subjectName        SUBJECT @default(MATHS)
-    subjectTopic       String  @default("subject-topic")
-    subjectPicture     String  @default("/image/subject-picture/temp-subject-image.jpg")
-    subjectDescription String  @default("subject-descripion")
-    Class              Class[]
-    SubjectFiles       SubjectFiles[]
+    subjectId            String                 @id @unique @default("subject-id")
+    subjectName          SUBJECT                @default(MATHS)
+    subjectTopic         String                 @default("subject-topic")
+    subjectPicture       String                 @default("/image/subject-picture/temp-subject-image.jpg")
+    subjectDescription   String                 @default("subject-descripion")
+    Class                Class[]
+    SubjectFiles         SubjectFiles[]
     SubjectAnnouncements SubjectAnnouncements[]
 }
 
@@ -53,24 +53,24 @@ model StaffClass {
     @@id([staffId, classId])
 }
 
-model SubjectFiles{
-    fileId String @id @unique @default("file-id")
-    subjectId String
-    fileTitle String @default("file-title")
-    fileLocation String @default("file-location")
-    fileDescription String @default("file-description")
-    fileUpLoadTime DateTime @default(now())
+model SubjectFiles {
+    fileId          String   @id @unique @default("file-id")
+    subjectId       String
+    fileTitle       String   @default("file-title")
+    fileLocation    String   @default("file-location")
+    fileDescription String   @default("file-description")
+    fileUpLoadTime  DateTime @default(now())
 
     subject Subject @relation(fields: [subjectId], references: [subjectId])
 }
 
-model SubjectAnnouncements{
-    annoId String @id @unique @default("anno-id")
+model SubjectAnnouncements {
+    annoId    String   @id @unique @default("anno-id")
     subjectId String
-    annoTitle String @default("anno-title")
-    annoText String @default("anno-text")
-    annoTime DateTime @default(now())
-    
+    annoTitle String   @default("anno-title")
+    annoText  String   @default("anno-text")
+    annoTime  DateTime @default(now())
+
     subject Subject @relation(fields: [subjectId], references: [subjectId])
 }
 
