@@ -62,7 +62,7 @@ model Notes {
     staff  Staff  @relation(fields: [staffId], references: [staffId])
 }
 
-// PHASE
+// PHASE type
 enum PHASE {
     CLOSED
     BEFORE_CAMP
