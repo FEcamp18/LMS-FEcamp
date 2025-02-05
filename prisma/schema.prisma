@@ -51,6 +51,33 @@ model StaffClass {
     @@id([staffId, classId])
 }
 
+// Notes
+model Notes {
+    camperId String
+    staffId  String
+    notes    String
+    time     DateTime @default(now())
+
+    camper Camper @relation(fields: [camperId], references: [camperId])
+    staff  Staff  @relation(fields: [staffId], references: [staffId])
+}
+
+// PHASE
+enum PHASE {
+    CLOSED
+    BEFORE_CAMP
+    PRETEST
+    CAMP
+    CERTIFICATE
+    POSTTEST
+    ARCHIVE
+}
+
+// WebPhase
+model WebPhase {
+    phase PHASE @default(CLOSED)
+}
+
 // type ENUM
 enum ROLE {
     BOARD
