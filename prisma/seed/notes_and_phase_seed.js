@@ -3,20 +3,27 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-    console.log("Seeding Notes and Phases ...");    
+    console.log("Seeding Notes and Phases ...");
 
-    
-    /* Clearing Existing Data
-    >> make sure the table was cleared */
-    await prisma.webPhase.deleteMany();
-    await prisma.notes.deleteMany();
+    /* Using try-catch for prevent error */
+    try {
+        // Clearing Existing Data
+        console.log("Clearing Phase and Notes data...");
+
+        await prisma.webPhase.deleteMany();
+        await prisma.notes.deleteMany();
+
+        console.log("Data cleared successfully.");
+    } catch (error) {
+        console.error("Error while clearing data:", error);
+    }
 
     /* Creating Defualt Phase */
-    await prisma.webPhase.createMany({
+    await prisma.webPhase.create( // There's only 1 phase >> .create()
         data: {
-            phase: "CLOSED",
+            phase: PHASE.CLOSED, // Use ENUM in prisma instead
         },
-    });
+    );
 
     /* Creating Sample Notes */
     await prisma.notes.createMany({
@@ -40,11 +47,11 @@ async function main() {
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+    .then(async () => {
+        await prisma.$disconnect();
+    })
+    .catch(async (e) => {
+        console.error(e);
+        await prisma.$disconnect();
+        process.exit(1);
+    });
