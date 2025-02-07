@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding camper database...");
 
+
   try {
     await prisma.account.createMany({
       data: [
@@ -12,9 +13,10 @@ async function main() {
         { username: "camper2", password: "securepassword2", role: "CAMPER" },
         { username: "camper3", password: "securepassword3", role: "CAMPER" },
       ],
+      skipDuplicates : true
     });
 
-    const camper1 = await prisma.camper.create({
+    await prisma.camper.create({
       data: {
         camperId: "camp1",
         name: "John",
@@ -36,7 +38,7 @@ async function main() {
       },
     });
 
-    const camper2 = await prisma.camper.create({
+    await prisma.camper.create({
       data: {
         camperId: "camp2",
         name: "Alice",
@@ -58,7 +60,7 @@ async function main() {
       },
     });
 
-    const camper3 = await prisma.camper.create({
+    await prisma.camper.create({
       data: {
         camperId: "camp3",
         name: "Michael",
