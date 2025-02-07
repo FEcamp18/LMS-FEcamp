@@ -7,8 +7,13 @@ async function main() {
 
   try {
     await prisma.account.deleteMany();
+    await prisma.staffClass.deleteMany();
+    await prisma.subjectFiles.deleteMany();
+    await prisma.subjectAnnouncements.deleteMany();
     await prisma.staff.deleteMany();  
-    
+    await prisma.class.deleteMany();
+    await prisma.subject.deleteMany();
+
     // Create mock accounts
     await prisma.account.createMany({
       data: [
@@ -18,15 +23,8 @@ async function main() {
       ],
     });
 
-    // Create mock staff
-    await prisma.staff.createMany({
-        data: [
-          { staffId: "staff1", name: "Alice" },
-          { staffId: "staff2", name: "Bob" },
-          { staffId: "staff3", name: "Charlie" },
-        ]
-      });
 
+    
   } catch (error) {
     if (error instanceof Error) {
       console.error('Error inserting records:', error.message);
