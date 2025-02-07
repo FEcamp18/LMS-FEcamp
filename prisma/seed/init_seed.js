@@ -17,16 +17,7 @@ async function main() {
         { username: "camper1", password: "securepassword3", role: "CAMPER" },
       ],
     });
-
-    // Create mock staff
-    await prisma.staff.createMany({
-        data: [
-          { staffId: "staff1", name: "Alice" },
-          { staffId: "staff2", name: "Bob" },
-          { staffId: "staff3", name: "Charlie" },
-        ]
-      });
-
+    
   } catch (error) {
     if (error instanceof Error) {
       console.error('Error inserting records:', error.message);
