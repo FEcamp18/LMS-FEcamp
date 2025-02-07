@@ -11,9 +11,9 @@ datasource db {
 }
 
 model Account {
-  username String @id @unique @default("user")
-  password String @default("password")
-  role     ROLE   @default(CAMPER)
+  username String   @id @unique @default("user")
+  password String   @default("password")
+  role     ROLE     @default(CAMPER)
   camper   Camper[]
   staff    Staff[]
 }
@@ -27,7 +27,7 @@ model Staff {
   contactEmail       String                @default("")
   FEYear             Int                   @default(0)
   engineerDepartment ENGINEERINGDEPARTMENT
-  staffDepartment    STAFFDEPARTMENT[]     
+  staffDepartment    STAFFDEPARTMENT[]
   healthInfo         String                @default("")
   foodInfo           String                @default("")
   roomNumber         Int
@@ -38,22 +38,24 @@ model Staff {
 }
 
 model Subject {
-  subjectId          String  @id @unique @default("subject-id")
-  subjectName        SUBJECT @default(MATHS)
-  subjectTopic       String  @default("subject-topic")
-  subjectPicture     String  @default("/image/subject-picture/temp-subject-image.jpg")
-  subjectDescription String  @default("subject-descripion")
-  Class              Class[]
+  subjectId            String                 @id @unique @default("subject-id")
+  subjectName          SUBJECT                @default(MATHS)
+  subjectTopic         String                 @default("subject-topic")
+  subjectPicture       String                 @default("/image/subject-picture/temp-subject-image.jpg")
+  subjectDescription   String                 @default("subject-descripion")
+  Class                Class[]
+  SubjectFiles         SubjectFiles[]
+  SubjectAnnouncements SubjectAnnouncements[]
 }
 
 model Class {
-  classId    String       @id @unique @default("class-id")
-  subjectId  String
-  subject    Subject      @relation(fields: [subjectId], references: [subjectId])
-  room       Int          @default(0)
-  time       DateTime     @default(now())
-  location   String       @default("not assign")
-  StaffClass StaffClass[]
+  classId     String        @id @unique @default("class-id")
+  subjectId   String
+  subject     Subject       @relation(fields: [subjectId], references: [subjectId])
+  room        Int           @default(0)
+  time        DateTime      @default(now())
+  location    String        @default("not assign")
+  StaffClass  StaffClass[]
   CamperClass CamperClass[]
 }
 
@@ -66,6 +68,28 @@ model StaffClass {
 
   @@id([staffId, classId])
 }
+
+model SubjectFiles {
+  fileId          String   @id @unique @default("file-id")
+  subjectId       String
+  fileTitle       String   @default("file-title")
+  fileLocation    String   @default("file-location")
+  fileDescription String   @default("file-description")
+  fileUpLoadTime  DateTime @default(now())
+
+  subject Subject @relation(fields: [subjectId], references: [subjectId])
+}
+
+model SubjectAnnouncements {
+  annoId    String   @id @unique @default("anno-id")
+  subjectId String
+  annoTitle String   @default("anno-title")
+  annoText  String   @default("anno-text")
+  annoTime  DateTime @default(now())
+
+  subject Subject @relation(fields: [subjectId], references: [subjectId])
+}
+
 model Camper {
   camperId       String  @id @unique @default("")
   name           String  @default("")
@@ -91,7 +115,7 @@ model Camper {
 }
 
 model CamperClass {
-  id       String  @id @default(uuid())
+  id       String @id @default(uuid())
   camperId String
   classId  String
 
@@ -102,7 +126,7 @@ model CamperClass {
 model Notes {
   camperId String
   staffId  String
-  notes    String @id
+  notes    String   @id
   time     DateTime @default(now())
 
   camper Camper @relation(fields: [camperId], references: [camperId])
