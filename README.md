@@ -24,6 +24,7 @@ pnpm add @prisma/client prisma
 pnpm prisma generate
 npx prisma migrate dev
 node prisma/seed/init_seed.js
+node prisma/seed/subject_and_class_seed.js
 ```
 
 - when you change prisma schmema and want to migrate it

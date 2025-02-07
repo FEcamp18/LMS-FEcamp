@@ -14,6 +14,7 @@ model Account {
     username String @id @unique @default("user")
     password String @default("password")
     role     ROLE   @default(CAMPER)
+    camper Camper[]
 }
 
 model Staff {
@@ -39,6 +40,7 @@ model Class {
     time       DateTime     @default(now())
     location   String       @default("not assign")
     StaffClass StaffClass[]
+    CamperClass CamperClass[]
 }
 
 model StaffClass {
@@ -74,6 +76,24 @@ model Camper {
     camperClass CamperClass[]
     notes Notes[]
 }
+
+model CamperClass {
+  id       String  @id @default(uuid())
+  camperId String
+  classId  String
+
+  camper Camper @relation(fields: [camperId], references: [camperId])
+  class  Class  @relation(fields: [classId], references: [classId])
+}
+
+model Notes {
+  id       String  @id @default(uuid())
+  camperId String
+  content  String
+
+  camper Camper @relation(fields: [camperId], references: [camperId])
+}
+
 
 
 // type ENUM
