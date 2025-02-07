@@ -15,9 +15,9 @@ async function main() {
       skipDuplicates : true
     });
 
-    await prisma.camper.create({
-      data: {
-        camperId: "camp1",
+    await prisma.camper.createMany({
+      data:[ {
+        camperId: "camper1",
         name: "John",
         surname: "Doe",
         nickname: "Johnny",
@@ -35,11 +35,8 @@ async function main() {
         certificate: "Basic Camper Certificate",
         scorePostTest: [85.5, 90.0, 88.0],
       },
-    });
-
-    await prisma.camper.create({
-      data: {
-        camperId: "camp2",
+      {
+        camperId: "camper2",
         name: "Alice",
         surname: "Smith",
         nickname: "Ali",
@@ -56,12 +53,8 @@ async function main() {
         foodInfo: "No seafood",
         certificate: "Advanced Camper Certificate",
         scorePostTest: [92.0, 95.0, 91.5],
-      },
-    });
-
-    await prisma.camper.create({
-      data: {
-        camperId: "camp3",
+      }, {
+        camperId: "camper3",
         name: "Michael",
         surname: "Brown",
         nickname: "Mike",
@@ -78,7 +71,9 @@ async function main() {
         foodInfo: "No nuts",
         certificate: "Elite Camper Certificate",
         scorePostTest: [80.0, 82.5, 85.0],
-      },
+        },
+      ],
+      skipDuplicates:true
     });
 
     console.log("Seeding completed.");

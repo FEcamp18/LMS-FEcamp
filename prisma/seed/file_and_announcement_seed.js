@@ -5,8 +5,6 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding file and announcement database...");
   try {
-    await prisma.subjectFiles.deleteMany();
-    await prisma.subjectAnnouncements.deleteMany();
 
     await prisma.subjectFiles.createMany({
       data: [

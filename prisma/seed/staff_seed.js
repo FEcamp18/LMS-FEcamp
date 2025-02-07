@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding Staff database...");
 
-  await prisma.staff.deleteMany();
+  
   // Create mock subjects
   await prisma.account.createMany({
     data: [
@@ -151,6 +151,7 @@ async function main() {
         roomNumber: 5,
       },
     ],
+    skipDuplicates : true,
   });
 
 
