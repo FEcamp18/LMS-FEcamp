@@ -23,8 +23,7 @@ docker-compose up -d
 pnpm add @prisma/client prisma
 pnpm prisma generate
 npx prisma migrate dev
-node prisma/seed/init_seed.js
-node prisma/seed/subject_and_class_seed.js
+pnpm run seed
 ```
 
 - when you change prisma schmema and want to migrate it
@@ -42,7 +41,6 @@ node prisma/seed/{your_seed}.js
 - ORM (object-relational mapping) -> Prisma
 
 ### (Danger Zone!!!) To delete data base and start from scratch
-
 ```
 docker-compose -f docker-compose.yml down
 docker volume ls

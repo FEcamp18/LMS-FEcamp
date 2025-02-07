@@ -124,14 +124,16 @@ model SubjectAnnouncements {
 }
 
 // Notes
+// Notes
 model Notes {
-  id       String @id @default(uuid())
+  noteId   Int      @id() @default(autoincrement())
   camperId String
-  content  String
+  staffId  String
+  notes    String
+  time     DateTime @default(now())
 
-  camper       Camper  @relation(fields: [camperId], references: [camperId])
-  Staff        Staff?  @relation(fields: [staffStaffId], references: [staffId])
-  staffStaffId String?
+  camper Camper @relation(fields: [camperId], references: [camperId])
+  staff  Staff  @relation(fields: [staffId], references: [staffId])
 }
 
 // PHASE type
