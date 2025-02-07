@@ -17,6 +17,8 @@ async function main() {
         { username: "camper1", password: "securepassword3", role: "CAMPER" },
       ],
     });
+
+
     
   } catch (error) {
     if (error instanceof Error) {
