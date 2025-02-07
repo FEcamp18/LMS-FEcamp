@@ -1,4 +1,3 @@
-import { ENGINEERINGDEPARTMENT } from "@/types/ENGINEERINGDEPARTMENT";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -6,15 +5,27 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding Staff database...");
 
-  // Clear Subject and Class tables
-  await prisma.account.deleteMany();
   await prisma.staff.deleteMany();
-  // await prisma.class.deleteMany();
   // Create mock subjects
+  await prisma.account.createMany({
+    data: [
+      { username: "staff1", password: "securepassword1", role: "STAFF" },
+      { username: "staff2", password: "securepassword2", role: "STAFF" },
+      { username: "staff3", password: "securepassword3", role: "STAFF" },
+      { username: "staff4", password: "securepassword4", role: "STAFF" },
+      { username: "staff5", password: "securepassword5", role: "STAFF" },
+      { username: "staff6", password: "securepassword6", role: "STAFF" },
+      { username: "staff7", password: "securepassword7", role: "STAFF" },
+      { username: "staff8", password: "securepassword8", role: "STAFF" },
+      { username: "staff9", password: "securepassword9", role: "STAFF" },
+    ],
+    skipDuplicates : true
+  });
+  //Create mock staff with different StaffDepartment
   await prisma.staff.createMany({
     data: [
       {
-        staffId: "1",
+        staffId: "staff1",
         name: "Tester1 NORMALSTAFF",
         surname: "Tester1",
         nickname: "Tester1",
@@ -28,7 +39,7 @@ async function main() {
         roomNumber: 0,
       },
       {
-        staffId: "2",
+        staffId: "staff2",
         name: "Tester2 BOARDREGISTER",
         surname: "Tester2",
         nickname: "Tester2",
@@ -42,7 +53,7 @@ async function main() {
         roomNumber: 1,
       },
       {
-        staffId: "3",
+        staffId: "staff3",
         name: "Tester3 BOARDVCK",
         surname: "Tester3",
         nickname: "Tester3",
@@ -56,7 +67,7 @@ async function main() {
         roomNumber: 8,
       },
       {
-        staffId: "4",
+        staffId: "staff4",
         name: "Tester ROOMSTAFF",
         surname: "Tester4",
         nickname: "Tester4",
@@ -70,7 +81,7 @@ async function main() {
         roomNumber: 8,
       },
       {
-        staffId: "5",
+        staffId: "staff5",
         name: "Tester5 ",
         surname: "Tester5",
         nickname: "Tester5",
@@ -84,7 +95,7 @@ async function main() {
         roomNumber: 3,
       },
       {
-        staffId: "6",
+        staffId: "staff6",
         name: "Tester6 VCK",
         surname: "Tester6",
         nickname: "Tester6",
@@ -98,7 +109,7 @@ async function main() {
         roomNumber: 5,
       },
       {
-        staffId: "7",
+        staffId: "staff7",
         name: "Tester3 NURSE",
         surname: "Tester3",
         nickname: "Tester3",
@@ -112,7 +123,7 @@ async function main() {
         roomNumber: 5,
       },
       {
-        staffId: "8",
+        staffId: "staff8",
         name: "Tester8 WELFARE",
         surname: "Tester8",
         nickname: "Tester8",
@@ -126,7 +137,7 @@ async function main() {
         roomNumber: 3,
       },
       {
-        staffId: "9",
+        staffId: "staff9",
         name: "Tester9 CENTRAL",
         surname: "Tester9",
         nickname: "Tester9",
@@ -143,7 +154,7 @@ async function main() {
   });
 
 
-  console.log("Seeding subjects and classes completed!");
+  console.log("Seeding staff completed!");
 }
 
 main()
