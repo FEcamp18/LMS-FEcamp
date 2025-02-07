@@ -5,10 +5,6 @@ import ChangePassForm from "./ChangePass"
 
 export default function AccountPage() {
 
-  const logout = () => {
-    console.log('log out')
-  }
-
   return (
     <>
       <h1 className='mx-8 mt-20 text-4xl'>
