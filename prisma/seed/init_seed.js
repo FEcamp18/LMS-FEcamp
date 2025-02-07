@@ -6,6 +6,8 @@ async function main() {
   console.log("Seeding database...");
 
   try {
+    await prisma.account.deleteMany();
+    await prisma.staff.deleteMany();  
     
     // Create mock accounts
     await prisma.account.createMany({
@@ -17,51 +19,13 @@ async function main() {
     });
 
     // Create mock staff
-    const staff1 = await prisma.staff.create({
-      data: { staffId: "staff1", name: "Alice" },
-    });
-  
-    const staff2 = await prisma.staff.create({
-      data: { staffId: "staff2", name: "Bob" },
-    });
-    // Create mock subjects
-    const subject1 = await prisma.subject.create({
-      data: {
-        subjectId: "math",
-        subjectName: "MATHS",
-        subjectTopic: "Algebra and Geometry",
-        subjectPicture: "/image/subject-picture/temp-subject-image.jpg",
-        subjectDescription: "An introduction to mathematics.",
-      },
-    });
-
-    const subject2 = await prisma.subject.create({
-      data: {
-        subjectId: "science",
-        subjectName: "PHYSICS",
-        subjectTopic: "Physics and Chemistry",
-        subjectPicture: "/image/subject-picture/temp-subject-image.jpg",
-        subjectDescription: "Learn the fundamentals of science.",
-      },
-    });
-
-    // Create mock classes
-    const class1 = await prisma.class.create({
-      data: { classId: "math101", subjectId: subject1.subjectId },
-    });
-
-    const class2 = await prisma.class.create({
-      data: { classId: "science101", subjectId: subject2.subjectId },
-    });
-    
-    await prisma.staffClass.createMany({
-      data: [
-        { staffId: staff1.staffId, classId: class1.classId },
-        { staffId: staff1.staffId, classId: class2.classId },
-        { staffId: staff2.staffId, classId: class2.classId },
-      ],
-      skipDuplicates: true,
-    });
+    await prisma.staff.createMany({
+        data: [
+          { staffId: "staff1", name: "Alice" },
+          { staffId: "staff2", name: "Bob" },
+          { staffId: "staff3", name: "Charlie" },
+        ]
+      });
 
   } catch (error) {
     if (error instanceof Error) {
