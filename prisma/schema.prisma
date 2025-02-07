@@ -107,7 +107,9 @@ model Notes {
   camperId String
   content  String
 
-  camper Camper @relation(fields: [camperId], references: [camperId])
+  camper       Camper  @relation(fields: [camperId], references: [camperId])
+  Staff        Staff?  @relation(fields: [staffStaffId], references: [staffId])
+  staffStaffId String?
 }
 
 model SubjectFiles {
@@ -129,49 +131,6 @@ model SubjectAnnouncements {
   annoTime  DateTime @default(now())
 
   subject Subject @relation(fields: [subjectId], references: [subjectId])
-}
-
-model Camper {
-  camperId       String  @id @unique @default("")
-  name           String  @default("")
-  surname        String  @default("")
-  nickname       String  @default("")
-  chatbotUserId  String  @default("")
-  contactTel     String  @default("")
-  parentTel      String  @default("")
-  parentRelation String  @default("")
-  school         String  @default("")
-  contactEmail   String  @default("")
-  idLine         String  @default("")
-  FEYear         Int     @default(0)
-  room           Int
-  healthInfo     String  @default("")
-  foodInfo       String  @default("")
-  certificate    String  @default("")
-  scorePostTest  Float[] @default([])
-
-  account     Account       @relation(fields: [camperId], references: [username])
-  camperClass CamperClass[]
-  notes       Notes[]
-}
-
-model CamperClass {
-  id       String @id @default(uuid())
-  camperId String
-  classId  String
-
-  camper Camper @relation(fields: [camperId], references: [camperId])
-  class  Class  @relation(fields: [classId], references: [classId])
-}
-
-model Notes {
-  camperId String
-  staffId  String
-  notes    String   @id
-  time     DateTime @default(now())
-
-  camper Camper @relation(fields: [camperId], references: [camperId])
-  staff  Staff  @relation(fields: [staffId], references: [staffId])
 }
 
 // PHASE type
