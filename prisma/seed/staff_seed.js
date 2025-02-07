@@ -9,7 +9,7 @@ async function main() {
   // Clear Subject and Class tables
   await prisma.account.deleteMany();
   await prisma.staff.deleteMany();
-  // await prisma.class.deleteMany();
+
   // Create mock subjects
   await prisma.staff.createMany({
     data: [

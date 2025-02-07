@@ -18,14 +18,6 @@ async function main() {
       ],
     });
 
-    // Create mock staff
-    await prisma.staff.createMany({
-        data: [
-          { staffId: "staff1", name: "Alice" },
-          { staffId: "staff2", name: "Bob" },
-          { staffId: "staff3", name: "Charlie" },
-        ]
-      });
 
   } catch (error) {
     if (error instanceof Error) {
