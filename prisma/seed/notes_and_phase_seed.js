@@ -5,15 +5,16 @@ const prisma = new PrismaClient();
 async function main() {
     console.log("Seeding Notes and Phases ...");    
 
+    
     /* Clearing Existing Data
     >> make sure the table was cleared */
-    await prisma.phase.deleteMany();
+    await prisma.webPhase.deleteMany();
     await prisma.notes.deleteMany();
 
     /* Creating Defualt Phase */
-    await prisma.phase.createMany({
+    await prisma.webPhase.createMany({
         data: {
-            phase: "CLOSED";
+            phase: "CLOSED",
         },
     });
 

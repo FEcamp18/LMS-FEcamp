@@ -1,0 +1,26 @@
+export enum ENGINEERINGDEPARTMENT {
+  Engineering="รวม",
+  Civil="โยธา",
+  Electrical="ไฟฟ้า",
+  Mechanical="เครื่องกล",
+  Automotive="ยานยนต์",
+  Industrial="อุตสาหการ",
+  Chemical="เคมี",
+  Mining="เหมืองแร่",
+  WaterResources="แหล่งน้ำ",
+  Georesources="ทรัพยากรธรณี",
+  Petroleum="ปิโตรเลียม",
+  Environmental="สิ่งแวดล้อม",
+  Survey="สำรวจ",
+  Metallurgical="โลหการและวัสดุ", 
+  Nuclear="นิวเคลียร์",
+  CP="คอมพิวเตอร์",
+  CEDT="คอมพิวเตอร์และเทคโนโลยีดิจิทัล",
+  ADME="ADME",
+  AERO="AERO",
+  AI="AI",
+  NANO="NANO",
+  ICE="ICE",
+  ChPE="ChPE"
+}
+  

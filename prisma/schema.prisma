@@ -1,93 +1,204 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-    provider = "prisma-client-js"
+generator clientt {
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Account {
-    username String @id @unique @default("user")
-    password String @default("password")
-    role     ROLE   @default(CAMPER)
+  username String   @id @unique @default("user")
+  password String   @default("password")
+  role     ROLE     @default(CAMPER)
+  camper   Camper[]
+  staff    Staff[]
 }
 
 model Staff {
-    staffId    String       @id @unique @default("")
-    name       String       @default("staff")
-    StaffClass StaffClass[]
+  staffId            String                @id @unique @default("")
+  name               String                @default("staff")
+  surname            String                @default("staff")
+  nickname           String                @default("staff")
+  contactTel         String                @default("")
+  contactEmail       String                @default("")
+  FEYear             Int                   @default(0)
+  engineerDepartment ENGINEERINGDEPARTMENT @default(Engineering)
+  staffDepartment    STAFFDEPARTMENT[]
+  healthInfo         String                @default("")
+  foodInfo           String                @default("")
+  roomNumber         Int
+
+  account    Account      @relation(fields: [staffId], references: [username])
+  staffClass StaffClass[]
+  notes      Notes[]
 }
 
 model Subject {
-    subjectId          String  @id @unique @default("subject-id")
-    subjectName        SUBJECT @default(MATHS)
-    subjectTopic       String  @default("subject-topic")
-    subjectPicture     String  @default("/image/subject-picture/temp-subject-image.jpg")
-    subjectDescription String  @default("subject-descripion")
-    Class              Class[]
+  subjectId            String                 @id @unique @default("subject-id")
+  subjectName          SUBJECT                @default(MATHS)
+  subjectTopic         String                 @default("subject-topic")
+  subjectPicture       String                 @default("/image/subject-picture/temp-subject-image.jpg")
+  subjectDescription   String                 @default("subject-descripion")
+  Class                Class[]
+  SubjectFiles         SubjectFiles[]
+  SubjectAnnouncements SubjectAnnouncements[]
 }
 
 model Class {
-    classId    String       @id @unique @default("class-id")
-    subjectId  String
-    subject    Subject      @relation(fields: [subjectId], references: [subjectId])
-    room       Int          @default(0)
-    time       DateTime     @default(now())
-    location   String       @default("not assign")
-    StaffClass StaffClass[]
+  classId     String        @id @unique @default("class-id")
+  subjectId   String
+  subject     Subject       @relation(fields: [subjectId], references: [subjectId])
+  room        Int           @default(0)
+  time        DateTime      @default(now())
+  location    String        @default("not assign")
+  StaffClass  StaffClass[]
+  CamperClass CamperClass[]
 }
 
 model StaffClass {
-    staffId String
-    classId String
+  staffId String
+  classId String
 
-    staff Staff @relation(fields: [staffId], references: [staffId])
-    class Class @relation(fields: [classId], references: [classId])
+  staff Staff @relation(fields: [staffId], references: [staffId])
+  class Class @relation(fields: [classId], references: [classId])
 
-    @@id([staffId, classId])
+  @@id([staffId, classId])
+}
+
+model Camper {
+  camperId       String  @id @unique @default("")
+  name           String  @default("")
+  surname        String  @default("")
+  nickname       String  @default("")
+  chatbotUserId  String  @default("")
+  contactTel     String  @default("")
+  parentTel      String  @default("")
+  parentRelation String  @default("")
+  school         String  @default("")
+  contactEmail   String  @default("")
+  idLine         String  @default("")
+  FEYear         Int     @default(0)
+  room           Int
+  healthInfo     String  @default("")
+  foodInfo       String  @default("")
+  certificate    String  @default("")
+  scorePostTest  Float[] @default([])
+
+  account     Account       @relation(fields: [camperId], references: [username])
+  camperClass CamperClass[]
+  notes       Notes[]
+}
+
+model CamperClass {
+  id       String @id @default(uuid())
+  camperId String
+  classId  String
+
+  camper Camper @relation(fields: [camperId], references: [camperId])
+  class  Class  @relation(fields: [classId], references: [classId])
+}
+
+model SubjectFiles {
+  fileId          String   @id @unique @default("file-id")
+  subjectId       String
+  fileTitle       String   @default("file-title")
+  fileLocation    String   @default("file-location")
+  fileDescription String   @default("file-description")
+  fileUpLoadTime  DateTime @default(now())
+
+  subject Subject @relation(fields: [subjectId], references: [subjectId])
+}
+
+model SubjectAnnouncements {
+  annoId    String   @id @unique @default("anno-id")
+  subjectId String
+  annoTitle String   @default("anno-title")
+  annoText  String   @default("anno-text")
+  annoTime  DateTime @default(now())
+
+  subject Subject @relation(fields: [subjectId], references: [subjectId])
 }
 
 // Notes
+// Notes
 model Notes {
-    camperId String
-    staffId  String
-    notes    String
-    time     DateTime @default(now())
+  noteId   Int      @id() @default(autoincrement())
+  camperId String
+  staffId  String
+  notes    String
+  time     DateTime @default(now())
 
-    camper Camper @relation(fields: [camperId], references: [camperId])
-    staff  Staff  @relation(fields: [staffId], references: [staffId])
+  camper Camper @relation(fields: [camperId], references: [camperId])
+  staff  Staff  @relation(fields: [staffId], references: [staffId])
 }
 
 // PHASE type
 enum PHASE {
-    CLOSED
-    BEFORE_CAMP
-    PRETEST
-    CAMP
-    CERTIFICATE
-    POSTTEST
-    ARCHIVE
+  CLOSED
+  BEFORE_CAMP
+  PRETEST
+  CAMP
+  CERTIFICATE
+  POSTTEST
+  ARCHIVE
 }
 
 // WebPhase
 model WebPhase {
-    phase PHASE @default(CLOSED)
+  phase PHASE @id @default(CLOSED)
 }
 
 // type ENUM
 enum ROLE {
-    BOARD
-    STAFF
-    CAMPER
+  BOARD
+  STAFF
+  CAMPER
 }
 
 enum SUBJECT {
-    MATHS
-    PHYSICS
-    CHEMISTRY
-    TPAT3
+  MATHS
+  PHYSICS
+  CHEMISTRY
+  TPAT3
+}
+
+enum ENGINEERINGDEPARTMENT {
+  Engineering
+  Civil
+  Electrical
+  Mechanical
+  Automotive
+  Industrial
+  Chemical
+  Mining
+  WaterResources
+  Georesources
+  Petroleum
+  Environmental
+  Survey
+  Metallurgical
+  Nuclear
+  CP
+  CEDT
+  ADME
+  AERO
+  AI
+  NANO
+  ICE
+  ChPE
+}
+
+enum STAFFDEPARTMENT {
+  NORMALSTAFF
+  ROOMSTAFF
+  REGISTER
+  VCK
+  NURSE
+  WELFARE
+  CENTRAL
+  BOARD
 }
