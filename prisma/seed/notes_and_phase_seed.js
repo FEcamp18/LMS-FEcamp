@@ -31,14 +31,32 @@ async function main() {
             {
                 camperId: "student-1",
                 staffId: "staff-5",
-                notes: "What is 4+5= ?",
-                time: new Date(2025, 5, 20, 14, 30, 5),
+                notes: "In the evening, I had learned Math about how to calculate my GPA in each term.",
+                time: new Date(2025, 5, 20, 8, 45, 5),
             },
             {
                 camperId: "student-3",
                 staffId: "staff-4",
-                notes: "My friend don't talk with me.",
-                time: new Date(2025, 5, 21, 8, 15, 0),
+                notes: "Math is a challenging but rewarding subject where simple rules build into complex concepts that explain the world around us, and while it can be frustrating at times, the feeling of finally understanding something makes it all worthwhile.",
+                time: new Date(2025, 5, 20, 14, 30, 5),
+            },
+            {
+                camperId: "student-2",
+                staffId: "staff-7",
+                notes: "Chemistry is the fascinating study of matter and its properties, exploring how substances interact and transform, ultimately revealing the building blocks of our universe.",
+                time: new Date(2025, 5, 21, 7, 22, 0),
+            },
+            {
+                camperId: "student-1",
+                staffId: "staff-14",
+                notes: "FE Camp is a good starting point for learning web development, but it's demanding and fast-paced.",
+                time: new Date(2025, 5, 21, 18, 00, 0),
+            },
+            {
+                camperId: "student-8",
+                staffId: "staff-3",
+                notes: "I love today snacks very very much !!!",
+                time: new Date(2025, 5, 21, 23, 17, 5),
             },
         ],
     });
