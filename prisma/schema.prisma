@@ -102,16 +102,6 @@ model CamperClass {
   class  Class  @relation(fields: [classId], references: [classId])
 }
 
-model Notes {
-  id       String @id @default(uuid())
-  camperId String
-  content  String
-
-  camper       Camper  @relation(fields: [camperId], references: [camperId])
-  Staff        Staff?  @relation(fields: [staffStaffId], references: [staffId])
-  staffStaffId String?
-}
-
 model SubjectFiles {
   fileId          String   @id @unique @default("file-id")
   subjectId       String
@@ -133,31 +123,15 @@ model SubjectAnnouncements {
   subject Subject @relation(fields: [subjectId], references: [subjectId])
 }
 
-// PHASE type
-enum PHASE {
-  CLOSED
-  BEFORE_CAMP
-  PRETEST
-  CAMP
-  CERTIFICATE
-  POSTTEST
-  ARCHIVE
-}
-
-// WebPhase
-// model WebPhase {
-//   phase PHASE @default(CLOSED)
-// }
-
 // Notes
 model Notes {
+  id       String @id @default(uuid())
   camperId String
-  staffId  String
-  notes    String
-  time     DateTime @default(now())
+  content  String
 
-  camper Camper @relation(fields: [camperId], references: [camperId])
-  staff  Staff  @relation(fields: [staffId], references: [staffId])
+  camper       Camper  @relation(fields: [camperId], references: [camperId])
+  Staff        Staff?  @relation(fields: [staffStaffId], references: [staffId])
+  staffStaffId String?
 }
 
 // PHASE type
@@ -173,7 +147,7 @@ enum PHASE {
 
 // WebPhase
 model WebPhase {
-  phase PHASE @default(CLOSED)
+  phase PHASE @id @default(CLOSED)
 }
 
 // type ENUM
