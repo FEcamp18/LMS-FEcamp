@@ -1,7 +1,7 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator clientt{
+generator clientt {
   provider = "prisma-client-js"
 }
 
@@ -14,6 +14,8 @@ model Account {
   username String @id @unique @default("user")
   password String @default("password")
   role     ROLE   @default(CAMPER)
+  camper   Camper[]
+  staff    Staff[]
 }
 
 model Staff {
@@ -25,14 +27,14 @@ model Staff {
   contactEmail       String                @default("")
   FEYear             Int                   @default(0)
   engineerDepartment ENGINEERINGDEPARTMENT
-  staffDepartment    STAFFDEPARTMENT[]
+  staffDepartment    STAFFDEPARTMENT[]     
   healthInfo         String                @default("")
   foodInfo           String                @default("")
   roomNumber         Int
 
   account    Account      @relation(fields: [staffId], references: [username])
   staffClass StaffClass[]
-  notes Notes[]
+  notes      Notes[]
 }
 
 model Subject {
@@ -52,6 +54,7 @@ model Class {
   time       DateTime     @default(now())
   location   String       @default("not assign")
   StaffClass StaffClass[]
+  CamperClass CamperClass[]
 }
 
 model StaffClass {
@@ -63,6 +66,64 @@ model StaffClass {
 
   @@id([staffId, classId])
 }
+model Camper {
+  camperId       String  @id @unique @default("")
+  name           String  @default("")
+  surname        String  @default("")
+  nickname       String  @default("")
+  chatbotUserId  String  @default("")
+  contactTel     String  @default("")
+  parentTel      String  @default("")
+  parentRelation String  @default("")
+  school         String  @default("")
+  contactEmail   String  @default("")
+  idLine         String  @default("")
+  FEYear         Int     @default(0)
+  room           Int
+  healthInfo     String  @default("")
+  foodInfo       String  @default("")
+  certificate    String  @default("")
+  scorePostTest  Float[] @default([])
+
+  account     Account       @relation(fields: [camperId], references: [username])
+  camperClass CamperClass[]
+  notes       Notes[]
+}
+
+model CamperClass {
+  id       String  @id @default(uuid())
+  camperId String
+  classId  String
+
+  camper Camper @relation(fields: [camperId], references: [camperId])
+  class  Class  @relation(fields: [classId], references: [classId])
+}
+
+model Notes {
+  camperId String
+  staffId  String
+  notes    String @id
+  time     DateTime @default(now())
+
+  camper Camper @relation(fields: [camperId], references: [camperId])
+  staff  Staff  @relation(fields: [staffId], references: [staffId])
+}
+
+// PHASE type
+enum PHASE {
+  CLOSED
+  BEFORE_CAMP
+  PRETEST
+  CAMP
+  CERTIFICATE
+  POSTTEST
+  ARCHIVE
+}
+
+// WebPhase
+// model WebPhase {
+//   phase PHASE @default(CLOSED)
+// }
 
 // type ENUM
 enum ROLE {
@@ -93,7 +154,6 @@ enum ENGINEERINGDEPARTMENT {
   Environmental
   Survey
   Metallurgical
-  // นิวเคลียร์และรังสี
   Nuclear
   CP
   CEDT
