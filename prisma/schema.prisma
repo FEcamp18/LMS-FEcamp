@@ -124,7 +124,6 @@ model SubjectAnnouncements {
 }
 
 // Notes
-// Notes
 model Notes {
   noteId   Int      @id() @default(autoincrement())
   camperId String
