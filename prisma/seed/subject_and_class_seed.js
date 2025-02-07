@@ -5,11 +5,6 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding subjects and classes database...");
 
-  // Clear Subject and Class tables
-  await prisma.staffClass.deleteMany();
-  await prisma.class.deleteMany();
-  await prisma.subject.deleteMany();
-
   // Create mock subjects
   await prisma.subject.createMany({
     data: [
@@ -35,6 +30,7 @@ async function main() {
       { subjectId: "TPAT3-1", subjectName: "TPAT3", subjectTopic: "TPAT3-1", subjectDescription: "Numerical, Mechanical, Scientifically", subjectPicture: "/image/subject-picture/temp-subject-image.jpg" },
       { subjectId: "TPAT3-2", subjectName: "TPAT3", subjectTopic: "TPAT3-2", subjectDescription: "Relative Dimensional, News", subjectPicture: "/image/subject-picture/temp-subject-image.jpg" },
     ],
+    skipDuplicates:true,
   });
 
   const subjectsFECamp = await prisma.subject.findMany();
