@@ -85,9 +85,10 @@ async function main() {
       }
     }
   }
-
+  
   await prisma.class.createMany({
     data: classes,
+    skipDuplicates : true,
   })
 
   const staffsFECamp = await prisma.staff.findMany();

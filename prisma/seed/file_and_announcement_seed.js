@@ -122,6 +122,7 @@ async function main() {
           fileLocation: "/files/tpat3/tpat3-2.pdf",
         },
       ],
+      skipDuplicates : true,
     });
 
     await prisma.subjectAnnouncements.createMany({
@@ -218,6 +219,7 @@ async function main() {
           annoText: "This is TPAT3-2 Announcement",
         },
       ],
+      skipDuplicates : true,
     });
   } catch (error) {
     if (error instanceof Error) {
