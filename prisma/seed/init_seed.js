@@ -6,13 +6,16 @@ async function main() {
   console.log("Seeding database...");
 
   try {
-    await prisma.account.deleteMany();
+    
     await prisma.staffClass.deleteMany();
     await prisma.subjectFiles.deleteMany();
     await prisma.subjectAnnouncements.deleteMany();
+    await prisma.notes.deleteMany();
     await prisma.staff.deleteMany();  
+    await prisma.camper.deleteMany();  
     await prisma.class.deleteMany();
     await prisma.subject.deleteMany();
+    await prisma.account.deleteMany();
 
     // Create mock accounts
     await prisma.account.createMany({
