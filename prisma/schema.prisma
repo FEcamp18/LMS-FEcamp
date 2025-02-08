@@ -102,16 +102,6 @@ model CamperClass {
   class  Class  @relation(fields: [classId], references: [classId])
 }
 
-model Notes {
-  id       String @id @default(uuid())
-  camperId String
-  content  String
-
-  camper       Camper  @relation(fields: [camperId], references: [camperId])
-  Staff        Staff?  @relation(fields: [staffStaffId], references: [staffId])
-  staffStaffId String?
-}
-
 model SubjectFiles {
   fileId          String   @id @unique @default("file-id")
   subjectId       String
@@ -133,6 +123,18 @@ model SubjectAnnouncements {
   subject Subject @relation(fields: [subjectId], references: [subjectId])
 }
 
+// Notes
+model Notes {
+  noteId   Int      @id() @default(autoincrement())
+  camperId String
+  staffId  String
+  notes    String
+  time     DateTime @default(now())
+
+  camper Camper @relation(fields: [camperId], references: [camperId])
+  staff  Staff  @relation(fields: [staffId], references: [staffId])
+}
+
 // PHASE type
 enum PHASE {
   CLOSED
@@ -145,9 +147,9 @@ enum PHASE {
 }
 
 // WebPhase
-// model WebPhase {
-//   phase PHASE @default(CLOSED)
-// }
+model WebPhase {
+  phase PHASE @id @default(CLOSED)
+}
 
 // type ENUM
 enum ROLE {

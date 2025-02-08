@@ -1,5 +1,5 @@
 export enum ENGINEERINGDEPARTMENT {
-Engineering="รวม",
+  Engineering="รวม",
   Civil="โยธา",
   Electrical="ไฟฟ้า",
   Mechanical="เครื่องกล",
