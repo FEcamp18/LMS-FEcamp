@@ -33,10 +33,10 @@ async function main() {
     /* Create mock camper account */
     await prisma.account.createMany({
         data: [
-            { username: "student-1", password: "securepassword1", role: "CAMPER" },
-            { username: "student-2", password: "securepassword2", role: "CAMPER" },
-            { username: "student-3", password: "securepassword3", role: "CAMPER" },
-            { username: "student-4", password: "securepassword4", role: "CAMPER" },
+            { username: "camperNote1", password: "securepassword1", role: "CAMPER" },
+            { username: "camperNote2", password: "securepassword2", role: "CAMPER" },
+            { username: "camperNote3", password: "securepassword3", role: "CAMPER" },
+            { username: "camperNote4", password: "securepassword4", role: "CAMPER" },
         ],
         skipDuplicates: true
     });
@@ -44,7 +44,7 @@ async function main() {
     /* Create mock Camper */
     await prisma.camper.createMany({
         data: [{
-            camperId: "student-1",
+            camperId: "camperNote1",
             name: "John",
             surname: "Doe",
             nickname: "Johnny",
@@ -63,7 +63,7 @@ async function main() {
             scorePostTest: [85.5, 90.0, 88.0],
         },
         {
-            camperId: "student-2",
+            camperId: "camperNote2",
             name: "Alice",
             surname: "Smith",
             nickname: "Ali",
@@ -81,7 +81,7 @@ async function main() {
             certificate: "Advanced Camper Certificate",
             scorePostTest: [92.0, 95.0, 91.5],
         }, {
-            camperId: "student-3",
+            camperId: "camperNote3",
             name: "Michael",
             surname: "Brown",
             nickname: "Mike",
@@ -99,7 +99,7 @@ async function main() {
             certificate: "Elite Camper Certificate",
             scorePostTest: [80.0, 82.5, 85.0],
         }, {
-            camperId: "student-4",
+            camperId: "camperNote4",
             name: "Chanatda",
             surname: "Chonkom",
             nickname: "Fah",
@@ -124,11 +124,11 @@ async function main() {
     /* Create mock staff account */
     await prisma.account.createMany({
         data: [
-            { username: "staff-2", password: "securepassword2", role: "STAFF" },
-            { username: "staff-4", password: "securepassword4", role: "STAFF" },
-            { username: "staff-5", password: "securepassword5", role: "STAFF" },
-            { username: "staff-7", password: "securepassword7", role: "STAFF" },
-            { username: "staff-9", password: "securepassword9", role: "STAFF" },
+            { username: "staffNote2", password: "securepassword2", role: "STAFF" },
+            { username: "staffNote4", password: "securepassword4", role: "STAFF" },
+            { username: "staffNote5", password: "securepassword5", role: "STAFF" },
+            { username: "staffNote7", password: "securepassword7", role: "STAFF" },
+            { username: "staffNote9", password: "securepassword9", role: "STAFF" },
         ],
         skipDuplicates: true
     });
@@ -136,7 +136,7 @@ async function main() {
     await prisma.staff.createMany({
         data: [
             {
-                staffId: "staff-2",
+                staffId: "staffNote2",
                 name: "Tester2 BOARDREGISTER",
                 surname: "Tester2",
                 nickname: "Tester2",
@@ -150,7 +150,7 @@ async function main() {
                 roomNumber: 1,
             },
             {
-                staffId: "staff-4",
+                staffId: "staffNote4",
                 name: "Tester ROOMSTAFF",
                 surname: "Tester4",
                 nickname: "Tester4",
@@ -164,7 +164,7 @@ async function main() {
                 roomNumber: 8,
             },
             {
-                staffId: "staff-5",
+                staffId: "staffNote5",
                 name: "Tester5 ",
                 surname: "Tester5",
                 nickname: "Tester5",
@@ -178,7 +178,7 @@ async function main() {
                 roomNumber: 3,
             },
             {
-                staffId: "staff-7",
+                staffId: "staffNote7",
                 name: "Tester3 NURSE",
                 surname: "Tester3",
                 nickname: "Tester3",
@@ -192,7 +192,7 @@ async function main() {
                 roomNumber: 5,
             },
             {
-                staffId: "staff-9",
+                staffId: "staffNote9",
                 name: "Tester9 CENTRAL",
                 surname: "Tester9",
                 nickname: "Tester9",
@@ -218,44 +218,44 @@ async function main() {
     await prisma.notes.createMany({
         data: [
             {
-                camperId: "student-1",
-                staffId: "staff-5",
+                camperId: "camperNote1",
+                staffId: "staffNote5",
                 notes: "In the evening, I had learned Math about how to calculate my GPA in each term.",
                 time: new Date(2025, 5, 20, 8, 45, 5),
             },
             {
-                camperId: "student-3",
-                staffId: "staff-4",
+                camperId: "camperNote3",
+                staffId: "staffNote4",
                 notes: "Math is a challenging but rewarding subject where simple rules build into complex concepts that explain the world around us, and while it can be frustrating at times, the feeling of finally understanding something makes it all worthwhile.",
                 time: new Date(2025, 5, 20, 14, 30, 5),
             },
             {
-                camperId: "student-1",
-                staffId: "staff-5",
+                camperId: "camperNote1",
+                staffId: "staffNote5",
                 notes: "The restrooms at FE Camp were a bit of a mixed bag.  Sometimes they were fine, other times they were a bit messy, particularly after a large group had used them.  Regular checks and cleaning would greatly improve the experience.",
                 time: new Date(2025, 5, 20, 22, 38, 10),
             },
             {
-                camperId: "student-2",
-                staffId: "staff-7",
+                camperId: "camperNote2",
+                staffId: "staffNote7",
                 notes: "Chemistry is the fascinating study of matter and its properties, exploring how substances interact and transform, ultimately revealing the building blocks of our universe.",
                 time: new Date(2025, 5, 21, 7, 22, 0),
             },
             {
-                camperId: "student-1",
-                staffId: "staff-4",
+                camperId: "camperNote1",
+                staffId: "staffNote4",
                 notes: "I came into FE Camp not knowing much about science, but P'Neen's class made it accessible and interesting.  I feel like I have a much better understanding of the basic principles now.",
                 time: new Date(2025, 5, 21, 10, 59, 0),
             },
             {
-                camperId: "student-1",
-                staffId: "staff-2",
+                camperId: "camperNote1",
+                staffId: "staffNote2",
                 notes: "FE Camp is a good starting point for learning web development, but it's demanding and fast-paced.",
                 time: new Date(2025, 5, 21, 18, 0, 0),
             },
             {
-                camperId: "student-4",
-                staffId: "staff-9",
+                camperId: "camperNote4",
+                staffId: "staffNote9",
                 notes: "I love today snacks very very much !!!",
                 time: new Date(2025, 5, 21, 23, 17, 5),
             },
