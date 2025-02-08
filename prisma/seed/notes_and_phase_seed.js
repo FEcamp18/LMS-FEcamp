@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PHASE, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -19,11 +19,17 @@ async function main() {
     }
 
     /* Creating Defualt Phase */
-    await prisma.webPhase.create( // There's only 1 phase >> .create()
-        data: {
-            phase: PHASE.CLOSED, // Use ENUM in prisma instead
-        },
-    );
+    try {
+        await prisma.webPhase.create({
+            data: {
+                phase: PHASE.CLOSED
+            },
+        });
+        console.log("Data cleared successfully.");
+    } catch (error) {
+        console.error("Error while create phase data:", error);
+    }
+   
 
     /* Creating Sample Notes */
     await prisma.notes.createMany({
@@ -43,8 +49,8 @@ async function main() {
             {
                 camperId: "student-1",
                 staffId: "staff-5",
-                notes: "The restrooms at FE Camp were generally clean and functional, although occasional upkeep during high-traffic times would have been appreciated.",
-                time: new Date(2025, 5, 20, 16, 58, 0),
+                notes: "The restrooms at FE Camp were a bit of a mixed bag.  Sometimes they were fine, other times they were a bit messy, particularly after a large group had used them.  Regular checks and cleaning would greatly improve the experience.",
+                time: new Date(2025, 5, 20, 22, 38, 10),
             },
             {
                 camperId: "student-2",
@@ -54,15 +60,15 @@ async function main() {
             },
             {
                 camperId: "student-1",
-                staffId: "staff-14",
-                notes: "FE Camp is a good starting point for learning web development, but it's demanding and fast-paced.",
-                time: new Date(2025, 5, 21, 18, 00, 0),
+                staffId: "staff-4",
+                notes: "I came into FE Camp not knowing much about science, but P'Neen's class made it accessible and interesting.  I feel like I have a much better understanding of the basic principles now.",
+                time: new Date(2025, 5, 21, 10, 59, 0),
             },
             {
                 camperId: "student-1",
-                staffId: "staff-4",
-                notes: "I really enjoyed P'Neen's science sessions.  The experiments were fun and helped solidify the concepts.  Perhaps a little more time could have been spent on Momentum topic, but overall it was a great learning experience.",
-                time: new Date(2025, 5, 21, 22, 59, 0),
+                staffId: "staff-14",
+                notes: "FE Camp is a good starting point for learning web development, but it's demanding and fast-paced.",
+                time: new Date(2025, 5, 21, 18, 0, 0),
             },
             {
                 camperId: "student-8",
