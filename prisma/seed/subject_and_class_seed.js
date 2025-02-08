@@ -109,9 +109,21 @@ async function main() {
       staffClasses.push({ staffId: staff_1_data.staffId, classId: class_data.classId });
     }
   }
-
   await prisma.staffClass.createMany({
     data: staffClasses,
+    skipDuplicates: true,
+  });
+
+  // Create mock camperClass
+  let camperClasses = [];
+  for (let i = 0; i < l_classes; i++) {
+    const class_data = classes[i];
+    if (!class_data?.classId?.endsWith("-1")) continue;
+    camperClasses.push({ camperId: 'camper1', classId: class_data.classId });
+  }
+
+  await prisma.camperClass.createMany({
+    data: camperClasses,
     skipDuplicates: true,
   });
 
