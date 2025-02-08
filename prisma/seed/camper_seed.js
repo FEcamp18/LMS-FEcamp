@@ -75,6 +75,7 @@ async function main() {
       ],
       skipDuplicates:true
     });
+    
 
     console.log("Seeding completed.");
   } catch (error) {
