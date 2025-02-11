@@ -6,7 +6,15 @@ export async function GET() {
   try {
     const courses = await prisma.staffClass.findMany({
       where: { staffId },
-      select: { class: true },
+      include: {
+        class: {
+          include: {
+            subject: {
+              select: { subjectDescription: true },
+            },
+          },
+        },
+      },
     });
 
     if (!courses || courses.length === 0) {
@@ -21,10 +29,15 @@ export async function GET() {
       );
     }
 
+    const staffCourses = courses.map(({ class: { subject, ...course } }) => ({
+      ...course,
+      description: subject?.subjectDescription,
+    }));
+
     return Response.json(
       {
         message: "success",
-        courses: courses.map((course) => course.class),
+        courses: staffCourses,
       },
       {
         status: 200,
