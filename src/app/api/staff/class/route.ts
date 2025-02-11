@@ -2,9 +2,10 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function GET() {
+  const staffId = "staff1";
   try {
     const courses = await prisma.staffClass.findMany({
-      where: { staffId: "staff1" },
+      where: { staffId },
       include: { class: true },
     });
 
