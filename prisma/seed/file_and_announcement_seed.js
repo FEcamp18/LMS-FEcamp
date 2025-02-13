@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding file and announcement database...");
   try {
-
     await prisma.subjectFiles.createMany({
       data: [
         // MATHS
@@ -122,7 +121,7 @@ async function main() {
           fileLocation: "/files/tpat3/tpat3-2.pdf",
         },
       ],
-      skipDuplicates : true,
+      skipDuplicates: true,
     });
 
     await prisma.subjectAnnouncements.createMany({
@@ -219,7 +218,7 @@ async function main() {
           annoText: "This is TPAT3-2 Announcement",
         },
       ],
-      skipDuplicates : true,
+      skipDuplicates: true,
     });
   } catch (error) {
     if (error instanceof Error) {
