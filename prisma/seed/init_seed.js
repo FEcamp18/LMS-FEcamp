@@ -6,13 +6,12 @@ async function main() {
   console.log("Seeding database...");
 
   try {
-    
     await prisma.staffClass.deleteMany();
     await prisma.subjectFiles.deleteMany();
     await prisma.subjectAnnouncements.deleteMany();
     await prisma.notes.deleteMany();
-    await prisma.staff.deleteMany();  
-    await prisma.camper.deleteMany();  
+    await prisma.staff.deleteMany();
+    await prisma.camper.deleteMany();
     await prisma.class.deleteMany();
     await prisma.subject.deleteMany();
     await prisma.account.deleteMany();
@@ -25,14 +24,11 @@ async function main() {
         { username: "camper1", password: "securepassword3", role: "CAMPER" },
       ],
     });
-
-
-    
   } catch (error) {
     if (error instanceof Error) {
-      console.error('Error inserting records:', error.message);
+      console.error("Error inserting records:", error.message);
     } else {
-      console.error('Unknown error:', error);
+      console.error("Unknown error:", error);
     }
   }
   console.log("Seeding completed.");
