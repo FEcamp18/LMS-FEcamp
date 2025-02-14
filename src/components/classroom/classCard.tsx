@@ -31,7 +31,7 @@ const ClassCard: React.FC<ClassCardProps> = ({
     <>
       {data && data != null ? (
         <a
-          href={`/classroom`} 
+          href={`/classroom/${data.classId}`} 
           className="flex flex-col bg-transparent hover:shadow-lg rounded-xl w-full max-w-sm cursor-pointer">
           <div
             className="relative flex rounded-t-xl w-full h-40"

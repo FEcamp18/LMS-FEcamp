@@ -1,12 +1,10 @@
 // write your code here
-import AnnouncementCard from "@/components/classroom/announcementCard";
+import { ClassContainer } from "@/components/classroom/classContainer"
 
-export default function page() {
+export default function ClassroomPage() {
   return (
-    <AnnouncementCard
-      annoTitle="หัวข้อประกาศสั้นๆ"
-      annoText="ข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆ....."
-      annoTime={new Date("2568-06-10 10:10:00")}
-    />
-  );
+    <main>
+      <ClassContainer />
+    </main>
+  )
 }
