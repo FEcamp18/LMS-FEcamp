@@ -8,8 +8,8 @@ export async function GET() {
         if (!phase) { // if phase === null value
             return Response.json(
                 {
-                    "message": "failed",
-                    "error": "No phase data available.",
+                    message: "failed",
+                    error: "No phase data available.",
                 },
                 {
                     status: 404,
