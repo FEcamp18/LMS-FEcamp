@@ -23,7 +23,7 @@ docker-compose up -d
 pnpm add @prisma/client prisma
 pnpm prisma generate
 npx prisma migrate dev
-node prisma/seed/init_seed.js
+pnpm run seed
 ```
 
 - when you change prisma schmema and want to migrate it
@@ -41,7 +41,6 @@ node prisma/seed/{your_seed}.js
 - ORM (object-relational mapping) -> Prisma
 
 ### (Danger Zone!!!) To delete data base and start from scratch
-
 ```
 docker-compose -f docker-compose.yml down
 docker volume ls
@@ -63,6 +62,7 @@ pnpm run seed
   - แนวทางการเขียน type commit เพิ่มเติม : https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13
 
 ## PR Description
+**Please run `pnpm format:write` before opening the pr.**
 
 **How to Write a PR Description**
 
