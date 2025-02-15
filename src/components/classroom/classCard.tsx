@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 interface ClassCardProps {
   class: {
@@ -30,7 +31,7 @@ const ClassCard: React.FC<ClassCardProps> = ({
   return (
     <>
       {data && data != null ? (
-        <a
+        <Link
           href={`/classroom/${data.classId}`}
           className="flex w-full max-w-sm cursor-pointer flex-col rounded-xl bg-transparent hover:shadow-lg"
         >
@@ -40,9 +41,9 @@ const ClassCard: React.FC<ClassCardProps> = ({
           >
             <div className="flex w-full flex-col justify-between gap-3 p-4">
               <div className="text-center">
-                <p className="text-xl font-bold lg:text-2xl">
+                <h3 className="text-xl font-bold lg:text-2xl">
                   {data.subjectName ?? "Unknown Subject"}
-                </p>
+                </h3>
                 <p className="text-base lg:text-lg">{data.subjectTopic}</p>
               </div>
               <div className="text-sm lg:text-base">
@@ -81,7 +82,7 @@ const ClassCard: React.FC<ClassCardProps> = ({
               by {data.tutor?.join(", ") ?? "Unknown tutor"}
             </p>
           </div>
-        </a>
+        </Link>
       ) : null}
     </>
   );
