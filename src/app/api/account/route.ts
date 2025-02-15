@@ -24,7 +24,7 @@ export async function GET(req: Request) {
       return Response.json(
         {
           message: "failed",
-          error: "User does not exist.",
+          error: "username request not valid",
         },
         {
           status: 404,
