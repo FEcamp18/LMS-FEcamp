@@ -173,7 +173,8 @@ async function main() {
           subjectId: study_subject.subjectId,
           room: room,
           location: "ตึก 3 ห้อง 315",
-          time: time,
+          startTime: time,
+          endTime: new Date(time.getTime() + 2 * 60 * 60 * 1000),
         });
       }
     }
