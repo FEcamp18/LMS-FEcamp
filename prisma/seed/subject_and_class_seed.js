@@ -165,7 +165,7 @@ async function main() {
       const currentDay = day_time[dayIndex];
       if (!currentDay) continue;
       const timeSlot = currentDay.slots[slotInDay];
-      const time = new Date(`${currentDay.day}T${timeSlot}.000Z`);
+      const time = new Date(`${currentDay.day}T${timeSlot}+07:00`);
 
       if (study_subject) {
         classes.push({
