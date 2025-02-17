@@ -88,7 +88,7 @@ export async function GET(
         { status: 500, headers: { "Content-Type": "application/json" } },
       );
     }
-    
+
     const tutors = staffsByClassId.staffs.map((staff: Staff) => staff.nickname);
 
     const announcements = announcementsBySubjectId.announcements.map(
