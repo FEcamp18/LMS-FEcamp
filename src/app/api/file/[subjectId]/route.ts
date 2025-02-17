@@ -23,14 +23,14 @@ export async function GET(
       );
     }
 
-    const files = await prisma.subjectFiles.findMany({
+    const filesBySubjectId = await prisma.subjectFiles.findMany({
       where: { subjectId },
     });
 
     return new Response(
       JSON.stringify({
         message: "success",
-        files,
+        files: filesBySubjectId,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
