@@ -8,6 +8,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        inknut: ["Inknut Antiqua", ...fontFamily.sans],
+        prompt: ["Prompt", ...fontFamily.sans],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -15,6 +17,14 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
+        "light-gray": "#B7A99B",
+        "light-brown": "#A27757",
+        "dark-gray": "#86796E",
+        "dark-brown": "#3D322A",
+        cream: "#E3DACC",
+        brown: "#584234",
+        success: "#92CE86",
+        error: "#F98181",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
