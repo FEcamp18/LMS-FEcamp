@@ -33,7 +33,7 @@ export async function GET(
       return new Response(
         JSON.stringify({
           message: "failed",
-          error: "Class does not exist.",
+          error: "ClassId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
       );

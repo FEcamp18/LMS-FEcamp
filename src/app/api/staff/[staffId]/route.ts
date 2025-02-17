@@ -18,7 +18,7 @@ export async function GET(
       return new Response(
         JSON.stringify({
           message: "failed",
-          error: "Staff does not exist.",
+          error: "StaffId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
       );
@@ -27,7 +27,7 @@ export async function GET(
     return new Response(
       JSON.stringify({
         message: "success",
-        staffByStaffId,
+        staff: staffByStaffId,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
