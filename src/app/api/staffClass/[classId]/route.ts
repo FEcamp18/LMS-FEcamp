@@ -8,16 +8,13 @@ export async function GET(
 ) {
   const { classId } = await props.params;
   try {
-    const staffฺsByClassId = await prisma.staffClass.findMany({
+    const isClassIdExist = await prisma.class.findUnique({
       where: {
         classId: classId,
       },
-      select: {
-        staff: true,
-      },
     });
 
-    if (!staffฺsByClassId) {
+    if (!isClassIdExist) {
       return new Response(
         JSON.stringify({
           message: "failed",
@@ -26,6 +23,15 @@ export async function GET(
         { status: 404, headers: { "Content-Type": "application/json" } },
       );
     }
+
+    const staffฺsByClassId = await prisma.staffClass.findMany({
+      where: {
+        classId: classId,
+      },
+      select: {
+        staff: true,
+      },
+    });
 
     return new Response(
       JSON.stringify({
