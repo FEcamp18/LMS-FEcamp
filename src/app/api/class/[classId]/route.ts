@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { GET as getFilesBySubjectId } from "../../file/[subjectId]/route";
-import { GET as getAnnouncementsBySubjectId } from "../../announcement/[subjectId]/route";
+import { GET as getAnnouncementsBySubjectId } from "../../anno/[subjectId]/route";
 import { GET as getStaffsByClassId } from "../../staffClass/[classId]/route";
 
 import type { File, FileBySubjectIdResponse } from "@/types/file";
