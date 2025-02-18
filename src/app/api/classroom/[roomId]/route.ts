@@ -5,7 +5,8 @@ type ClassData = {
   classId: string;
   staffName: string;
   subjectId: string;
-  time: Date;
+  startTime: Date;
+  endTime: Date;
   location: string;
   description?: string;
 };
@@ -13,7 +14,8 @@ type MergedData = {
   classId: string;
   staffNames: string[];
   subjectId: string;
-  time: Date;
+  startTime: Date;
+  endTime: Date;
   location: string;
   description?: string;
 };
@@ -29,7 +31,8 @@ export async function GET(
       select: {
         classId: true,
         subjectId: true,
-        time: true,
+        startTime: true,
+        endTime: true,
         location: true,
         StaffClass: {
           select: {
@@ -65,7 +68,8 @@ export async function GET(
             classId: curr.classId,
             staffNames: [curr.staffName],
             subjectId: curr.subjectId,
-            time: curr.time,
+            startTime: curr.startTime,
+            endTime : curr.endTime,
             location: curr.location,
             description: curr.description,
           });
@@ -75,12 +79,15 @@ export async function GET(
 
       return merged;
     };
+
+    
     const flattenedCourses = courses.flatMap((course) =>
       course.StaffClass.map((staffClass) => ({
         classId: course.classId,
         staffName: staffClass.staff.name, // Unnested staff name
         subjectId: course.subjectId,
-        time: course.time,
+        startTime: course.startTime,
+        endTime: course.endTime,
         location: course.location,
         description: course.subject?.subjectDescription,
       })),
