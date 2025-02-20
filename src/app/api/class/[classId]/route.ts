@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { GET as getFilesBySubjectId } from "../../file/[subjectId]/route";
-import { GET as getAnnouncementsBySubjectId } from "../../announcement/[subjectId]/route";
+import { GET as getAnnouncementsBySubjectId } from "../../anno/[subjectId]/route";
 import { GET as getStaffsByClassId } from "../../staffClass/[classId]/route";
 
 import type { File, FileBySubjectIdResponse } from "@/types/file";
@@ -40,9 +40,17 @@ export async function GET(
     }
 
     const subjectId = classData.subjectId;
-    const filesBySubjectIdResponse = await getFilesBySubjectId(req, {
+    const subjectIdResolve = {
       params: Promise.resolve({ subjectId }),
-    });
+    };
+    const classIdResolve = {
+      params: Promise.resolve({ classId }),
+    };
+    
+    const filesBySubjectIdResponse = await getFilesBySubjectId(
+      req,
+      subjectIdResolve,
+    );
     const filesBySubjectId: FileBySubjectIdResponse =
       (await filesBySubjectIdResponse.json()) as FileBySubjectIdResponse;
 
@@ -58,7 +66,7 @@ export async function GET(
 
     const announcementsBySubjectIdResponse = await getAnnouncementsBySubjectId(
       req,
-      { params: Promise.resolve({ subjectId }) },
+      subjectIdResolve,
     );
     const announcementsBySubjectId: AnnouncementsBySubjectIdResponse =
       (await announcementsBySubjectIdResponse.json()) as AnnouncementsBySubjectIdResponse;
@@ -73,9 +81,10 @@ export async function GET(
       );
     }
 
-    const staffsByClassIdResponse = await getStaffsByClassId(req, {
-      params: Promise.resolve({ classId }),
-    });
+    const staffsByClassIdResponse = await getStaffsByClassId(
+      req,
+      classIdResolve,
+    );
     const staffsByClassId: StaffsByClassIdResponse =
       (await staffsByClassIdResponse.json()) as StaffsByClassIdResponse;
 
