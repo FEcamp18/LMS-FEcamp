@@ -8,7 +8,6 @@ async function main() {
   try {
     await prisma.account.createMany({
       data: [
-        { username: "camper1", password: "securepassword1", role: "CAMPER" },
         { username: "camper2", password: "securepassword2", role: "CAMPER" },
         { username: "camper3", password: "securepassword3", role: "CAMPER" },
       ],

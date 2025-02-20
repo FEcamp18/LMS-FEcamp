@@ -6,3 +6,23 @@ export interface Class {
   startTime: Date;
   endTime: Date;
 }
+
+export type ClassData = {
+  classId: string;
+  staffName: string;
+  subjectId: string;
+  startTime: Date;
+  endTime: Date;
+  location: string;
+  description?: string;
+};
+
+export type MergeClassData = {
+  classId: string;
+  staffNames: string[];
+  subjectId: string;
+  startTime: Date;
+  endTime: Date;
+  location: string;
+  description?: string;
+};
