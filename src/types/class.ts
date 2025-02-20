@@ -20,7 +20,7 @@ export type ClassData = {
 
 export type MergeClassData = {
   classId: string;
-  staffNames: string[];
+  tutors: string[];
   subjectId: string;
   roomId: number;
   startTime: Date;

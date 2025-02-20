@@ -5,11 +5,11 @@ const prisma = new PrismaClient();
 
 export async function GET(
   req: Request,
-  props: { params: Promise<{ roomIdProps: string }> },
+  props: { params: Promise<{ roomId: string }> },
 ) {
   try {
-    const { roomIdProps } = await props.params;
-    const Id =  parseInt(roomIdProps);
+    const { roomId } = await props.params;
+    const Id =  parseInt(roomId);
     const courses = await prisma.class.findMany({
       where: { room: Id },
       select: {
@@ -59,11 +59,11 @@ export async function GET(
       const merged = data.reduce((acc, curr) => {
         const existing = acc.find((item) => item.classId === curr.classId);
         if (existing) {
-          existing.staffNames.push(curr.staffName);
+          existing.tutors.push(curr.staffName);
         } else {
           acc.push({
             classId: curr.classId,
-            staffNames: [curr.staffName],
+            tutors: [curr.staffName],
             roomId : curr.roomId,
             subjectId: curr.subjectId,
             startTime: curr.startTime,
