@@ -5,10 +5,11 @@ const prisma = new PrismaClient();
 
 export async function GET(
   req: Request,
-  { params }: { params: { roomId: string } },
+  props: { params: Promise<{ roomIdProps: string }> },
 ) {
   try {
-    const Id =  parseInt(params.roomId);
+    const { roomIdProps } = await props.params;
+    const Id =  parseInt(roomIdProps);
     const courses = await prisma.class.findMany({
       where: { room: Id },
       select: {
@@ -17,6 +18,7 @@ export async function GET(
         startTime: true,
         endTime: true,
         location: true,
+        room : true,
         StaffClass: {
           select: {
             staff: {
@@ -45,6 +47,7 @@ export async function GET(
       course.StaffClass.map((staffClass) => ({
         classId: course.classId,
         staffName: staffClass.staff.nickname, // Unnested staff name
+        roomId : course.room,
         subjectId: course.subjectId,
         startTime: course.startTime,
         endTime: course.endTime,
@@ -61,6 +64,7 @@ export async function GET(
           acc.push({
             classId: curr.classId,
             staffNames: [curr.staffName],
+            roomId : curr.roomId,
             subjectId: curr.subjectId,
             startTime: curr.startTime,
             endTime : curr.endTime,
