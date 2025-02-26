@@ -1,6 +1,5 @@
 // write your code here
-import CamperInfoTable from 'src/components/ui/info/camperInfoTable'
-import { number } from 'zod'
+import CamperInfoTable from '../../../components/info/camperInfoTable'
 
 export default function ClassroomPage() {
   return (
