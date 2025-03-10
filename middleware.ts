@@ -5,7 +5,8 @@ const protectedRoutes = ["/api/protected-mock"];
 
 export function middleware(req: NextRequest) {
     // auth-to-do : change this to real token
-    const token = "mock-dev-token";
+    // const token = "mock-dev-token";
+    const token = undefined;
     const isProtected = protectedRoutes.some((route) => req.nextUrl.pathname.startsWith(route));
 
   if (isProtected && !token) {
