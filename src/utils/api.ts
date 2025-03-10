@@ -10,32 +10,46 @@ const api = axios.create({
   },
 });
 
-// request interceptor Modify headers, add auth tokens, etc.)
+// request interceptor: Attach auth token if available
 api.interceptors.request.use(
-    (config) => {
-        // auth-to-do : change this to real token
-        const token = "mock-dev-token";
-        if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
+  (config) => {
+    // auth-todo : Replace with real token retrieval logic
+    const token = undefined; // Change this to actual token retrieval
+    console.log("Token:", token);
+
+    if (!token) {
+      console.warn("Unauthorized: No token found.");
+      return Promise.reject(new Error("Unauthorized"));
+    }
+
+    config.headers.Authorization = `Bearer ${token? token : ""}`;
+    return config;
   },
-  (error: {response : {data : string}}) => Promise.reject(error instanceof Error ? error : new Error(error.response?.data || "Unknown error"))
+  (error : {response:{data:string}}) => {
+    return Promise.reject(
+      error instanceof Error ? error : new Error(error.response?.data || "Unknown request error")
+    );
+  }
 );
 
-// response interceptor (Global error handling)
+// response interceptor: Global error handling
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
-  (error : {response : {data : string}}) => {
-    if (error.response) {
-      console.error("API Error:", error.response.data);
-    }
-    return Promise.reject(error instanceof Error ? error : new Error(error.response?.data || "Unknown error"));
+  (error : {response:{data:string}}) => {
+    console.error("API Error:", error.response?.data || "Unknown response error");
+    return Promise.reject(
+      error instanceof Error ? error : new Error(error.response?.data || "Unknown response error")
+    );
   }
 );
 
 // Generic API Call Function
-const apiRequest = async <T>(method: "GET" | "POST" | "PUT" | "DELETE", url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> => {
+const apiRequest = async <T>(
+  method: "GET" | "POST" | "PUT" | "DELETE",
+  url: string,
+  data?: unknown,
+  config?: AxiosRequestConfig
+): Promise<T> => {
   try {
     const response = await api({ method, url, data, ...config });
     return response.data as T;
