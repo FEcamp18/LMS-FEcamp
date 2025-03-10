@@ -130,6 +130,7 @@ model Notes {
   camperId String
   staffId  String
   notes    String
+  type     NOTETYPE @default(NORMAL)
   time     DateTime @default(now())
 
   camper Camper @relation(fields: [camperId], references: [camperId])
@@ -145,6 +146,12 @@ enum PHASE {
   CERTIFICATE
   POSTTEST
   ARCHIVE
+}
+
+// NOTE type
+enum NOTETYPE {
+  HEALTH
+  NORMAL
 }
 
 // WebPhase
