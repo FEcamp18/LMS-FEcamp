@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     }
     const token = authHeader.split(" ")[1];
     console.log(token);
-    
+
     // auth-todo : use apiRequest from "@/utils/api" to verify token
     // try {
     //   await apiRequest("GET", "/auth/verify", null, {
@@ -29,15 +29,21 @@ export async function GET(req: NextRequest) {
     if (!staffByStaffId) {
       return NextResponse.json(
         { message: "failed", error: "StaffId does not exist." },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
-    return NextResponse.json({ message: "success", staff: staffByStaffId }, { status: 200 });
+    return NextResponse.json(
+      { message: "success", staff: staffByStaffId },
+      { status: 200 },
+    );
   } catch (error) {
     return NextResponse.json(
-      { message: "failed", error: error instanceof Error ? error.message : "Unknown error" },
-      { status: 500 }
+      {
+        message: "failed",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
     );
   } finally {
     await prisma.$disconnect();

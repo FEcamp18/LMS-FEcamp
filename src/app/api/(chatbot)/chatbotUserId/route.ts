@@ -2,13 +2,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 interface requestBodySchema {
-  camperId: string,
-  newChatbotUserId : string
+  camperId: string;
+  newChatbotUserId: string;
 }
 
 export async function PATCH(request: Request) {
   try {
-    const { camperId, newChatbotUserId } = await request.json() as requestBodySchema;
+    const { camperId, newChatbotUserId } =
+      (await request.json()) as requestBodySchema;
 
     const camperBycamperId = await prisma.camper.findUnique({
       where: {
@@ -60,7 +61,7 @@ export async function PATCH(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    const { camperId } = await request.json() as requestBodySchema;
+    const { camperId } = (await request.json()) as requestBodySchema;
 
     const camperBycamperId = await prisma.camper.findUnique({
       where: {
