@@ -22,25 +22,32 @@ api.interceptors.request.use(
       return Promise.reject(new Error("Unauthorized"));
     }
 
-    config.headers.Authorization = `Bearer ${token? token : ""}`;
+    config.headers.Authorization = `Bearer ${token ? token : ""}`;
     return config;
   },
-  (error : {response:{data:string}}) => {
+  (error: { response: { data: string } }) => {
     return Promise.reject(
-      error instanceof Error ? error : new Error(error.response?.data || "Unknown request error")
+      error instanceof Error
+        ? error
+        : new Error(error.response?.data || "Unknown request error"),
     );
-  }
+  },
 );
 
 // response interceptor: Global error handling
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
-  (error : {response:{data:string}}) => {
-    console.error("API Error:", error.response?.data || "Unknown response error");
-    return Promise.reject(
-      error instanceof Error ? error : new Error(error.response?.data || "Unknown response error")
+  (error: { response: { data: string } }) => {
+    console.error(
+      "API Error:",
+      error.response?.data || "Unknown response error",
     );
-  }
+    return Promise.reject(
+      error instanceof Error
+        ? error
+        : new Error(error.response?.data || "Unknown response error"),
+    );
+  },
 );
 
 // Generic API Call Function
@@ -48,7 +55,7 @@ const apiRequest = async <T>(
   method: "GET" | "POST" | "PUT" | "DELETE",
   url: string,
   data?: unknown,
-  config?: AxiosRequestConfig
+  config?: AxiosRequestConfig,
 ): Promise<T> => {
   try {
     const response = await api({ method, url, data, ...config });

@@ -1,5 +1,5 @@
-import { PrismaClient} from "@prisma/client";
-import type { ClassData,MergeClassData } from "@/types/class";
+import { PrismaClient } from "@prisma/client";
+import type { ClassData, MergeClassData } from "@/types/class";
 
 const prisma = new PrismaClient();
 
@@ -9,7 +9,7 @@ export async function GET(
 ) {
   try {
     const { roomId } = await props.params;
-    const Id =  parseInt(roomId);
+    const Id = parseInt(roomId);
     const courses = await prisma.class.findMany({
       where: { room: Id },
       select: {
@@ -18,7 +18,7 @@ export async function GET(
         startTime: true,
         endTime: true,
         location: true,
-        room : true,
+        room: true,
         StaffClass: {
           select: {
             staff: {
@@ -28,7 +28,7 @@ export async function GET(
             },
           },
         },
-        
+
         subject: {
           select: { subjectDescription: true },
         },
@@ -47,7 +47,7 @@ export async function GET(
       course.StaffClass.map((staffClass) => ({
         classId: course.classId,
         staffName: staffClass.staff.nickname, // Unnested staff name
-        roomId : course.room,
+        roomId: course.room,
         subjectId: course.subjectId,
         startTime: course.startTime,
         endTime: course.endTime,
@@ -64,10 +64,10 @@ export async function GET(
           acc.push({
             classId: curr.classId,
             tutors: [curr.staffName],
-            roomId : curr.roomId,
+            roomId: curr.roomId,
             subjectId: curr.subjectId,
             startTime: curr.startTime,
-            endTime : curr.endTime,
+            endTime: curr.endTime,
             location: curr.location,
             description: curr.description,
           });
@@ -77,9 +77,6 @@ export async function GET(
 
       return merged;
     };
-
-    
-    
 
     const mergedcourse = mergeData(flattenedCourses as ClassData[]);
 

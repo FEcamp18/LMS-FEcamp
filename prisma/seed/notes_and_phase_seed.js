@@ -223,15 +223,14 @@ async function main() {
         notes:
           "In the evening, I had learned Math about how to calculate my GPA in each term.",
         time: new Date(2025, 5, 20, 8, 45, 5),
-        type : "NORMAL"
+        type: "NORMAL",
       },
       {
         camperId: "camperNote1",
         staffId: "staffNote5",
-        notes:
-          "Nong camper 1 don't like salad",
+        notes: "Nong camper 1 don't like salad",
         time: new Date(2025, 5, 20, 8, 45, 5),
-        type : "HEALTH"
+        type: "HEALTH",
       },
       {
         camperId: "camperNote3",
@@ -239,7 +238,7 @@ async function main() {
         notes:
           "Math is a challenging but rewarding subject where simple rules build into complex concepts that explain the world around us, and while it can be frustrating at times, the feeling of finally understanding something makes it all worthwhile.",
         time: new Date(2025, 5, 20, 14, 30, 5),
-        type : "NORMAL"
+        type: "NORMAL",
       },
       {
         camperId: "camperNote1",
@@ -247,7 +246,7 @@ async function main() {
         notes:
           "The restrooms at FE Camp were a bit of a mixed bag.  Sometimes they were fine, other times they were a bit messy, particularly after a large group had used them.  Regular checks and cleaning would greatly improve the experience.",
         time: new Date(2025, 5, 20, 22, 38, 10),
-        type : "HEALTH"
+        type: "HEALTH",
       },
       {
         camperId: "camperNote2",
@@ -255,7 +254,7 @@ async function main() {
         notes:
           "Chemistry is the fascinating study of matter and its properties, exploring how substances interact and transform, ultimately revealing the building blocks of our universe.",
         time: new Date(2025, 5, 21, 7, 22, 0),
-        type : "NORMAL"
+        type: "NORMAL",
       },
       {
         camperId: "camperNote1",
@@ -263,7 +262,7 @@ async function main() {
         notes:
           "I came into FE Camp not knowing much about science, but P'Neen's class made it accessible and interesting.  I feel like I have a much better understanding of the basic principles now.",
         time: new Date(2025, 5, 21, 10, 59, 0),
-        type : "NORMAL"
+        type: "NORMAL",
       },
       {
         camperId: "camperNote1",
@@ -271,14 +270,14 @@ async function main() {
         notes:
           "FE Camp is a good starting point for learning web development, but it's demanding and fast-paced.",
         time: new Date(2025, 5, 21, 18, 0, 0),
-        type : "NORMAL"
+        type: "NORMAL",
       },
       {
         camperId: "camperNote4",
         staffId: "staffNote9",
         notes: "I love today snacks very very much !!!",
         time: new Date(2025, 5, 21, 23, 17, 5),
-        type : "HEALTH"
+        type: "HEALTH",
       },
     ],
   });
