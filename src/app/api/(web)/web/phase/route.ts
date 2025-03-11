@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 export async function GET() {
   try {
     const phase = await prisma.webPhase.findFirst();
-    console.log(phase);
 
     if (!phase) {
       // if phase === null value

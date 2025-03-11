@@ -1,8 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-export async function GET() {
-  const staffId = "staff1";
+export async function GET(
+  req: Request,
+  props: { params: Promise<{ staffId: string }> },
+) {
+  const { staffId } = await props.params;
   try {
     const courses = await prisma.staffClass.findMany({
       where: { staffId },
