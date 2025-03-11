@@ -14,7 +14,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     // auth-todo : Replace with real token retrieval logic
-    const token = undefined; // Change this to actual token retrieval
+    const token = "pKUlhwawCsHqy2kcUHyIrTUv"; // Change this to actual token retrieval
     console.log("Token:", token);
 
     if (!token) {
