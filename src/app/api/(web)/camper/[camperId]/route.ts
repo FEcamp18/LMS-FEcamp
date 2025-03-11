@@ -27,7 +27,7 @@ export async function GET(
     return new Response(
       JSON.stringify({
         message: "success",
-        staff: camperBycamperId,
+        camper: camperBycamperId,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
