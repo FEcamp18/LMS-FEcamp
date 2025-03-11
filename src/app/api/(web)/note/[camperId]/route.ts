@@ -24,7 +24,7 @@ export async function GET(
       );
     }
 
-    const noteOfCamper = await prisma.camper.findMany({
+    const noteOfCamper = await prisma.notes.findMany({
       where: {
         camperId: camperId,
       },
