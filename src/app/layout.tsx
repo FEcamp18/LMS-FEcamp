@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-
+import Header from "@/components/ui/header";
 export const metadata: Metadata = {
   title: "FE camp",
   description: "Learning Management System for 18th FE Camp",
@@ -14,7 +14,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body>{children}</body>
+      <body className="bg-light-gray flex items-center justify-center">
+        <main className="bg-cream m-5 min-h-screen w-[95%] shadow-2xl sm:w-[80%]">
+          <Header />
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
