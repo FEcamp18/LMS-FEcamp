@@ -8,8 +8,10 @@ export function middleware(req: NextRequest) {
   const token = "mock-dev-token";
   // const token = undefined;
   console.log("token in middleware is", token);
-  
-  const isProtected = protectedRoutes.some((route) => req.nextUrl.pathname.startsWith(route));
+
+  const isProtected = protectedRoutes.some((route) =>
+    req.nextUrl.pathname.startsWith(route),
+  );
 
   if (isProtected && !token) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
