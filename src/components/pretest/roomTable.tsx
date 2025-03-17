@@ -1,14 +1,9 @@
 import React from "react";
-
-interface Camper {
-  camperId: string;
-  camperName: string;
-  examSeat: string;
-}
+import { type ExamDataInterface } from "./fetchPretestRoom";
 
 interface RoomTableProps {
   location: string;
-  campers: Camper[];
+  campers: ExamDataInterface[];
 }
 
 const RoomTable: React.FC<RoomTableProps> = ({ location, campers }) => {
@@ -23,16 +18,19 @@ const RoomTable: React.FC<RoomTableProps> = ({ location, campers }) => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border p-2">Camper ID</th>
-              <th className="border p-2">Name</th>
+              <th className="border p-2">ชื่อ-นามสกุล</th>
               <th className="border p-2">Seat</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="max-h-[200px] overflow-scroll text-center">
             {campers.map((camper) => (
-              <tr key={camper.camperId} className="text-center">
-                <td className="border p-2">{camper.camperId}</td>
-                <td className="border p-2">{camper.camperName}</td>
-                <td className="border p-2">{camper.examSeat}</td>
+              <tr key={camper.camperId} className="overflow-scroll">
+                <td className="w-[30%] border p-2">{camper.camperId}</td>
+                <td className="border p-2">
+                  {camper.camper.name} {camper.camper.surname} (
+                  {camper.camper.nickname})
+                </td>
+                <td className="w-[10%] border p-2">{camper.seatNumber}</td>
               </tr>
             ))}
           </tbody>

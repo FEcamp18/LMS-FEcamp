@@ -2,9 +2,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function GET() {
-  try {
-    console.log("hi");
-    
+  try {    
     const data = await prisma.preTestRoom.findMany({
       include: {
         camper: {
