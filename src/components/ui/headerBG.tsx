@@ -17,7 +17,7 @@ const HeaderBG = () => {
             dy="2"
             stdDeviation="2"
             floodColor="black"
-            floodOpacity="0.1"
+            floodOpacity="0.2"
           />
         </filter>
       </defs>

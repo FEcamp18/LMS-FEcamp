@@ -13,7 +13,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} font-prompt`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body className="bg-light-gray flex items-center justify-center">
         <main className="bg-cream m-5 min-h-screen w-[95%] shadow-2xl sm:w-[80%]">
           <Header />
