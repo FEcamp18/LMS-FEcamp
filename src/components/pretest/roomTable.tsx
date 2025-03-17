@@ -14,7 +14,7 @@ interface RoomTableProps {
 const RoomTable: React.FC<RoomTableProps> = ({ location, campers }) => {
   return (
     <div className="mt-3 flex flex-col space-y-2">
-      <div className="bg-dark-brown text-cream px-4 py-2 text-center text-lg font-bold">
+      <div className="bg-dark-brown px-4 py-2 text-center text-lg font-bold text-cream">
         {location}
       </div>
 
