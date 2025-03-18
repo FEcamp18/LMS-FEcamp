@@ -1,9 +1,8 @@
 'use client'
 import React from 'react'
 import { Button } from '../ui/button'
-import { DownloadButton } from '../ui/download-file-button'
 import { Folder } from 'lucide-react'
-import { Trash2 } from 'lucide-react'
+import Image from 'next/image';
 
 
 
@@ -40,18 +39,18 @@ export default function FileCard({fileTitle, fileLocation,
       
       {isTutor 
       ? <div className=' flex place-items-center justify-end col-span-2'>
-          <DownloadButton onClick={downloadFile} className='font-prompt flex-1 bg-[url("/image/subject-picture/bg-download-button.png")] bg-cover bg-center text-white h-12 rounded-xl text-lg hover:text-white'>Download</DownloadButton>
+          <Button variant = 'link' onClick={downloadFile} className='font-prompt flex-1 bg-[url("/image/subject-picture/bg-download-button.png")] bg-cover bg-center text-white h-12 rounded-xl text-lg hover:text-white'>Download</Button>
         </div>
       : <div className=''></div>
       }
       
       {isTutor 
       ? 
-        <div className='flex place-items-center justify-end pr-4'>
-          <Button className='bg-inherit h-12 p-4 ' ><Trash2 className='bg-inherit' size={50} strokeWidth={2} color="#86796e"/></Button>
+        <div className='flex place-items-center justify-end pl-4 pr-4'>
+          <Button  variant = 'link' className='flex-1 bg-inherit p-1 ' ><Image src="/image/subject-picture/Trash.png" alt="Trash Icon" width={30} height={100} /></Button>
         </div>
       : <div className='flex place-items-center justify-end'>
-          <DownloadButton onClick={downloadFile} className='font-prompt flex-1 bg-[url("/image/subject-picture/bg-download-button.png")] bg-cover bg-center text-white h-12 rounded-xl text-lg hover:text-white'>Download</DownloadButton>
+          <Button variant = 'link' onClick={downloadFile} className='font-prompt flex-1 bg-[url("/image/subject-picture/bg-download-button.png")] bg-cover bg-center text-white h-12 rounded-xl text-lg hover:text-white'>Download</Button>
         </div>
       }
     </div>
