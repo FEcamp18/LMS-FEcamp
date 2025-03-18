@@ -15,10 +15,9 @@ export default function page() {
         fileTitle="ชื่อไฟล์"
         fileLocation="ที่อยู่ไฟล์"
         fileDescription="คำอธิบายไฟล์คำอธิบายไฟล์คำอธิบายไฟล์คำอธิบายไฟล์คำอธิบายไฟล์คำอธิบายไฟล์คำอธิบายไฟล์คำอธิบายไฟล์......"
-        fileUploadTime= "2568-06-10 10:10:00"
+        fileUploadTime="2568-06-10 10:10:00"
         isTutor={true}
       />
     </>
-    
   );
 }
