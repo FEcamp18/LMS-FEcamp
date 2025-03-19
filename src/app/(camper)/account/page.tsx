@@ -1,10 +1,12 @@
-// write your code here
+"use client";
 import Logout from "./Logout";
 import ChangePassForm from "./ChangePass";
 import { useSession } from "next-auth/react";
 
 export default function AccountPage() {
   const { data: session, status } = useSession();
+  console.log(session, status);
+
   return (
     <>
       <h1 className="mx-8 mt-20 text-4xl">

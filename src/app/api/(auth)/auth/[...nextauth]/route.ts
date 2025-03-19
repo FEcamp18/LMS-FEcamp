@@ -40,12 +40,23 @@ export const authOptions = {
         token.username = user.username;
         token.role = user.role;
       }
+      // console.log(token);
+
       return token;
     },
-    session: async ({ session, token }: { session: Session; token: JWT }) => ({
-      ...session,
-      user: { ...session.user, username: token.username, role: token.role },
-    }),
+    session: async ({ session, token }: { session: Session; token: JWT }) => {
+      console.log("Session:", session);
+      console.log("Token:", token);
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          name: token.name,
+          username: token.username,
+          role: token.role,
+        },
+      };
+    },
   },
 };
 
