@@ -27,10 +27,10 @@ model Staff {
   contactEmail       String                @default("")
   FEYear             Int                   @default(0)
   engineerDepartment ENGINEERINGDEPARTMENT @default(Engineering)
-  staffDepartment    STAFFDEPARTMENT[]
+  staffDepartment    STAFFDEPARTMENT[]     @default([])
   healthInfo         String                @default("")
   foodInfo           String                @default("")
-  roomNumber         Int
+  roomNumber         Int                   @default(0)
 
   account    Account      @relation(fields: [staffId], references: [username])
   staffClass StaffClass[]
