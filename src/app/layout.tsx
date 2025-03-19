@@ -1,9 +1,9 @@
 import { SessionProvider } from "@/components/session/sessionProvider";
 import "@/styles/globals.css";
-import getServerSession from "next-auth";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { getServerSession } from "next-auth";
 
 export const metadata: Metadata = {
   title: "FE camp",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await getServerSession();
