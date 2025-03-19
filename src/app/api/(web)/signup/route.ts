@@ -58,6 +58,7 @@ export async function POST(req: Request) {
                 },
             });
         }
+        return Response.json({ message: "success" });
     } catch (error) {
         
     }
