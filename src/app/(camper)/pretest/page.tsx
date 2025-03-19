@@ -1,6 +1,12 @@
 import ExamList from "@/components/pretest/ExamList";
+import { type Metadata } from "next";
 
-export default function CheckinPage() {
+export const metadata: Metadata = {
+  title: "Pretest Room | FE camp",
+  description: "Pretest room announcement for 18th FE Camp",
+};
+
+export default function PretestPage() {
   return (
     <main className="relative flex w-full flex-col space-y-8 overflow-x-visible p-4">
       {/* Main Text */}
