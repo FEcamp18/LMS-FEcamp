@@ -60,6 +60,14 @@ export async function POST(req: Request) {
         }
         return Response.json({ message: "success" });
     } catch (error) {
-        
+        return Response.json(
+            {
+                message: "failed",
+                error: "Internal server error.",
+            },
+            {
+                status: 500, // Internal Server Error
+            }
+        );
     }
 }
