@@ -1,7 +1,23 @@
-import NextAuth, { Session, User } from "next-auth";
+import NextAuth, { DefaultSession, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
 import { ROLE } from "@prisma/client";
+
+declare module "next-auth" {
+  interface User {
+    id: string;
+    username: string;
+    role?: ROLE;
+  }
+
+  interface Session extends DefaultSession {
+    user: {
+      id: string;
+      username: string;
+      role: ROLE;
+    } & DefaultSession["user"];
+  }
+}
 
 export const authOptions = {
   providers: [
@@ -15,8 +31,8 @@ export const authOptions = {
         //login api
         const mockUser = {
           id: "1",
-          username: "username",
-          password: "password",
+          username: "temp-auth-user",
+          password: "temp-auth-pass",
           role: ROLE.CAMPER,
         };
 
@@ -40,22 +56,20 @@ export const authOptions = {
         token.username = user.username;
         token.role = user.role;
       }
-      // console.log(token);
 
       return token;
     },
     session: async ({ session, token }: { session: Session; token: JWT }) => {
-      console.log("Session:", session);
-      console.log("Token:", token);
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          name: token.name,
-          username: token.username,
-          role: token.role,
-        },
-      };
+      session.user.id = typeof token.id === "string" ? token.id : "1";
+      session.user.username =
+        typeof token.username === "string" ? token.username : "";
+      session.user.role =
+        typeof token.role === "string" &&
+        Object.values(ROLE).includes(token.role as ROLE)
+          ? (token.role as ROLE)
+          : ROLE.CAMPER;
+
+      return session;
     },
   },
 };
