@@ -14,13 +14,18 @@ export const authOptions = {
       async authorize(credentials, req) {
         //login api
         const mockUser = {
+          id: "1",
           username: "username",
           password: "password",
           role: ROLE.CAMPER,
         };
 
         if (mockUser) {
-          return { username: mockUser.username, role: mockUser.role };
+          return {
+            id: mockUser.id,
+            username: mockUser.username,
+            role: mockUser.role,
+          };
         }
         throw new Error("Invalid username or password");
       },
@@ -30,18 +35,17 @@ export const authOptions = {
     strategy: "jwt" as const,
   },
   callbacks: {
-    jwt: async ({ token, user }: { token: JWT; user: User }) => {
+    jwt: async ({ token, user }: { token: JWT; user?: User }) => {
       if (user) {
         token.username = user.username;
         token.role = user.role;
       }
       return token;
     },
-    session: async ({ session, token }: { session: Session; token: JWT }) => {
-      session.user.username = token.username as string;
-      session.user.role = token.role as ROLE;
-      return session;
-    },
+    session: async ({ session, token }: { session: Session; token: JWT }) => ({
+      ...session,
+      user: { ...session.user, username: token.username, role: token.role },
+    }),
   },
 };
 

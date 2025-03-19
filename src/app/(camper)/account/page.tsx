@@ -1,12 +1,15 @@
 // write your code here
 import Logout from "./Logout";
 import ChangePassForm from "./ChangePass";
+import { useSession } from "next-auth/react";
 
 export default function AccountPage() {
+  const { data: session, status } = useSession();
   return (
     <>
       <h1 className="mx-8 mt-20 text-4xl">
         นี่ชื่อน้องค่าย นี่นามสกุล (นี่ชื่อเล่น)
+        {session?.user.name}
       </h1>
 
       <main className="mx-9 mt-5 grid-cols-6 gap-8 md:grid">
