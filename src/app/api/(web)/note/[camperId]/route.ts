@@ -33,7 +33,7 @@ export async function GET(
     return new Response(
       JSON.stringify({
         message: "success",
-        notes : noteOfCamper,
+        notes: noteOfCamper,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
