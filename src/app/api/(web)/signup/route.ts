@@ -5,10 +5,10 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const { username, role, password, accountId, roomId } = await req.json();
+    const { username, role, password, roomId } = await req.json();
 
     // error 1 : Role fail
-    const validRoles = ["camper", "staff", "board"];
+    const validRoles = ["CAMPER", "STAFF", "BOARD"];
     if (!validRoles.includes(role)) {
       return Response.json(
         { message: "failed", error: "these role not exit" },
@@ -44,17 +44,17 @@ export async function POST(req: Request) {
     });
 
     // additional data for each role
-    if (role === "camper") {
+    if (role === "CAMPER") {
       await prisma.camper.create({
         data: {
-          camperId: accountId,
+          camperId: username,
           room: roomId,
         },
       });
-    } else if (role === "staff") {
+    } else if (role === "STAFF") {
       await prisma.staff.create({
         data: {
-          staffId: accountId,
+          staffId: username,
         },
       });
     }
