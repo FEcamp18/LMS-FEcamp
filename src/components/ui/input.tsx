@@ -2,18 +2,31 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({ className, type, ...props }, ref) => {
+interface InputProps extends React.ComponentProps<"input"> {
+  className?: string;
+  type?: string;
+  iconFront?: React.ReactNode;
+  iconBack?: React.ReactNode;
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, iconFront, iconBack, ...props }, ref) => {
     return (
-      <input
-        type={type}
+      <div
         className={cn(
-          "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          "flex flex-row items-center gap-3 rounded-xl bg-cream px-4 py-3",
           className,
         )}
-        ref={ref}
-        {...props}
-      />
+      >
+        {iconFront}
+        <input
+          type={type}
+          className="flex h-9 w-full rounded-md bg-transparent font-prompt text-lg outline-none ring-0 transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-dark-gray placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+          ref={ref}
+          {...props}
+        />
+        {iconBack}
+      </div>
     );
   },
 );
