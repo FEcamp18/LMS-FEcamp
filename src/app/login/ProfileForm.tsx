@@ -48,7 +48,7 @@ export default function ProfileForm() {
         <div className="flex flex-col items-center">
           <Image src="/logo.svg" alt="FE Camp" width={109} height={62} />
           <h2 className="font-inknut text-[54px]">Welcome!</h2>
-          <p className="font-inknut text-lg text-dark-gray">
+          <p className="font-prompt text-lg text-dark-gray">
             ล็อกอินเข้าสู่ระบบ
           </p>
         </div>
@@ -67,7 +67,7 @@ export default function ProfileForm() {
                           iconFront={
                             <User size={24} className="text-dark-brown" />
                           }
-                          type="email"
+                          type="text"
                           placeholder="Username"
                           className={cn(
                             "w-full font-prompt",
@@ -134,7 +134,7 @@ export default function ProfileForm() {
                 type="submit"
                 className="w-full bg-gray-500 hover:bg-gray-600"
               >
-                Login
+                Sign In
               </Button>
             </form>
           </Form>
