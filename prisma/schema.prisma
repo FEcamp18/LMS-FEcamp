@@ -31,7 +31,7 @@ model Staff {
   healthInfo         String                @default("")
   foodInfo           String                @default("")
   roomNumber         Int
-
+  
   account    Account      @relation(fields: [staffId], references: [username])
   staffClass StaffClass[]
   notes      Notes[]
@@ -156,7 +156,8 @@ enum NOTETYPE {
 
 // WebPhase
 model WebPhase {
-  phase PHASE @id @default(CLOSED)
+  id    String @id @default("current_phase")
+  phase PHASE  @default(CLOSED)
 }
 
 // type ENUM

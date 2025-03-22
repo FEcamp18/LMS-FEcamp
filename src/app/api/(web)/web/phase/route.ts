@@ -45,57 +45,36 @@ export async function PATCH(req: Request) {
     const userIsAdmin = checkIfAdmin(req);
     if (!userIsAdmin) {
       return Response.json(
-        {
-          message: "error",
-          error: "Access denied.",
-        },
-        {
-          status: 403,
-        },
+        { message: "error", error: "Access denied." },
+        { status: 403 }
       );
     }
 
     const body = await req.json();
-    const phase: PHASE = body.phase;
+    const newPhase: PHASE = body.phase;
 
-    if (!Object.values(PHASE).includes(phase)) {
+    //check if valid
+    if (!Object.values(PHASE).includes(newPhase)) {
       return Response.json(
-        {
-          message: "failed",
-          error: "Invalid phase provided.",
-        },
-        {
-          status: 400,
-        },
+        { message: "failed", error: "Invalid phase provided." },
+        { status: 400 }
       );
     }
 
     await prisma.webPhase.update({
-      where: { phase: phase },
-      data: { phase },        
+      where: { id: "current_phase" },
+      data: { phase: newPhase },
     });
 
-    return Response.json(
-      {
-        message: "success",
-      },
-      {
-        status: 200,
-      },
-    );
+    return Response.json({ message: "success" }, { status: 200 });
   } catch (error) {
     return Response.json(
-      {
-        message: "failed",
-        error: error,
-      },
-      {
-        status: 500,
-      },
+      { message: "failed", error: error instanceof Error ? error.message : "Unknown error" },
+      { status: 500 }
     );
   }
 }
 
 function checkIfAdmin(req: Request) {
-  return true; //assume user is admin
+  return true; // assume user is an admin for now
 }
