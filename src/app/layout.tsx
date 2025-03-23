@@ -25,14 +25,12 @@ export default async function RootLayout({
     <html lang="en" className={`${GeistSans.variable} font-prompt`}>
       <head></head>
       <body className="flex items-center justify-center bg-light-gray">
-        <main className="m-5 min-h-screen w-[95%] bg-cream shadow-2xl sm:w-[80%]">
-          <Header />
-          {children}
-        </main>
-      </body>
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider session={session}>
+          <main className="m-5 min-h-screen w-[95%] bg-cream shadow-2xl sm:w-[80%]">
+            <Header />
+            {children}
+          </main>
+        </SessionProvider>
       </body>
     </html>
   );
