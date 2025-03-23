@@ -13,7 +13,13 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const session = await getServerSession();
+  let session;
+  try {
+    session = await getServerSession();
+  } catch (error) {
+    console.error(error);
+    session = undefined;
+  }
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <body>
