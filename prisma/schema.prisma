@@ -156,8 +156,7 @@ enum NOTETYPE {
 
 // WebPhase
 model WebPhase {
-  id    String @id @default("current_phase")
-  phase PHASE  @default(CLOSED)
+  phase PHASE  @id @default(CLOSED)
 }
 
 // type ENUM

@@ -49,10 +49,22 @@ export async function PATCH(req: Request) {
         { status: 403 }
       );
     }
-
+    const presentstate = await prisma.webPhase.findFirst();
     const body = await req.json();
     const newPhase: PHASE = body.phase;
-
+    
+    if (!presentstate) {
+      // if phase === null value
+      return Response.json(
+        {
+          message: "failed",
+          error: "No phase data available.",
+        },
+        {
+          status: 404,
+        },
+      );
+    }
     //check if valid
     if (!Object.values(PHASE).includes(newPhase)) {
       return Response.json(
@@ -60,9 +72,9 @@ export async function PATCH(req: Request) {
         { status: 400 }
       );
     }
-
+    const current=presentstate.phase;
     await prisma.webPhase.update({
-      where: { id: "current_phase" },
+      where: {phase : current},
       data: { phase: newPhase },
     });
 

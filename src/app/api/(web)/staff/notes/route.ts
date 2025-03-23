@@ -29,7 +29,7 @@ export async function POST(req: Request) {
             );
         }
 
-        const staffId = req.headers.get("x-staff-id");
+        const staffId = req.headers.get("staff-id");
         if (!staffId) {
             return Response.json(
                 { message: "failed", error: "Unauthorized staff." },
