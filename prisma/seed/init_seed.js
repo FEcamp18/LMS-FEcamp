@@ -11,6 +11,8 @@ async function main() {
     await prisma.subjectAnnouncements.deleteMany();
     await prisma.notes.deleteMany();
     await prisma.staff.deleteMany();
+    await prisma.camperClass.deleteMany();
+    await prisma.preTestRoom.deleteMany();
     await prisma.camper.deleteMany();
     await prisma.class.deleteMany();
     await prisma.subject.deleteMany();
