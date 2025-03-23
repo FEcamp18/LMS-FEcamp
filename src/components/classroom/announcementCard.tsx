@@ -14,7 +14,7 @@ export default function AnnouncementCard({
   annoText,
 }: announcementCard) {
   return (
-    <div className="relative m-3 grid max-h-40 max-w-3xl grid-cols-6 gap-3 bg-[url('/image/subject-picture/bg-card.svg')] bg-cover bg-center p-3 pl-5 font-prompt">
+    <div className="relative m-3 grid max-h-40 max-w-3xl grid-cols-6 gap-3 bg-[url('/image/subject-picture/bg-card.webp')] bg-cover bg-center p-3 pl-5 font-prompt">
       <Image
         className="absolute -left-12 -top-16"
         src="/image/subject-picture/deco-1.svg"
@@ -44,10 +44,10 @@ export default function AnnouncementCard({
         </Button>
       </div>
       <Image
-        className="absolute -bottom-4 -right-2"
-        src="/image/subject-picture/deco-2.png"
+        className="absolute -bottom-16 -right-4"
+        src="/image/subject-picture/deco-2.svg"
         alt="deco-2"
-        width={120}
+        width={130}
         height={120}
       />
       {/* <Image className="absolute -top-2 -left-1" src="/image/subject-picture/deco-1.png" alt="deco-1" width={80} height={100} />
