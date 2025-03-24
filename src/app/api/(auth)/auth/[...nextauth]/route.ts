@@ -69,6 +69,7 @@ export const authOptions = {
         Object.values(ROLE).includes(token.role as ROLE)
           ? (token.role as ROLE)
           : ROLE.CAMPER;
+
       console.log("session", session);
 
       return session;
