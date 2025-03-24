@@ -1,6 +1,7 @@
-import NextAuth, { DefaultSession, Session, User } from "next-auth";
+import NextAuth from "next-auth";
+import type { DefaultSession, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { JWT } from "next-auth/jwt";
+import type { JWT } from "next-auth/jwt";
 import { ROLE } from "@prisma/client";
 
 declare module "next-auth" {
