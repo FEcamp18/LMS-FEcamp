@@ -56,7 +56,6 @@ export const authOptions = {
         token.username = user.username;
         token.role = user.role;
       }
-      console.log("token", token);
 
       return token;
     },
@@ -69,8 +68,6 @@ export const authOptions = {
         Object.values(ROLE).includes(token.role as ROLE)
           ? (token.role as ROLE)
           : ROLE.CAMPER;
-
-      console.log("session", session);
 
       return session;
     },
