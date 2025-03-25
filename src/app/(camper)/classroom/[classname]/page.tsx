@@ -1,12 +1,15 @@
 // write your code here
 import AnnouncementCard from "@/components/classroom/announcementCard";
+import { Button } from "@/components/ui/button";
 
 export default function page() {
   return (
-    <AnnouncementCard
-      annoTitle="หัวข้อประกาศสั้นๆ"
-      annoText="ข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆ....."
-      annoTime={new Date("2568-06-10 10:10:00")}
-    />
+    <>
+      <AnnouncementCard
+        annoTitle="หัวข้อประกาศสั้นๆ"
+        annoText="ข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆข้อความยาวๆ....."
+        annoTime={new Date("2568-06-10 10:10:00")}
+      />
+    </>
   );
 }
