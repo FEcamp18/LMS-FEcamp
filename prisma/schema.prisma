@@ -83,7 +83,7 @@ model Camper {
   contactEmail   String  @default("")
   idLine         String  @default("")
   FEYear         Int     @default(0)
-  room           Int
+  room           Int     @default(0)
   healthInfo     String  @default("")
   foodInfo       String  @default("")
   certificate    String  @default("")
