@@ -13,6 +13,7 @@ export async function GET() {
         surname: true,
         nickname: true,
         chatbotUserId: true,
+        room : true
       },
     });
 
