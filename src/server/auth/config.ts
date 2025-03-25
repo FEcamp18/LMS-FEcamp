@@ -3,6 +3,8 @@ import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 
 import { db } from "@/server/db";
+import type { Session, User } from "next-auth";
+import { ROLE } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -10,19 +12,35 @@ import { db } from "@/server/db";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
+// declare module "next-auth" {
+//   interface Session extends DefaultSession {
+//     user: {
+//       id: string | undefined;
+//       // ...other properties
+//       // role: UserRole;
+//     } & DefaultSession["user"];
+//   }
+
+//   // interface User {
+//   //   // ...other properties
+//   //   // role: UserRole;
+//   // }
+// }
+
 declare module "next-auth" {
-  interface Session extends DefaultSession {
-    user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
+  interface User {
+    id: string | undefined;
+    username: string;
+    role?: ROLE;
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface Session extends DefaultSession {
+    user: {
+      id: string | undefined;
+      username: string;
+      role: ROLE;
+    } & DefaultSession["user"];
+  }
 }
 
 /**
@@ -45,7 +63,7 @@ export const authConfig = {
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
-    session: ({ session, user }) => ({
+    session: ({ session, user }: { session: Session; user: User }) => ({
       ...session,
       user: {
         ...session.user,
