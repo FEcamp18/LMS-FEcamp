@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 
 const MockAuthLoginButton = () => {
   const handleLogin = () => {
-    signIn("credentials", {
+    void signIn("credentials", {
       username: "username",
       password: "password",
     });
