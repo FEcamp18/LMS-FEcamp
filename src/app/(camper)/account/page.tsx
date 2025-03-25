@@ -15,7 +15,7 @@ export default function AccountPage() {
     };
     void handleLoad();
     setLoading(false);
-  }, [status, update]);
+  }, []);
 
   if (loading) return <div>Loading...</div>;
 
