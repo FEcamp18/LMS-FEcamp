@@ -1,5 +1,5 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 
 export default function Dev() {
   const handleLogin = ({
@@ -13,6 +13,13 @@ export default function Dev() {
       username,
       password,
     });
+  };
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch {
+      console.log("signout failed");
+    }
   };
   return (
     <div className="flex h-[600px] flex-row items-center justify-center space-x-5">
@@ -48,6 +55,12 @@ export default function Dev() {
         className="rounded-xl bg-gray-600 px-5 py-2 text-white"
       >
         Login As BOARD
+      </button>
+      <button
+        onClick={() => handleLogout()}
+        className="rounded-xl bg-gray-600 px-5 py-2 text-white"
+      >
+        Logout
       </button>
     </div>
   );
