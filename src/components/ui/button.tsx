@@ -13,15 +13,15 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+          "h-9 px-4 py-2 bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+          "h-9 px-4 py-2 bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "h-9 px-4 py-2 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "h-9 px-4 py-2 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "h-9 px-4 py-2 hover:bg-accent hover:text-accent-foreground",
+        link: "h-9 px-4 py-2 text-primary underline-offset-4 hover:underline",
         back: "h-14 w-14 [&_svg]:size-7 bg-cream rounded-xl flex flex-col text-brown hover:bg-brown hover:drop-shadow-xl hover:text-cream",
         cancel:
           "h-14 w-14 [&_svg]:size-7 rounded-full hover:bg-error active:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.3)] active:border-none",
