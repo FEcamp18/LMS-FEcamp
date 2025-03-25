@@ -104,7 +104,7 @@ model CamperClass {
 }
 
 model SubjectFiles {
-  fileId          String   @id @unique @default("file-id")
+  fileId          Int   @id @unique @default(autoincrement())
   subjectId       String
   fileTitle       String   @default("file-title")
   fileLocation    String   @default("file-location")
@@ -115,7 +115,7 @@ model SubjectFiles {
 }
 
 model SubjectAnnouncements {
-  annoId    String   @id @unique @default("anno-id")
+  annoId    Int   @id @unique @default(autoincrement())
   subjectId String
   annoTitle String   @default("anno-title")
   annoText  String   @default("anno-text")

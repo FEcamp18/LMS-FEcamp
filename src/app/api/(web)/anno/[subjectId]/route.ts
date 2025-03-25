@@ -51,11 +51,14 @@ export async function GET(
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(
+  req: Request,
+  // props: { params: Promise<{ subjectId: string }> },
+) {
   try {
-    const { annoId, subjectId, annoTitle, annoText } = await req.json();
-
-    if (!annoId || !subjectId || !annoTitle || !annoText) {
+    const { subjectId, annoTitle, annoText } = await req.json();
+    console.log(subjectId, annoTitle, annoText);
+    if (!subjectId || !annoTitle || !annoText) {
       return new Response(
         JSON.stringify({
           message: "failed",
@@ -64,7 +67,7 @@ export async function POST(req: Request) {
         { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
-
+    
     const subject = await prisma.subject.findUnique({ where: { subjectId } });
     if (!subject) {
       return new Response(
@@ -75,7 +78,7 @@ export async function POST(req: Request) {
         { status: 404, headers: { "Content-Type": "application/json" } },
       );
     }
-
+    
     const staffId = req.headers.get("staff-id");
     if (!staffId) {
       return new Response(
@@ -117,10 +120,9 @@ export async function POST(req: Request) {
         { status: 403, headers: { "Content-Type": "application/json" } },
       );
     }
-
+    console.log("checkpoint");
     await prisma.subjectAnnouncements.create({
       data: {
-        annoId,
         subjectId,
         annoTitle,
         annoText,
