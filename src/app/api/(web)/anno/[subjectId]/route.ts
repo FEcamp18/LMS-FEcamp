@@ -2,6 +2,13 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// Define an interface for the request body
+interface AnnouncementRequest {
+  subjectId: string;
+  annoTitle: string;
+  annoText: string;
+}
+
 export async function GET(
   req: Request,
   props: { params: Promise<{ subjectId: string }> },
@@ -51,13 +58,13 @@ export async function GET(
   }
 }
 
-export async function POST(
-  req: Request,
-  // props: { params: Promise<{ subjectId: string }> },
-) {
+export async function POST(req: Request) {
   try {
-    const { subjectId, annoTitle, annoText } = await req.json();
-    console.log(subjectId, annoTitle, annoText);
+    // Parse and validate the request body using the interface
+    const body = await req.json() as AnnouncementRequest;
+
+    const { subjectId, annoTitle, annoText } = body;
+
     if (!subjectId || !annoTitle || !annoText) {
       return new Response(
         JSON.stringify({
@@ -67,7 +74,7 @@ export async function POST(
         { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
-    
+
     const subject = await prisma.subject.findUnique({ where: { subjectId } });
     if (!subject) {
       return new Response(
@@ -78,7 +85,7 @@ export async function POST(
         { status: 404, headers: { "Content-Type": "application/json" } },
       );
     }
-    
+
     const staffId = req.headers.get("staff-id");
     if (!staffId) {
       return new Response(
@@ -101,7 +108,7 @@ export async function POST(
       );
     }
 
-    // unauthorized tutor
+    // Check if the tutor is assigned to the class
     const staffClass = await prisma.staffClass.findFirst({
       where: {
         staffId: staffId,
@@ -120,7 +127,8 @@ export async function POST(
         { status: 403, headers: { "Content-Type": "application/json" } },
       );
     }
-    console.log("checkpoint");
+
+    // Create the announcement
     await prisma.subjectAnnouncements.create({
       data: {
         subjectId,
@@ -137,7 +145,10 @@ export async function POST(
   } catch (error) {
     console.error(error);
     return new Response(
-      JSON.stringify({ message: "failed", error: "Internal server error." }),
+      JSON.stringify({
+        message: "failed",
+        error: error instanceof Error ? error.message : "Internal server error.",
+      }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
   } finally {
