@@ -9,14 +9,12 @@ async function main() {
       data: [
         // MATHS
         {
-          fileId: "file-id-1",
           subjectId: "MATHS-1",
           fileTitle: "Algebra 1",
           fileDescription: "Set, Logic, Real Number, Relation and Function",
           fileLocation: "/files/maths/algebra1.pdf",
         },
         {
-          fileId: "file-id-2",
           subjectId: "MATHS-2",
           fileTitle: "Algebra 2",
           fileDescription:
@@ -24,7 +22,6 @@ async function main() {
           fileLocation: "/files/maths/algebra2.pdf",
         },
         {
-          fileId: "file-id-3",
           subjectId: "MATHS-3",
           fileTitle: "Algebra 3",
           fileDescription:
@@ -32,14 +29,12 @@ async function main() {
           fileLocation: "/files/maths/algebra3.pdf",
         },
         {
-          fileId: "file-id-4",
           subjectId: "MATHS-4",
           fileTitle: "Stat and Prob",
           fileDescription: "Combinations, Probability, Statistics",
           fileLocation: "/files/maths/statprob.pdf",
         },
         {
-          fileId: "file-id-5",
           subjectId: "MATHS-5",
           fileTitle: "Calculus",
           fileDescription:
@@ -49,7 +44,6 @@ async function main() {
 
         // PHYSICS
         {
-          fileId: "file-id-6",
           subjectId: "PHYSICS-1",
           fileTitle: "Mechanics 1",
           fileDescription:
@@ -57,7 +51,6 @@ async function main() {
           fileLocation: "/files/physics/mechanics1.pdf",
         },
         {
-          fileId: "file-id-7",
           subjectId: "PHYSICS-2",
           fileTitle: "Mechanics 2",
           fileDescription:
@@ -65,7 +58,6 @@ async function main() {
           fileLocation: "/files/physics/mechanics2.pdf",
         },
         {
-          fileId: "file-id-8",
           subjectId: "PHYSICS-3",
           fileTitle: "Electrical",
           fileDescription:
@@ -73,7 +65,6 @@ async function main() {
           fileLocation: "/files/physics/electrical.pdf",
         },
         {
-          fileId: "file-id-9",
           subjectId: "PHYSICS-4",
           fileTitle: "Solid Liquid Gas",
           fileDescription:
@@ -81,7 +72,6 @@ async function main() {
           fileLocation: "/files/physics/solid-liquid-gas.pdf",
         },
         {
-          fileId: "file-id-10",
           subjectId: "PHYSICS-5",
           fileTitle: "Wave and ModPhys",
           fileDescription:
@@ -91,14 +81,12 @@ async function main() {
 
         // CHEMISTRY
         {
-          fileId: "file-id-11",
           subjectId: "CHEMISTRY-1",
           fileTitle: "Chem 1",
           fileDescription: "Chemical Bond, Organic Chemistry, Electrochemistry",
           fileLocation: "/files/chemistry/chem1.pdf",
         },
         {
-          fileId: "file-id-12",
           subjectId: "CHEMISTRY-2",
           fileTitle: "Chem 2",
           fileDescription: "Stoichiometry, Chemical Equilibrium, Acid & Base",
@@ -107,14 +95,12 @@ async function main() {
 
         // TPAT3
         {
-          fileId: "file-id-13",
           subjectId: "TPAT3-1",
           fileTitle: "TPAT3-1",
           fileDescription: "Numerical, Mechanical, Scientifically",
           fileLocation: "/files/tpat3/tpat3-1.pdf",
         },
         {
-          fileId: "file-id-14",
           subjectId: "TPAT3-2",
           fileTitle: "TPAT3-2",
           fileDescription: "Relative Dimensional, News",
@@ -128,31 +114,26 @@ async function main() {
       data: [
         // MATHS
         {
-          annoId: "anno-id-1",
           subjectId: "MATHS-1",
           annoTitle: "MATHS-1 Announcement",
           annoText: "This is MATHS-1 Announcement",
         },
         {
-          annoId: "anno-id-2",
           subjectId: "MATHS-2",
           annoTitle: "MATHS-2 Announcement",
           annoText: "This is MATHS-2 Announcement",
         },
         {
-          annoId: "anno-id-3",
           subjectId: "MATHS-3",
           annoTitle: "MATHS-3 Announcement",
           annoText: "This is MATHS-3 Announcement",
         },
         {
-          annoId: "anno-id-4",
           subjectId: "MATHS-4",
           annoTitle: "MATHS-4 Announcement",
           annoText: "This is MATHS-4 Announcement",
         },
         {
-          annoId: "anno-id-5",
           subjectId: "MATHS-5",
           annoTitle: "MATHS-5 Announcement",
           annoText: "This is MATHS-5 Announcement",
@@ -160,31 +141,26 @@ async function main() {
 
         // PHYSICS
         {
-          annoId: "anno-id-6",
           subjectId: "PHYSICS-1",
           annoTitle: "PHYSICS-1 Announcement",
           annoText: "This is PHYSICS-1 Announcement",
         },
         {
-          annoId: "anno-id-7",
           subjectId: "PHYSICS-2",
           annoTitle: "PHYSICS-2 Announcement",
           annoText: "This is PHYSICS-2 Announcement",
         },
         {
-          annoId: "anno-id-8",
           subjectId: "PHYSICS-3",
           annoTitle: "PHYSICS-3 Announcement",
           annoText: "This is PHYSICS-3 Announcement",
         },
         {
-          annoId: "anno-id-9",
           subjectId: "PHYSICS-4",
           annoTitle: "PHYSICS-4 Announcement",
           annoText: "This is PHYSICS-4 Announcement",
         },
         {
-          annoId: "anno-id-10",
           subjectId: "PHYSICS-5",
           annoTitle: "PHYSICS-5 Announcement",
           annoText: "This is PHYSICS-5 Announcement",
@@ -192,13 +168,11 @@ async function main() {
 
         // CHEMISTRY
         {
-          annoId: "anno-id-11",
           subjectId: "CHEMISTRY-1",
           annoTitle: "CHEMISTRY-1 Announcement",
           annoText: "This is CHEMISTRY-1 Announcement",
         },
         {
-          annoId: "anno-id-12",
           subjectId: "CHEMISTRY-2",
           annoTitle: "CHEMISTRY-2 Announcement",
           annoText: "This is CHEMISTRY-2 Announcement",
@@ -206,13 +180,11 @@ async function main() {
 
         // TPAT3
         {
-          annoId: "anno-id-13",
           subjectId: "TPAT3-1",
           annoTitle: "TPAT3-1 Announcement",
           annoText: "This is TPAT3-1 Announcement",
         },
         {
-          annoId: "anno-id-14",
           subjectId: "TPAT3-2",
           annoTitle: "TPAT3-2 Announcement",
           annoText: "This is TPAT3-2 Announcement",

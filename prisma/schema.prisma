@@ -105,7 +105,7 @@ model CamperClass {
 }
 
 model SubjectFiles {
-  fileId          String   @id @unique @default("file-id")
+  fileId          Int   @id @unique @default(autoincrement())
   subjectId       String
   fileTitle       String   @default("file-title")
   fileLocation    String   @default("file-location")
@@ -116,7 +116,7 @@ model SubjectFiles {
 }
 
 model SubjectAnnouncements {
-  annoId    String   @id @unique @default("anno-id")
+  annoId    Int   @id @unique @default(autoincrement())
   subjectId String
   annoTitle String   @default("anno-title")
   annoText  String   @default("anno-text")
@@ -165,7 +165,7 @@ enum NOTETYPE {
 
 // WebPhase
 model WebPhase {
-  phase PHASE @id @default(CLOSED)
+  phase PHASE  @id @default(CLOSED)
 }
 
 // type ENUM
