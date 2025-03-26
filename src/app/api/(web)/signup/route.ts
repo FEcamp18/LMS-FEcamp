@@ -1,11 +1,18 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, type ROLE } from "@prisma/client";
 import bcrypt from "bcryptjs";
+
+interface SignupRequest {
+  username: string;
+  role: ROLE;
+  password: string;
+  roomId?: string;
+}
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const { username, role, password, roomId } = await req.json();
+    const { username, role, password, roomId } = (await req.json()) as SignupRequest;
 
     // error 1 : Role fail
     const validRoles = ["CAMPER", "STAFF", "BOARD"];
@@ -39,7 +46,7 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // insert new account into the database
-    const newUser = await prisma.account.create({
+    await prisma.account.create({
       data: { username, password: hashedPassword, role },
     });
 
@@ -48,7 +55,7 @@ export async function POST(req: Request) {
       await prisma.camper.create({
         data: {
           camperId: username,
-          room: roomId,
+          room: roomId ? parseInt(roomId) : 0,
         },
       });
     } else if (role === "STAFF") {
@@ -59,7 +66,7 @@ export async function POST(req: Request) {
       });
     }
     return Response.json({ message: "success" });
-  } catch (error) {
+  } catch {
     return Response.json(
       {
         message: "failed",

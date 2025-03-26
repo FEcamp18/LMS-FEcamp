@@ -4,9 +4,14 @@ import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
+interface LoginRequest {
+  username: string;
+  hashedPassword: string;
+}
+
 export async function POST(req: Request) {
   try {
-    const { username, hashedPassword } = await req.json();
+    const { username, hashedPassword } = (await req.json()) as LoginRequest;
 
     // error 1 : Invalid credentials (Invalid user or psw)
     if (!username || !hashedPassword) {
@@ -53,7 +58,7 @@ export async function POST(req: Request) {
     // generate token
     const token = jwt.sign(
       { username: account.username, role: account.role },
-      process.env.JWT_SECRET || "your-secret-key", // Secret key for signing the token
+      process.env.JWT_SECRET ?? "your-secret-key", // Secret key for signing the token
       { expiresIn: "1h" }, // Token expiration time (1 hour)
     );
 
@@ -67,7 +72,7 @@ export async function POST(req: Request) {
         status: 200, // OK
       },
     );
-  } catch (error) {
+  } catch  {
     return Response.json(
       {
         message: "failed",
