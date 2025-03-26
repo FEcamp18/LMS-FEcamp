@@ -19,7 +19,7 @@
     "typecheck": "tsc --noEmit",
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
-    "seed": "node prisma/seed/init_seed.js && node prisma/seed/camper_seed.js && node prisma/seed/staff_seed.js && node prisma/seed/subject_and_class_seed.js && node prisma/seed/file_and_announcement_seed.js && node prisma/seed/notes_and_phase_seed.js"
+    "seed": "node prisma/seed/init_seed.js && node prisma/seed/camper_seed.js && node prisma/seed/staff_seed.js && node prisma/seed/subject_and_class_seed.js && node prisma/seed/file_and_announcement_seed.js && node prisma/seed/notes_and_phase_seed.js && node prisma/seed/pretest_seed.js"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.2",
@@ -39,10 +39,12 @@
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.474.0",
     "next": "^15.0.1",
-    "next-auth": "5.0.0-beta.25",
+    "next-auth": "^4.24.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
+    "react-hot-toast": "^2.5.2",
+    "react-icons": "^5.5.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.1"

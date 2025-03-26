@@ -10,12 +10,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
 
 export default function Logout() {
-  function Logout() {
-    console.log("log out");
-  }
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+      toast.success("signout failed");
+    }
+  };
   return (
     <>
       <AlertDialog>
@@ -31,7 +38,7 @@ export default function Logout() {
 
           <AlertDialogFooter>
             <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
-            <AlertDialogAction onClick={Logout}>ใช่</AlertDialogAction>
+            <AlertDialogAction onClick={handleLogout}>ใช่</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
