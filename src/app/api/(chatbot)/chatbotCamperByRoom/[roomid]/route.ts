@@ -4,36 +4,30 @@ const prisma = new PrismaClient();
 
 export async function GET(
   req: Request,
-  props: { params: Promise<{ camperId: string }> },
+  props: { params: Promise<{ roomid: string }> },
 ) {
-  const { camperId } = await props.params;
+  const { roomid } = await props.params;
+  
   try {
-    const camperBycamperId = await prisma.camper.findUnique({
+     
+
+    const camperByClass = await prisma.camper.findMany({
       where: {
-        camperId: camperId,
+        room : parseInt(roomid),
       },
-    });
-
-    if (!camperBycamperId) {
-      return new Response(
-        JSON.stringify({
-          message: "failed",
-          error: "camperId does not exist.",
-        }),
-        { status: 404, headers: { "Content-Type": "application/json" } },
-      );
-    }
-
-    const noteOfCamper = await prisma.notes.findMany({
-      where: {
-        camperId: camperId,
+      select: {
+        camperId: true,
+        name: true,
+        surname: true,
+        nickname: true,
+        chatbotUserId: true,
       },
     });
 
     return new Response(
       JSON.stringify({
         message: "success",
-        notes: noteOfCamper,
+        data : camperByClass
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
@@ -44,7 +38,7 @@ export async function GET(
         error:
           error instanceof Error
             ? error.message
-            : "Failed to fetch staff by camperId.",
+            : "Failed to fetch staffClass by classId.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );

@@ -92,6 +92,7 @@ model Camper {
   account     Account       @relation(fields: [camperId], references: [username])
   camperClass CamperClass[]
   notes       Notes[]
+  PreTestRoom PreTestRoom[]
 }
 
 model CamperClass {
@@ -135,6 +136,14 @@ model Notes {
 
   camper Camper @relation(fields: [camperId], references: [camperId])
   staff  Staff  @relation(fields: [staffId], references: [staffId])
+}
+
+model PreTestRoom {
+  camperId     String @id
+  camper       Camper @relation(fields: [camperId], references: [camperId])
+  examNumber   Int
+  seatNumber   Int
+  examLocation String
 }
 
 // PHASE type
