@@ -13,12 +13,14 @@ const Header = () => {
       <HeaderBG />
       <div className="relative flex w-full items-center justify-between overflow-visible px-6 py-6">
         {/* Logo */}
-        <Image
-          src="/components/femainlogo.svg"
-          alt="FE Main Logo"
-          width={50}
-          height={50}
-        />
+        <Link href="/">
+          <Image
+            src="/components/femainlogo.svg"
+            alt="FE Main Logo"
+            width={50}
+            height={50}
+          />
+        </Link>
         {/* Navigation Links */}
         <nav className="flex gap-6">
           <Link

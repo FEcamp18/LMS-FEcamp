@@ -1,8 +1,8 @@
 const cleanPretestRoom = (examData: ExamDataInterface[]): Record<string, ExamDataInterface[]> => {
   const groupedData = examData.reduce(
         (acc, camper) => {
-          if (!acc[camper.examLocation]) {
-            acc[camper.examLocation] = [];
+          if (acc[camper?.examLocation]) {
+            acc[camper.examLocation] ??= [];
           }
           if (camper) {
             acc[camper.examLocation]?.push(camper);
