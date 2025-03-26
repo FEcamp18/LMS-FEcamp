@@ -15,6 +15,7 @@ export default function FileCard({
   fileTitle,
   fileLocation,
   fileDescription,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fileUploadTime,
   isTutor,
 }: fileCard) {

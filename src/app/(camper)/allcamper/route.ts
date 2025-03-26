@@ -4,15 +4,12 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-     
-
-    const camperByClass = await prisma.camper.findMany({
+    const camperAll = await prisma.camper.findMany({
       select: {
         camperId: true,
         name: true,
         surname: true,
         nickname: true,
-        chatbotUserId: true,
         room : true
       },
     });
@@ -20,7 +17,7 @@ export async function GET() {
     return new Response(
       JSON.stringify({
         message: "success",
-        data : camperByClass
+        data : camperAll
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
