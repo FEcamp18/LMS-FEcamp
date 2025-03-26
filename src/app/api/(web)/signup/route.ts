@@ -12,7 +12,8 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const { username, role, password, roomId } = (await req.json()) as SignupRequest;
+    const { username, role, password, roomId } =
+      (await req.json()) as SignupRequest;
 
     // error 1 : Role fail
     const validRoles = ["CAMPER", "STAFF", "BOARD"];

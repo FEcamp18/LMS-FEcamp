@@ -12,14 +12,14 @@ interface NoteRequest {
 export async function POST(req: Request) {
   try {
     // Parse and validate the request body using the interface
-    const body = await req.json() as NoteRequest;
+    const body = (await req.json()) as NoteRequest;
 
     const { camperId, content, type } = body;
 
     if (!camperId || !content || !type) {
       return Response.json(
         { message: "failed", error: "Missing required fields." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     if (!validTypes.includes(type)) {
       return Response.json(
         { message: "failed", error: "Invalid note type." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     if (!camper) {
       return Response.json(
         { message: "failed", error: "Camper does not exist." },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     if (!staffId) {
       return Response.json(
         { message: "failed", error: "Unauthorized staff." },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     if (!staff) {
       return Response.json(
         { message: "failed", error: "Staff does not exist." },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
     console.error(error);
     return Response.json(
       { message: "failed", error: "Internal server error." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
