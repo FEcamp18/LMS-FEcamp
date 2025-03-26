@@ -39,8 +39,8 @@ const buttonVariants = cva(
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
         sm_icon: "h-10 w-10 [&_svg]:size-5",
-        lg_icon:"h-[62px] w-[62px] [&_svg]:size-9",
-        lg_download: "h-12 w-[175px] bg-contain bg-no-repeat bg-[80%] text-lg"
+        lg_icon: "h-[62px] w-[62px] [&_svg]:size-9",
+        lg_download: "h-12 w-[175px] bg-contain bg-no-repeat bg-[80%] text-lg",
       },
     },
   },
@@ -78,9 +78,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             </div>
           </>
         )}
-        {variant === "download" && (<span className="hover:underline hover:underline-offset-4">Download</span>)}
+        {variant === "download" && (
+          <span className="hover:underline hover:underline-offset-4">
+            Download
+          </span>
+        )}
         {variant === "sign_in" && "sign in"}
-        {!["download", "sign_in", "back", "cancel", "delete", "board"].includes(variant ?? "") && children}
+        {!["download", "sign_in", "back", "cancel", "delete", "board"].includes(
+          variant ?? "",
+        ) && children}
       </Comp>
     );
   },
