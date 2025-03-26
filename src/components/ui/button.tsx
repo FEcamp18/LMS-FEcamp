@@ -3,8 +3,6 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { ArrowLeft, X, Trash2 } from "lucide-react";
 
-import Image from "next/image";
-
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -29,7 +27,7 @@ const buttonVariants = cva(
           "h-14 w-14 [&_svg]:size-7 rounded-full hover:bg-error active:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.3)] active:border-none",
         download:
           "h-8 w-32 rounded-none bg-light-brown font-prompt text-white " +
-          "bg-[url('/image/subject-picture/download-button.webp')] bg-[100%] bg-cover bg-center ",
+          "bg-[url('/image/subject-picture/bg-download-button.webp')] bg-[100%] bg-cover bg-center ",
         sign_in:
           "h-8 w-64 font-inknut text-lg bg-dark-gray text-white hover:bg-brown active:bg-dark-brown",
         board:
