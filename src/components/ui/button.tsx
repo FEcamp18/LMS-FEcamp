@@ -27,7 +27,7 @@ const buttonVariants = cva(
           "h-14 w-14 [&_svg]:size-7 rounded-full hover:bg-error active:shadow-[inset_2px_2px_5px_rgba(0,0,0,0.3)] active:border-none",
         download:
           "h-8 w-32 rounded-none bg-light-brown font-prompt text-white " +
-          "bg-[url('/image/subject-picture/bg-download-button.webp')] bg-[100%] bg-cover bg-center ",
+          "bg-[url('/image/subject-picture/bg-download-button.webp')] bg-[100%] bg-cover bg-center",
         sign_in:
           "h-8 w-64 font-inknut text-lg bg-dark-gray text-white hover:bg-brown active:bg-dark-brown",
         board:
@@ -39,12 +39,10 @@ const buttonVariants = cva(
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
         sm_icon: "h-10 w-10 [&_svg]:size-5",
+        lg_icon:"h-[62px] w-[62px] [&_svg]:size-9",
+        lg_download: "h-12 w-[175px] bg-contain bg-no-repeat bg-[80%] text-lg"
       },
     },
-    /* defaultVariants: {
-      variant: "default",
-      size: "default",
-    }, */
   },
 );
 
@@ -72,7 +70,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {variant === "board" && (
           <>
-            {" "}
             <div>
               <div className="ml-3 mt-4 flex items-start text-2xl font-bold">
                 ปิด
@@ -81,7 +78,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             </div>
           </>
         )}
-        {children}
+        {variant === "download" && (<span className="hover:underline hover:underline-offset-4">Download</span>)}
+        {variant === "sign_in" && "sign in"}
+        {!["download", "sign_in", "back", "cancel", "delete", "board"].includes(variant ?? "") && children}
       </Comp>
     );
   },
