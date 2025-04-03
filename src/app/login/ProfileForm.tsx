@@ -42,7 +42,7 @@ export default function ProfileForm() {
   }
 
   return (
-    <main className="flex flex-col flex-1 justify-center items-center bg-[url('/image/background/placeholder-background.webp')] bg-cover bg-center px-5 h-screen">
+    <div className="flex flex-col flex-1 justify-center items-center bg-[url('/image/background/placeholder-background.webp')] bg-cover bg-center px-5 h-screen">
       {/*Login Form Container*/}
       <div className="flex flex-col justify-center items-center gap-y-7 bg-gradient-to-b from-white to-cream px-8 pt-3 pb-5 rounded-2xl w-full md:max-w-md">
         <div className="flex flex-col items-center">
@@ -80,7 +80,7 @@ export default function ProfileForm() {
                           className={cn(
                             "w-fulls text-sm md:text-base",
                             form.formState.errors.username &&
-                              "border-2 border-error",
+                            "border-2 border-error",
                           )}
                           {...field}
                         />
@@ -121,7 +121,7 @@ export default function ProfileForm() {
                             className={cn(
                               "w-full text-sm md:text-base",
                               form.formState.errors.password &&
-                                "border-2 border-error",
+                              "border-2 border-error",
                             )}
                             {...field}
                           />
@@ -148,6 +148,6 @@ export default function ProfileForm() {
           </Form>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
