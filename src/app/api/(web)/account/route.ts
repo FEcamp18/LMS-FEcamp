@@ -60,8 +60,6 @@ export async function GET(req: Request) {
         status: 500,
       },
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -69,7 +67,20 @@ export async function PATCH(req: Request){
   try {
     const { username, password } = (await req.json()) as UpdatePasswordRequest;
     const authHeader = req.headers.get("Authorization");
-    const token = authHeader ? authHeader.split(" ")[1] : null;
+
+    if (!authHeader?.startsWith('Bearer ')) {
+      return Response.json(
+        {
+          message: "failed",
+          error: "Authorization header missing or invalid format. Use 'Bearer [token]'.",
+        },
+        {
+          status: 401,
+        },
+      );
+    }
+
+    const token = authHeader.split(" ")[1];
 
     if(!token){
       return Response.json(
@@ -193,7 +204,5 @@ export async function PATCH(req: Request){
         status: 500,
       },
     )
-  } finally {
-    await prisma.$disconnect();
   }
 }
