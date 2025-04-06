@@ -85,7 +85,15 @@ export async function PATCH(req: Request){
 
     try {
       if (!process.env.JWT_SECRET) {
-        throw new Error("JWT_SECRET environment variable is not set");
+        return Response.json(
+          {
+            message: "failed",
+            error: "JWT_SECRET environment variable is not set",
+          },
+          {
+            status: 500,
+          },
+        )
       }
       
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
