@@ -25,7 +25,7 @@ export async function GET(req: Request) {
       );
     }
     const account = await prisma.account.findUnique({
-      where: { username: username },
+      where: { username },
     });
     if (!account) {
       return Response.json(
@@ -140,11 +140,11 @@ export async function PATCH(req: Request){
       );
     }
 
-    const user = await prisma.account.findUnique({
+    const account = await prisma.account.findUnique({
       where: { username }
     });
 
-    if (!user) {
+    if (!account) {
       return Response.json(
         {
           message: "failed",
