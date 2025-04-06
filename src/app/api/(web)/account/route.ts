@@ -85,21 +85,23 @@ export async function PATCH(req: Request){
 
     try {
       if (!process.env.JWT_SECRET) {
+        console.error("JWT_SECRET environment variable is not set"); // Log the actual issue for developers
         return Response.json(
           {
             message: "failed",
-            error: "JWT_SECRET environment variable is not set",
+            error: "Authentication system error. Please contact support.",
           },
           {
             status: 500,
-          },
-        )
+          }
+        );
       }
       
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       const tokenUsername = (decodedToken as { username: string }).username;
-
+    
       if (tokenUsername !== username) {
+        // This error is fine as it's expected user-facing behavior
         return Response.json(
           {
             message: "failed",
@@ -107,19 +109,35 @@ export async function PATCH(req: Request){
           },
           {
             status: 403,
-          },
-        )
+          }
+        );
       }
     } catch (error) {
+      // Provide specific error messages based on the type of JWT error
+      let errorMessage = "Authentication failed";
+      const statusCode = 401;
+    
+      if (error instanceof jwt.TokenExpiredError) {
+        errorMessage = "Your session has expired. Please log in again.";
+      } else if (error instanceof jwt.JsonWebTokenError) {
+        errorMessage = "Invalid authentication token.";
+        // Could be tampering, log this for security monitoring
+        console.warn(`Invalid token attempt for user: ${username}`);
+      } else if (error instanceof jwt.NotBeforeError) {
+        errorMessage = "Token not yet active.";
+      } else if (error instanceof Error) {
+        errorMessage = "Authentication error.";
+        console.error(error);
+      }
+    
       return Response.json(
         {
           message: "failed",
-          error: error instanceof Error ? error : "Invalid or expired token.",
+          error: errorMessage,
+          errorType: error instanceof Error ? error.name ?? "AuthError" : "AuthError"
         },
-        {
-          status: 401,
-        },
-      )
+        { status: statusCode }
+      );
     }
 
     const user = await prisma.account.findUnique({
