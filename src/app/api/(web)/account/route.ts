@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
@@ -76,6 +77,33 @@ export async function PATCH(req: Request){
         {
           message: "failed",
           error: "Unauthorized. Please log in.",
+        },
+        {
+          status: 401,
+        },
+      )
+    }
+
+    try {
+      const decode = jwt.verify(token, process.env.JWT_SECRET ?? "your-secret-key");
+      const tokenUsername = (decode as { username: string }).username;
+
+      if (tokenUsername !== username) {
+        return Response.json(
+          {
+            message: "failed",
+            error: "You can only update your own password.",
+          },
+          {
+            status: 403,
+          },
+        )
+      }
+    } catch (error) {
+      return Response.json(
+        {
+          message: "failed",
+          error: error instanceof Error ? error : "Invalid or expired token.",
         },
         {
           status: 401,
