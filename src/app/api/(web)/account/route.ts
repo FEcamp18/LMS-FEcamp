@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
-interface UpdateAccountRequest {
+interface UpdatePasswordRequest {
   username: string;
   password: string;
 }
@@ -68,7 +68,7 @@ export async function GET(req: Request) {
 
 export async function PATCH(req: Request){
   try {
-    const { username, password } = (await req.json()) as UpdateAccountRequest;
+    const { username, password } = (await req.json()) as UpdatePasswordRequest;
     const authHeader = req.headers.get("Authorization");
     const token = authHeader ? authHeader.split(" ")[1] : null;
 
