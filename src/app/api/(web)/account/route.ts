@@ -5,33 +5,23 @@ const prisma = new PrismaClient();
 
 interface UpdateAccountRequest {
   username: string;
-  newPassword: string;
+  password: string;
 }
 
 export async function PATCH(req: Request){
   try {
-    const { username, newPassword } = (await req.json()) as UpdateAccountRequest;
+    const { username, password } = (await req.json()) as UpdateAccountRequest;
+    const authHeader = req.headers.get("Authorization");
+    const token = authHeader ? authHeader.split(" ")[1] : null;
 
-    if (!username || !newPassword) {
+    if(!token){
       return Response.json(
         {
           message: "failed",
-          error: "Invalid username or password.",
+          error: "Unauthorized. Please log in.",
         },
         {
           status: 401,
-        },
-      );
-    }
-
-    if (newPassword.length < 8) {
-      return Response.json(
-        {
-          message: "failed",
-          error: "Password must be at least 8 characters.",
-        },
-        {
-          status: 400,
         },
       )
     }
@@ -52,7 +42,19 @@ export async function PATCH(req: Request){
       )
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    if (password.length < 8) {
+      return Response.json(
+        {
+          message: "failed",
+          error: "Password must be at least 8 characters.",
+        },
+        {
+          status: 400,
+        },
+      )
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     await prisma.account.update({
       where: { username },
