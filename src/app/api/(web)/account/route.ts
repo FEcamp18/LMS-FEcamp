@@ -84,8 +84,12 @@ export async function PATCH(req: Request){
     }
 
     try {
-      const decode = jwt.verify(token, process.env.JWT_SECRET ?? "your-secret-key");
-      const tokenUsername = (decode as { username: string }).username;
+      if (!process.env.JWT_SECRET) {
+        throw new Error("JWT_SECRET environment variable is not set");
+      }
+      
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      const tokenUsername = (decodedToken as { username: string }).username;
 
       if (tokenUsername !== username) {
         return Response.json(
