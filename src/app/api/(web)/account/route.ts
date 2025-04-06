@@ -43,7 +43,6 @@ export async function GET(req: Request) {
         message: "success",
         data: {
           name: account.username,
-          password: account.password,
           role: account.role,
         },
       },
