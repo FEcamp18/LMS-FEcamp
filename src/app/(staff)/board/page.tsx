@@ -20,7 +20,7 @@ export default function BoardPage() {
   }, []);
 
   return (
-    <main className="flex min-h-screen w-screen flex-col items-center justify-center bg-zinc-900 p-10 text-white">
+    <main className="flex min-h-screen w-full flex-col items-center justify-center bg-zinc-900 p-10 text-white">
       <div className="flex flex-row items-center justify-center space-x-5">
         <p>phase is</p>
         <h1 className="text-3xl font-bold">{webPhase}</h1>
