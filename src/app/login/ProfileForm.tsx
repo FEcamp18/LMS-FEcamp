@@ -42,9 +42,9 @@ export default function ProfileForm() {
   }
 
   return (
-    <div className="flex flex-col flex-1 justify-center items-center bg-[url('/image/background/placeholder-background.webp')] bg-cover bg-center px-5 h-screen">
+    <main className="flex h-screen flex-1 flex-col items-center justify-center bg-[url('/image/background/placeholder-background.webp')] bg-cover bg-center px-5">
       {/*Login Form Container*/}
-      <div className="flex flex-col justify-center items-center gap-y-7 bg-gradient-to-b from-white to-cream px-8 pt-3 pb-5 rounded-2xl w-full md:max-w-md">
+      <div className="flex w-full flex-col items-center justify-center gap-y-7 rounded-2xl bg-gradient-to-b from-white to-cream px-8 pb-5 pt-3 md:max-w-md">
         <div className="flex flex-col items-center">
           <Image
             src="/logo.svg"
@@ -56,11 +56,11 @@ export default function ProfileForm() {
           <h2 className="font-inknut text-4xl md:text-5xl lg:text-6xl">
             Welcome!
           </h2>
-          <p className="mt-1 font-prompt text-dark-gray text-base md:text-lg">
+          <p className="mt-1 font-prompt text-base text-dark-gray md:text-lg">
             ล็อกอินเข้าสู่ระบบ
           </p>
         </div>
-        <div className="flex flex-col w-full">
+        <div className="flex w-full flex-col">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
               <div className="space-y-9">
@@ -80,7 +80,7 @@ export default function ProfileForm() {
                           className={cn(
                             "w-fulls text-sm md:text-base",
                             form.formState.errors.username &&
-                            "border-2 border-error",
+                              "border-2 border-error",
                           )}
                           {...field}
                         />
@@ -121,7 +121,7 @@ export default function ProfileForm() {
                             className={cn(
                               "w-full text-sm md:text-base",
                               form.formState.errors.password &&
-                              "border-2 border-error",
+                                "border-2 border-error",
                             )}
                             {...field}
                           />
@@ -132,7 +132,7 @@ export default function ProfileForm() {
                   />
                   <Link
                     href="/forgot-password"
-                    className="mt-2 w-full font-prompt text-brown text-sm text-right"
+                    className="mt-2 w-full text-right font-prompt text-sm text-brown"
                   >
                     Forgot password?
                   </Link>
@@ -140,7 +140,7 @@ export default function ProfileForm() {
               </div>
               <Button
                 type="submit"
-                className="bg-gray-500 hover:bg-gray-600 w-full"
+                className="w-full bg-gray-500 hover:bg-gray-600"
               >
                 Sign In
               </Button>
@@ -148,6 +148,6 @@ export default function ProfileForm() {
           </Form>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
