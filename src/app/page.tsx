@@ -23,7 +23,7 @@ export default function Home() {
     setLoad(false);
   }, []);
 
-  if (load || webPhase === "") return <></>;
+  if (load || webPhase === "") return <>dev อย่าลืมเปิด docker</>;
   if (webPhase === "CLOSED") {
     return <LandingClose />;
   } else if (webPhase === "BEFORE_CAMP") {
