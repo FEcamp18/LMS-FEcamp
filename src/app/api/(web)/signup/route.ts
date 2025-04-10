@@ -65,7 +65,7 @@ export async function POST(req: Request) {
         },
       });
     }
-    return Response.json({ message: "success" });
+    return Response.json({ message: "success" }, { status : 201 }); // OK
   } catch {
     return Response.json(
       {
