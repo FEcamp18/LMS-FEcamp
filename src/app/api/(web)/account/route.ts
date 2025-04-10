@@ -69,12 +69,12 @@ export async function PATCH(req: Request) {
       where: { token },
     });
 
-    if (!resetRecord || new Date(resetRecord.expires_at) < new Date()) {
+    if (!resetRecord || new Date(resetRecord.expires_at).getTime() < new Date().getTime()) {
       return Response.json(
         { message: "failed", error: "Invalid or expired token." },
         { status: 400 }
       );
-    }
+    }    
 
     // Hash the new password before storing it
     const hashedPassword = await bcrypt.hash(newPassword, 10);
