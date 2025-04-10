@@ -57,7 +57,6 @@ model Class {
   endTime     DateTime      @default(now())
   location    String        @default("not assign")
   StaffClass  StaffClass[]
-  CamperClass CamperClass[]
 }
 
 model StaffClass {
@@ -86,22 +85,13 @@ model Camper {
   room           Int     @default(0)
   healthInfo     String  @default("")
   foodInfo       String  @default("")
+  miscellaneous  String  @default("")
   certificate    String  @default("")
   scorePostTest  Float[] @default([])
 
   account     Account       @relation(fields: [camperId], references: [username])
-  camperClass CamperClass[]
   notes       Notes[]
   PreTestRoom PreTestRoom[]
-}
-
-model CamperClass {
-  id       Int    @id @default(autoincrement())
-  camperId String
-  classId  String
-
-  camper Camper @relation(fields: [camperId], references: [camperId])
-  class  Class  @relation(fields: [classId], references: [classId])
 }
 
 model SubjectFiles {
