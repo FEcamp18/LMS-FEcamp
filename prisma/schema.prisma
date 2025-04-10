@@ -153,7 +153,7 @@ model ResetPassTable {
   username   String                         
   token      String   @unique                   
   created_at DateTime @default(now())           
-  expires_at DateTime     
+  expires_at DateTime 
 
   account Account @relation(fields: [username], references: [username], onDelete: Cascade)
 }
