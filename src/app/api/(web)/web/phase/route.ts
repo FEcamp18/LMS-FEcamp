@@ -47,6 +47,7 @@ export async function GET() {
 
 export async function PATCH(req: Request) {
   try {
+    // TODO
     const userIsAdmin = checkIfAdmin();
     if (!userIsAdmin) {
       return Response.json(
