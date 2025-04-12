@@ -1,11 +1,12 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { useRouter } from "next/router";
 
 export default function ResetPasswordPage() {
-    const router = useRouter();
-    const { token } = router.query;
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token"); // ดึง token จาก URL
+
     const [newPassword, setNewPassword] = useState("");
     const [message, setMessage] = useState<string | null>(null);
 

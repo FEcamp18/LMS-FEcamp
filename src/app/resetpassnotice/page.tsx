@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";  
 
 export default function ResetPasswordNotice() {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [message, setMessage] = useState<string | null>(null);
     const [isSending, setIsSending] = useState(false);
     const router = useRouter();  
@@ -15,7 +15,7 @@ export default function ResetPasswordNotice() {
         setMessage(null); // Clear previous message
 
         try {
-            const response = await fetch(`/api/resetpassword/${email}`, {
+            const response = await fetch(`/api/resetpassword/${username}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export default function ResetPasswordNotice() {
             console.log(data);
 
             if (data.message === "success") {
-                setMessage(`A reset link has been sent to your email: ${email}. Please check your inbox.`);
+                setMessage(`A reset link has been sent to your email: ${username}. Please check your inbox.`);
             } else {
                 setMessage("Please check your email. If you haven't received it, please try again in 10 minutes.");
             }
@@ -43,10 +43,10 @@ export default function ResetPasswordNotice() {
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
             <form onSubmit={handleSubmit}>
                 <input
-                    type="email"
-                    placeholder="Enter your email" 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    type="text"
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     required
                 />
                 <button type="submit" disabled={isSending}>

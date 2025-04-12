@@ -21,48 +21,35 @@ export async function POST(req: Request, { params }: { params: { username: strin
             );
         }
 
-        // Retrieve the email associated with the username
         const account = await prisma.account.findUnique({
             where: { username },
-            select: { username: true },
-        });
-
-        if (!account) {
+            include: {
+              staff: true,
+              camper: true
+            }
+          });
+          
+          if (!account) {
             return Response.json(
-                { message: "failed", error: "Username not found." },
-                { status: 404 }
+              { message: "failed", error: "Username not found." },
+              { status: 404 }
             );
-        }
-
-        // Try to fetch the contact email from either the Camper or Staff model
-        let email: string | null = null;
-        
-        // Check if the username corresponds to a staff member
-        const staff = await prisma.staff.findUnique({
-            where: { staffId: username },
-            select: { contactEmail: true }
-        });
-
-        if (staff && staff.contactEmail) {
-            email = staff.contactEmail;
-        }
-
-        // Check if the username corresponds to a camper
-        const camper = await prisma.camper.findUnique({
-            where: { camperId: username },
-            select: { contactEmail: true }
-        });
-
-        if (camper && camper.contactEmail) {
-            email = camper.contactEmail;
-        }
-
-        if (!email) {
+          }
+          
+          let email: string | null = null;
+          
+          if (account.staff?.length > 0 && account.staff[0]?.contactEmail) {
+            email = account.staff[0].contactEmail;
+          } else if (account.camper?.length > 0 && account.camper[0]?.contactEmail) {
+            email = account.camper[0].contactEmail;
+          }          
+          
+          if (!email) {
             return Response.json(
-                { message: "failed", error: "No email found for this username." },
-                { status: 404 }
+              { message: "failed", error: "No email found for this username." },
+              { status: 404 }
             );
-        }
+          }          
 
         // Generate a new reset token
         const token = randomUUID();
@@ -79,7 +66,7 @@ export async function POST(req: Request, { params }: { params: { username: strin
         });
 
         // Send the reset email
-        const resetLink = `http://localhost:3000/resetpassnotice?token=${token}`; // Modify this URL for your reset page
+        const resetLink = `http://localhost:3000/resetpassword?token=${token}`; // Modify this URL for your reset page
         await sendResetEmail(email, resetLink);  // sendResetEmail will be used to send the email
 
         // Return the UUID token
