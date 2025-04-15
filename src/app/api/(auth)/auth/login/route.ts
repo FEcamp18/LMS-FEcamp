@@ -72,7 +72,7 @@ export async function POST(req: Request) {
         status: 200, // OK
       },
     );
-  } catch  {
+  } catch {
     return Response.json(
       {
         message: "failed",

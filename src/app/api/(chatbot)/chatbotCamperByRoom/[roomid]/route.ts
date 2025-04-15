@@ -7,13 +7,11 @@ export async function GET(
   props: { params: Promise<{ roomid: string }> },
 ) {
   const { roomid } = await props.params;
-  
-  try {
-     
 
+  try {
     const camperByClass = await prisma.camper.findMany({
       where: {
-        room : parseInt(roomid),
+        room: parseInt(roomid),
       },
       select: {
         camperId: true,
@@ -27,7 +25,7 @@ export async function GET(
     return new Response(
       JSON.stringify({
         message: "success",
-        data : camperByClass
+        data: camperByClass,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );

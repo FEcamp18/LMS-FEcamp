@@ -10,14 +10,14 @@ export async function GET() {
         name: true,
         surname: true,
         nickname: true,
-        room : true
+        room: true,
       },
     });
 
     return new Response(
       JSON.stringify({
         message: "success",
-        data : camperAll
+        data: camperAll,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
