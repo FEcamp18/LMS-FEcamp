@@ -1,4 +1,5 @@
 import * as React from "react";
+import { type Camper } from "@prisma/client";
 
 import {
   Table,
@@ -9,23 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-type Camper = {
-  camperId: number;
-  name: string;
-  surname: string;
-  nickname: string;
-  contactTel: string;
-  contactEmail: string;
-  parentTel: string;
-  parentRelation: string;
-  school: string;
-  IDLine: string;
-  FEyear: string;
-  room: string;
-  healthInfo: string;
-  foodInfo: string;
-};
 
 type CamperInfoTableProps = {
   camper: Camper[];

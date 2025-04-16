@@ -1,44 +1,63 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import CamperInfoTable from "../../../components/info/camperInfoTable";
+import { type Camper } from "@prisma/client";
+import axios from "axios";
 
 export default function ClassroomPage() {
+  const [campers, setCampers] = useState<Camper[]>([]);
+  const [selectedRoom, setSelectedRoom] = useState(1);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchCampers = async () => {
+      try {
+        const response = await axios.get("/api/allcamper");
+        setCampers(response.data.data);
+      } catch (err) {
+        console.error("Error fetching campers:", err);
+        setError("Failed to get data");
+      }
+    };
+
+    void fetchCampers();
+  }, []);
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  const filteredCampers = campers.filter(
+    (camper) => camper.room === selectedRoom,
+  );
+
   return (
-    <div>
-      <CamperInfoTable
-        camper={[
-          {
-            camperId: 1,
-            name: "John",
-            surname: "Doe",
-            nickname: "Johnny",
-            contactTel: "123456789",
-            contactEmail: "john.doe@example.com",
-            parentTel: "987654321",
-            parentRelation: "Mother",
-            school: "XYZ School",
-            IDLine: "johnny123",
-            FEyear: "2022",
-            room: "Room B",
-            healthInfo: "Peanut allergy",
-            foodInfo: "Vegan",
-          },
-          {
-            camperId: 2,
-            name: "Jane",
-            surname: "Smith",
-            nickname: "Janey",
-            contactTel: "987654321",
-            contactEmail: "jane.smith@example.com",
-            parentTel: "123456789",
-            parentRelation: "Father",
-            school: "LMN School",
-            IDLine: "janey456",
-            FEyear: "2023",
-            room: "Room C",
-            healthInfo: "Lactose intolerant",
-            foodInfo: "Gluten-free",
-          },
-        ]}
-      />
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <aside className="w-1/4 p-4">
+        <h2 className="mb-4 text-xl font-bold">Rooms</h2>
+        <ul className="space-y-2">
+          {Array.from({ length: 8 }, (_, i) => i + 1).map((room) => (
+            <li key={room}>
+              <button
+                onClick={() => setSelectedRoom(room)}
+                className={`w-full rounded-lg p-2 text-left ${
+                  selectedRoom === room ? "bg-gray-100" : "hover:bg-gray-300"
+                }`}
+              >
+                Room {room}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </aside>
+
+      {/* Main Content */}
+      <main className="w-3/4 p-4">
+        <h1 className="mb-4 text-2xl font-bold">Camper Information</h1>
+        <CamperInfoTable camper={filteredCampers} />
+      </main>
     </div>
   );
 }
