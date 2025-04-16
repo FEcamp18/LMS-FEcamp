@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CamperInfoTable from "../../../components/info/camperInfoTable";
 import { type Camper } from "@prisma/client";
 import axios from "axios";
+import CamperInfoPopup from "@/components/info/ui/camperInfoPopup";
 
 export default function ClassroomPage() {
   const [campers, setCampers] = useState<Camper[]>([]);
