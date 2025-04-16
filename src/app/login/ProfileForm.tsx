@@ -42,7 +42,7 @@ export default function ProfileForm() {
   }
 
   return (
-    <div className="flex h-screen flex-1 flex-col items-center justify-center bg-[url('/image/background/placeholder-background.webp')] bg-cover bg-center px-5">
+    <main className="flex h-screen flex-1 flex-col items-center justify-center bg-[url('/image/background/placeholder-background.webp')] bg-cover bg-center px-5">
       {/*Login Form Container*/}
       <div className="flex w-full flex-col items-center justify-center gap-y-7 rounded-2xl bg-gradient-to-b from-white to-cream px-8 pb-5 pt-3 md:max-w-md">
         <div className="flex flex-col items-center">
@@ -148,6 +148,6 @@ export default function ProfileForm() {
           </Form>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
