@@ -27,8 +27,12 @@ export const authOptions: NextAuthOptions = {
         username: { label: "Username", type: "string" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(_credentials, _req) {
-        // Mock user for demonstration purposes
+      async authorize(credentials, _req) {
+        // ARKA : fix this to get real user
+        // username and password is in credentials
+        // call API /login 
+        console.log("Authorize called with credentials:", credentials);
+
         const mockUser = {
           id: "camper1",
           username: "temp-auth-user",
@@ -52,24 +56,26 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     jwt: async ({ token, user }: { token: JWT; user?: User }) => {
+      // console.log("JWT callback called with token:", token, "and user:", user);
+
       if (user) {
+        token.id = user.id;
         token.username = user.username;
         token.role = user.role;
       }
-
+      // console.log("jwt last token", token);
+      
       return token;
     },
     session: async ({ session, token }: { session: Session; token: JWT }) => {
-      session.user.id = typeof token.id === "string" ? token.id : "1";
-      session.user.username =
-        typeof token.username === "string" ? token.username : "";
-      session.user.role =
-        typeof token.role === "string" &&
-        Object.values(ROLE).includes(token.role as ROLE)
-          ? (token.role as ROLE)
-          : ROLE.CAMPER;
-
+      // console.log("Session callback called with session:", session, "and token:", token);
+    
+      session.user.id = token.id as string;
+      session.user.username = token.username as string;
+      session.user.role = token.role as ROLE;
+    
+      // console.log("Final session object:", session);
+    
       return session;
-    },
-  },
+    },  },
 };
