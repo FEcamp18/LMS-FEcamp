@@ -18,7 +18,7 @@ type CamperInfoTableProps = {
 export default function CamperInfoTable({ camper }: CamperInfoTableProps) {
   return (
     <Table>
-      <TableCaption>Camper Information</TableCaption>
+      <TableCaption>ข้อมูลส่วนตัวน้องค่าย</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">ID</TableHead>
@@ -26,8 +26,6 @@ export default function CamperInfoTable({ camper }: CamperInfoTableProps) {
           <TableHead>นามสกุล</TableHead>
           <TableHead>ชื่อเล่น</TableHead>
           <TableHead>ห้อง</TableHead>
-          <TableHead>เบอร์โทร</TableHead>
-          <TableHead>อีเมล</TableHead>
           <TableHead>note</TableHead>
         </TableRow>
       </TableHeader>
@@ -39,8 +37,7 @@ export default function CamperInfoTable({ camper }: CamperInfoTableProps) {
             <TableCell>{camper.surname}</TableCell>
             <TableCell>{camper.nickname}</TableCell>
             <TableCell>{camper.room}</TableCell>
-            <TableCell>{camper.contactTel}</TableCell>
-            <TableCell>{camper.contactEmail}</TableCell>
+            <TableCell>{camper.room}</TableCell>
           </TableRow>
         ))}
       </TableBody>

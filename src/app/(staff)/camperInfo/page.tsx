@@ -33,16 +33,17 @@ export default function ClassroomPage() {
   );
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen flex-col sm:flex-row">
       {/* Sidebar */}
-      <aside className="w-1/4 p-4">
+      <div className="w-[90%] p-4 sm:w-1/4">
         <h2 className="mb-4 text-xl font-bold">Rooms</h2>
-        <ul className="space-y-2">
+        <p className="mb-4 text-sm sm:hidden">เลื่อนเพื่อดูห้องลำดับอื่น</p>
+        <ul className="flex max-sm:flex-row max-sm:space-x-2 max-sm:overflow-scroll sm:flex-col sm:space-y-2">
           {Array.from({ length: 8 }, (_, i) => i + 1).map((room) => (
             <li key={room}>
               <button
                 onClick={() => setSelectedRoom(room)}
-                className={`w-full rounded-lg p-2 text-left ${
+                className={`w-[100px] rounded-lg p-2 text-left sm:w-full ${
                   selectedRoom === room ? "bg-gray-100" : "hover:bg-gray-300"
                 }`}
               >
@@ -51,10 +52,10 @@ export default function ClassroomPage() {
             </li>
           ))}
         </ul>
-      </aside>
+      </div>
 
       {/* Main Content */}
-      <main className="w-3/4 p-4">
+      <main className="w-full p-4">
         <h1 className="mb-4 text-2xl font-bold">Camper Information</h1>
         <CamperInfoTable camper={filteredCampers} />
       </main>
