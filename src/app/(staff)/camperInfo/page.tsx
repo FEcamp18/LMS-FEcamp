@@ -1,11 +1,8 @@
-// write your code here
-import { ClassContainer } from "@/components/classroom/classContainer";
 import CamperInfoTable from "../../../components/info/camperInfoTable";
 
 export default function ClassroomPage() {
   return (
     <div>
-      <ClassContainer />
       <CamperInfoTable
         camper={[
           {
