@@ -14,7 +14,7 @@ const publicRoutes = ["/login", "/resetpassnotice", "/resetpassword", "/pretest"
 export async function middleware(req: NextRequest) {
 
   // ARKA : remove this after implement login
-  // return NextResponse.next();
+  return NextResponse.next();
 
   const pathname = req.nextUrl.pathname;
 
