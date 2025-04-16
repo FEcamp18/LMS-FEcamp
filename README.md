@@ -62,6 +62,7 @@ pnpm run seed
   - แนวทางการเขียน type commit เพิ่มเติม : https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13
 
 ## PR Description
+**Please run `pnpm format:write` before opening the pr.**
 
 **How to Write a PR Description**
 

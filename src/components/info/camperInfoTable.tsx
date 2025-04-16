@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 
 import {
   Table,
@@ -8,32 +8,30 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-
-
+} from "@/components/ui/table";
 
 type Camper = {
-  camperId: number,
-  name: string,
-  surname: string,
-  nickname: string,
-  contactTel: string,
-  contactEmail: string,
-  parentTel: string,
-  parentRelation: string,
-  school: string,
-  IDLine: string,
-  FEyear: string, 
-  room: string,
-  healthInfo: string,
-  foodInfo: string
-}
+  camperId: number;
+  name: string;
+  surname: string;
+  nickname: string;
+  contactTel: string;
+  contactEmail: string;
+  parentTel: string;
+  parentRelation: string;
+  school: string;
+  IDLine: string;
+  FEyear: string;
+  room: string;
+  healthInfo: string;
+  foodInfo: string;
+};
 
 type CamperInfoTableProps = {
-  camper: Camper[]
-}
+  camper: Camper[];
+};
 
-export default function CamperInfoTable({camper}: CamperInfoTableProps) {
+export default function CamperInfoTable({ camper }: CamperInfoTableProps) {
   return (
     <Table>
       <TableCaption>Camper Information</TableCaption>
@@ -59,7 +57,6 @@ export default function CamperInfoTable({camper}: CamperInfoTableProps) {
             <TableCell>{camper.room}</TableCell>
             <TableCell>{camper.contactTel}</TableCell>
             <TableCell>{camper.contactEmail}</TableCell>
-
           </TableRow>
         ))}
       </TableBody>

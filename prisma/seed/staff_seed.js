@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("Seeding Staff database...");
 
-  
   // Create mock subjects
   await prisma.account.createMany({
     data: [
@@ -19,7 +18,7 @@ async function main() {
       { username: "staff8", password: "securepassword8", role: "STAFF" },
       { username: "staff9", password: "securepassword9", role: "STAFF" },
     ],
-    skipDuplicates : true
+    skipDuplicates: true,
   });
   //Create mock staff with different StaffDepartment
   await prisma.staff.createMany({
@@ -151,9 +150,8 @@ async function main() {
         roomNumber: 5,
       },
     ],
-    skipDuplicates : true,
+    skipDuplicates: true,
   });
-
 
   console.log("Seeding staff completed!");
 }

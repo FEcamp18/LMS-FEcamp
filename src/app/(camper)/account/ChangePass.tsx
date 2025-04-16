@@ -1,63 +1,62 @@
-'use client'
-import {z} from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+"use client";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { useForm } from "react-hook-form"
-import { Input } from "@/components/ui/input"
-
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
   oldPassword: z.string().min(6, {
-    message: "Username must be at least 6 characters."
+    message: "Username must be at least 6 characters.",
   }),
   newPassword: z.string().min(6, {
-    message: "Username must be at least 6 characters."
+    message: "Username must be at least 6 characters.",
   }),
-})
+});
 
 export default function ChangePassForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      oldPassword:"",
-      newPassword: ""
-    }
-  })
-  
-  function onSubmit(values: z.infer<typeof formSchema>){
-    console.log(values)
+      oldPassword: "",
+      newPassword: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
   }
 
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="rounded-xl py-3 px-16 flex text-center">change password</Button>
+          <Button className="flex rounded-xl px-16 py-3 text-center">
+            change password
+          </Button>
         </DialogTrigger>
 
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Change password</DialogTitle>
           </DialogHeader>
-          <Form {...form} >
+          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
@@ -72,7 +71,7 @@ export default function ChangePassForm() {
                   </FormItem>
                 )}
               />
-              <FormField 
+              <FormField
                 control={form.control}
                 name="newPassword"
                 render={({ field }) => (
@@ -91,7 +90,5 @@ export default function ChangePassForm() {
         </DialogContent>
       </Dialog>
     </>
-
-    
-  )
+  );
 }

@@ -1,0 +1,112 @@
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+interface requestBodySchema {
+  camperId: string;
+  newChatbotUserId: string;
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const { camperId, newChatbotUserId } =
+      (await request.json()) as requestBodySchema;
+
+    const camperBycamperId = await prisma.camper.findUnique({
+      where: {
+        camperId: camperId,
+      },
+    });
+
+    if (!camperBycamperId) {
+      return new Response(
+        JSON.stringify({
+          message: "failed",
+          error: "camperId does not exist.",
+        }),
+        { status: 404, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
+    const newCamperBycamperId = await prisma.camper.update({
+      where: {
+        camperId: camperId,
+      },
+      data: {
+        chatbotUserId: newChatbotUserId,
+      },
+    });
+
+    return new Response(
+      JSON.stringify({
+        message: "success",
+        camper: newCamperBycamperId,
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({
+        message: "failed",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to update camper information.",
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { camperId } = (await request.json()) as requestBodySchema;
+
+    const camperBycamperId = await prisma.camper.findUnique({
+      where: {
+        camperId: camperId,
+      },
+    });
+
+    if (!camperBycamperId) {
+      return new Response(
+        JSON.stringify({
+          message: "failed",
+          error: "camperId does not exist.",
+        }),
+        { status: 404, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
+    const newCamperBycamperId = await prisma.camper.update({
+      where: {
+        camperId: camperId,
+      },
+      data: {
+        chatbotUserId: "no-line-id",
+      },
+    });
+
+    return new Response(
+      JSON.stringify({
+        message: "success",
+        camper: newCamperBycamperId,
+      }),
+      { status: 200, headers: { "Content-Type": "application/json" } },
+    );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({
+        message: "failed",
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to update camper information.",
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}

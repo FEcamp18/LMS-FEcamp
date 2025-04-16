@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Staff" ALTER COLUMN "staffDepartment" SET DEFAULT ARRAY[]::"STAFFDEPARTMENT"[];
