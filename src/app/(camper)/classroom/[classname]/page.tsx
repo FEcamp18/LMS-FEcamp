@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 // write your code here
 import AnnouncementCard from "@/components/classroom/announcementCard";
 import FileCard from "@/components/classroom/fileCard";
@@ -23,4 +21,3 @@ export default function page() {
     </>
   );
 }
->>>>>>> main
