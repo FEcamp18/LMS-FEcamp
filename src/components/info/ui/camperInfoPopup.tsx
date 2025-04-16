@@ -30,7 +30,13 @@ export default function CamperInfoPopup({ camperId }: CamperInfoPopupProps) {
 
     return (
         <div className="flex flex-col items-center">
-            <Image src={ZigzagEdge} alt="Zigzag_Edge" className="justify-start h-full" />
+            <div className="relative" style={{ width: 669 }}>
+                <Image 
+                    src={ZigzagEdge} 
+                    alt="Zigzag Edge" 
+                    className="w-full h-auto" 
+                />
+            </div>
             <div className="border rounded shadow" style={{ width: 669, height: 538 }}>
                 <div className="text-lg font-bold p-4 bg-[url('/image/camperInfo-image/Top_App_Bar.svg')] bg-cover bg-center">
                     <div>Name</div>
@@ -103,7 +109,7 @@ export default function CamperInfoPopup({ camperId }: CamperInfoPopupProps) {
                         <div>
                             <button className="w-[147px] h-[40px] flex justify-center p-2 items-center bg-[#86796E] text-white hover:bg-[#39332f]">
                                 <Image
-                                    src="/image/camperInfo-image/Icon_note.svg"
+                                    src="/image/camperInfo-image/Icon-note.svg"
                                     alt="Call Icon1"
                                     width={20}
                                     height={20}
@@ -127,9 +133,9 @@ export default function CamperInfoPopup({ camperId }: CamperInfoPopupProps) {
                                 />
                                 โทรหาน้อง
                             </button>
-                            <button className="w-[147px] h-[40px] flex justify-center p-2 bg-[#F98181] text-white hover:bg-[#a45555] items-center ml-4">
+                            <button className="w-[180 px] h-[40px] flex justify-center p-2 bg-[#F98181] text-white hover:bg-[#a45555] items-center ml-4">
                                 <Image
-                                    src="/image/camperInfo-image/Icon_star.svg"
+                                    src="/image/camperInfo-image/Icon-star.svg"
                                     alt="Call Icon3"
                                     width={20}
                                     height={50}
@@ -138,12 +144,15 @@ export default function CamperInfoPopup({ camperId }: CamperInfoPopupProps) {
                                 โทรหาผู้ปกครอง
                             </button>
                         </div>
-                        
                     </div>
-                    
                 </div>
-                <Image src={ZigzagEdge2} alt="Zigzag Edge1 " className="justify-start transform  h-full" />
-                <div className='mt-10'> </div>
+                <div className="relative" style={{ width: 669 }}>
+                    <Image 
+                        src={ZigzagEdge2} 
+                        alt="Zigzag Edge" 
+                        className="absolute bottom-0 left-0 w-full h-auto" 
+                    />
+                </div>
             </div>
             
         </div>
