@@ -51,12 +51,12 @@ export async function PATCH(req: Request) {
     if (!userIsAdmin) {
       return Response.json(
         { message: "error", error: "Access denied." },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
     const presentstate = await prisma.webPhase.findFirst();
-    const body = await req.json() as  PhaseUpdateRequest ; // Use the interface here
+    const body = (await req.json()) as PhaseUpdateRequest; // Use the interface here
     const newPhase: PHASE = body.phase;
 
     if (!presentstate) {
@@ -76,7 +76,7 @@ export async function PATCH(req: Request) {
     if (!Object.values(PHASE).includes(newPhase)) {
       return Response.json(
         { message: "failed", error: "Invalid phase provided." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -89,8 +89,11 @@ export async function PATCH(req: Request) {
     return Response.json({ message: "success" }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { message: "failed", error: error instanceof Error ? error.message : "Unknown error" },
-      { status: 500 }
+      {
+        message: "failed",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
     );
   }
 }
