@@ -1,162 +1,127 @@
-'use client';
-import React from 'react'
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import Image from 'next/image';
-import * as ZigzagEdge from 'public/image/camperInfo-image/Zigzag_Edge.svg';
-import * as ZigzagEdge2 from 'public/image/camperInfo-image/Zigzag Edge-2.svg';
-
-
+"use client";
+import React from "react";
+import { useState } from "react";
+import Image from "next/image";
+import * as ZigzagEdge from "public/image/camperInfo-image/Zigzag_Edge.svg";
+import * as ZigzagEdge2 from "public/image/camperInfo-image/Zigzag Edge-2.svg";
 
 interface CamperInfoPopupProps {
-    camperId: string;
+  camperId: string;
+  onClose: () => void; // Callback to close the popup
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ""; // Get base URL from environment variable
 
-const baseUrl = 'https://example.com'; // Replace 
-export default function CamperInfoPopup({ camperId }: CamperInfoPopupProps) {
-    interface CamperInfo {
-        name: string;
-        details: string;
-    }
+export default function CamperInfoPopup({
+  camperId,
+  onClose,
+}: CamperInfoPopupProps) {
+  interface CamperInfo {
+    name: string;
+    details: string;
+  }
 
-    const [camperInfo, setCamperInfo] = useState<CamperInfo | null>(null);
-    interface Note {
-        id: string;
-        content: string;
-    }
+  const [camperInfo, setCamperInfo] = useState<CamperInfo | null>(null);
+  interface Note {
+    id: string;
+    content: string;
+  }
 
-    const [camperNotes, setCamperNotes] = useState<Note[]>([]);
+  const [camperNotes, setCamperNotes] = useState<Note[]>([]);
 
-    return (
-        <div className="flex flex-col items-center">
-            <div className="relative" style={{ width: 669 }}>
-                <Image 
-                    src={ZigzagEdge} 
-                    alt="Zigzag Edge" 
-                    className="w-full h-auto" 
-                />
-            </div>
-            <div className="border rounded shadow" style={{ width: 669, height: 538 }}>
-                <div className="text-lg font-bold p-4 bg-[url('/image/camperInfo-image/Top_App_Bar.svg')] bg-cover bg-center">
-                    <div>Name</div>
-                </div>
+  return (
+    <div className="fixed inset-0 z-50 flex min-h-screen items-center justify-center py-20">
+      {/* Background Blur */}
+      <div className="absolute inset-0 h-screen w-screen bg-black bg-opacity-50 backdrop-blur-sm"></div>
 
-                <div className="pt-8 bg-[url('/image/camperInfo-image/Content-3.svg')] bg-cover bg-center">
-                    <div className="flex justify-between">
-                        <div className="mb-4 pl-4 text-2xl font-medium font-[Prompt]">หมายเหตุ</div>
-                        <div
-                            className="mb-4 text-2xl font-medium font-[Prompt] text-right pr-4 cursor-pointer text-amber-900 hover:"
-                            onClick={() => alert('เพิ่มหมายเหตุ')}
-                        >
-                            + เพิ่ม
-                        </div>
-                    </div>
-                    <div className="pl-4 pr-4">
-                        <div className="flex justify-between">
-                            <div className="w-1/3 h-32 bg-white rounded shadow"></div>
-                            <div className="w-1/3 h-32 bg-white rounded shadow mx-4"></div>
-                            <div className="w-1/3 h-32 bg-white rounded shadow"></div>
-                        </div>
-                    </div>
-
-                    <div className="flex justify-start pr-4 pb-20 pt-12 pl-4">
-                        <div className="container">
-                            <h2 className="text-xl font-semibold mb-2">ข้อมูลสุขภาพ</h2>
-                            <p className="text-gray-600">รายละเอียดเกี่ยวกับข้อมูลสุขภาพของผู้เข้าร่วม</p>
-                        </div>
-                        <div className="flex flex-col ml-8">
-                            <h2 className="text-xl font-semibold mb-2">ข้อจํากัดด้านอาหาร</h2>
-                            <p className="text-gray-600">รายละเอียดเกี่ยวกับข้อจํากัดด้านอาหาร</p>
-                        </div>
-                    </div>
-
-                    <hr className="border-gray-700 border-1 w-full" />
-                    <div>
-                        <h2 className="mb-4 pt-7 pl-4 text-xl">ข้อมูลส่วนตัว</h2>
-                        <div className="grid grid-cols-3 gap-4 pb-8 pl-4">
-                            <div className="container">
-                                <h2 className="text-xl font-semibold mb-2">เบอร์โทรศัพท์</h2>
-                                <p className="text-gray-600">000-000-0000</p>
-                            </div>
-                            <div className="container">
-                                <h2 className="text-xl font-semibold mb-2">เบอร์ผู้ปกครอง</h2>
-                                <p className="text-gray-600">000-000-0000 (มารดา)</p>
-                            </div>
-                            <div className="container">
-                                <h2 className="text-xl font-semibold mb-2">อีเมล</h2>
-                                <p className="text-gray-600">somchai.mee@gmail.com</p>
-                            </div>
-                            <div className="container">
-                                <h2 className="text-xl font-semibold mb-2">โรงเรียน</h2>
-                                <p className="text-gray-600">สมชายวิทยาลัย</p>
-                            </div>
-                            <div className="container">
-                                <h2 className="text-xl font-semibold mb-2">ปี FE</h2>
-                                <p className="text-gray-600">1</p>
-                            </div>
-                            <div className="container">
-                                <h2 className="text-xl font-semibold mb-2">Room</h2>
-                                <p className="text-gray-600">1</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="bg-[url('/image/camperInfo-image/Contacts.svg')] bg-cover bg-center">
-                    <hr className="border-black border-1" />
-
-                    <div className="flex justify-start mt-4 pl-4 pr-4 pb-4 bg-[url('/image/camperInfo-image/Contact.svg')] bg-cover bg-center">
-                        <div>
-                            <button className="w-[147px] h-[40px] flex justify-center p-2 items-center bg-[#86796E] text-white hover:bg-[#39332f]">
-                                <Image
-                                    src="/image/camperInfo-image/Icon-note.svg"
-                                    alt="Call Icon1"
-                                    width={20}
-                                    height={20}
-                                    className="mr-2"
-                                    unoptimized
-                                />
-                                เพิ่มหมายเหตุ
-                            </button>
-                        </div>
-
-                        <div className="flex items-center ml-4">
-                            <div className="border-l border-black mx-3 h-full"></div>
-                            <button className="w-[147px] h-[40px] flex justify-center p-2 items-center bg-[#B7A99B] text-white hover:bg-[#59524b] mr-3">
-                                <Image
-                                    src="/image/camperInfo-image/Icon_call.svg"
-                                    alt="Call Icon2"
-                                    width={20}
-                                    height={20}
-                                    className="mr-2"
-                                    unoptimized
-                                />
-                                โทรหาน้อง
-                            </button>
-                            <button className="w-[180 px] h-[40px] flex justify-center p-2 bg-[#F98181] text-white hover:bg-[#a45555] items-center ml-4">
-                                <Image
-                                    src="/image/camperInfo-image/Icon-star.svg"
-                                    alt="Call Icon3"
-                                    width={20}
-                                    height={50}
-                                    className="mr-2"
-                                />
-                                โทรหาผู้ปกครอง
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div className="relative" style={{ width: 669 }}>
-                    <Image 
-                        src={ZigzagEdge2} 
-                        alt="Zigzag Edge" 
-                        className="absolute bottom-0 left-0 w-full h-auto" 
-                    />
-                </div>
-            </div>
-            
+      {/* Popup Content */}
+      <div className="relative z-10 my-20 flex min-w-[40vw] flex-col items-center justify-center text-sm">
+        <div className="relative w-full">
+          <Image src={ZigzagEdge} alt="Zigzag Edge" className="h-auto w-full" />
         </div>
-    );
+        <div className="w-full rounded border bg-white shadow">
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="absolute right-4 top-4 rounded-full bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+          >
+            Close
+          </button>
 
-// with the actual base URL of your API
+          <div className="bg-[url('/image/camperInfo-image/Top_App_Bar.svg')] bg-cover bg-center p-4 text-lg font-bold">
+            <div>Name</div>
+          </div>
+
+          <div className="bg-[url('/image/camperInfo-image/Content-3.svg')] bg-cover bg-center pt-8">
+            <div className="flex justify-between">
+              <div className="mb-4 pl-4 font-[Prompt] text-2xl font-medium">
+                หมายเหตุ
+              </div>
+              <div
+                className="hover: mb-4 cursor-pointer pr-4 text-right font-[Prompt] text-2xl font-medium text-amber-900"
+                onClick={() => alert("เพิ่มหมายเหตุ")}
+              >
+                + เพิ่ม
+              </div>
+            </div>
+            <div className="pl-4 pr-4">
+              <div className="flex justify-between">
+                <div className="h-32 w-1/3 rounded bg-white shadow"></div>
+                <div className="mx-4 h-32 w-1/3 rounded bg-white shadow"></div>
+                <div className="h-32 w-1/3 rounded bg-white shadow"></div>
+              </div>
+            </div>
+
+            <div className="flex justify-start px-5 py-10">
+              <div className="container w-1/2">
+                <h2 className="mb-2 text-xl font-semibold">ข้อมูลสุขภาพ</h2>
+                <p className="text-gray-600">
+                  รายละเอียดเกี่ยวกับข้อมูลสุขภาพของผู้เข้าร่วม
+                </p>
+              </div>
+              <div className="ml-2 flex w-1/2 flex-col">
+                <h2 className="mb-2 text-xl font-semibold">
+                  ข้อจํากัดด้านอาหาร
+                </h2>
+                <p className="text-gray-600">
+                  รายละเอียดเกี่ยวกับข้อจํากัดด้านอาหาร
+                </p>
+              </div>
+            </div>
+
+            <hr className="border-1 w-full border-gray-700" />
+            <div>
+              <h2 className="mb-4 pl-4 pt-7 text-xl">ข้อมูลส่วนตัว</h2>
+              <div className="grid grid-cols-3 gap-4 pb-8 pl-4">
+                <div className="container">
+                  <h2 className="mb-2 text-xl font-semibold">เบอร์โทรศัพท์</h2>
+                  <p className="text-gray-600">000-000-0000</p>
+                </div>
+                <div className="container">
+                  <h2 className="mb-2 text-xl font-semibold">เบอร์ผู้ปกครอง</h2>
+                  <p className="text-gray-600">000-000-0000 (มารดา)</p>
+                </div>
+                <div className="container">
+                  <h2 className="mb-2 text-xl font-semibold">อีเมล</h2>
+                  <p className="text-gray-600">somchai.mee@gmail.com</p>
+                </div>
+                <div className="container">
+                  <h2 className="mb-2 text-xl font-semibold">โรงเรียน</h2>
+                  <p className="text-gray-600">สมชายวิทยาลัย</p>
+                </div>
+                <div className="container">
+                  <h2 className="mb-2 text-xl font-semibold">ปี FE</h2>
+                  <p className="text-gray-600">1</p>
+                </div>
+                <div className="container">
+                  <h2 className="mb-2 text-xl font-semibold">Room</h2>
+                  <p className="text-gray-600">1</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
