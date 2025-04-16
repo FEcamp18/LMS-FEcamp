@@ -7,7 +7,8 @@ const prisma = new PrismaClient();
 
 interface UpdatePasswordRequest {
   username: string;
-  password: string;
+  newPassword: string;
+  token: string;
 }
 
 export async function GET(req: Request) {
@@ -64,24 +65,22 @@ export async function GET(req: Request) {
   }
 }
 
-// ?????????
-interface ResetPasswordRequest {
-  token: string;
-  newPassword: string;
-}
-
-export async function POST(req: Request) {
+export async function PATCH(req: Request){
   try {
-    const { token, newPassword } = await req.json() as ResetPasswordRequest;
+    const { username, newPassword, token } = (await req.json()) as UpdatePasswordRequest;
 
-    if (!token || !newPassword) {
+    // check field
+    if (!username || !token || !newPassword) {
       return Response.json(
         { message: "failed", error: "Missing token or new password." },
         { status: 400 }
       );
     }
+    
+    // check auth token session
+    await checkAuthToken(req, username);
 
-    // Check if the token is valid and not expired
+    // Check if the reset password token is valid and not expired
     const resetRecord = await prisma.resetPassTable.findUnique({
       where: { token },
     });
@@ -93,35 +92,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // Hash the new password before storing it
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    // Update user password
-    await prisma.account.update({
-      where: { username: resetRecord.username },
-      data: { password: hashedPassword },
-    });
-
-    // Delete the used reset token
-    await prisma.resetPassTable.delete({ where: { token } });
-
-    return Response.json({ message: "success", detail: "Password updated." });
-  } catch {
-    return Response.json(
-      { message: "failed", error: "Internal server error." },
-      { status: 500 }
-    );
-  }
-}
-
-// ?????????
-export async function PATCH(req: Request){
-  try {
-    const { username, password } = (await req.json()) as UpdatePasswordRequest;
-
-    // check auth token session
-    await checkAuthToken(req, username);
-
+    // check if account exits
     const account = await prisma.account.findUnique({
       where: { username }
     });
@@ -138,11 +109,12 @@ export async function PATCH(req: Request){
       )
     }
 
-    if (password.length < 8) {
+    // check newPassword requirement
+    if (newPassword.length < 8) {
       return Response.json(
         {
           message: "failed",
-          error: "Password must be at least 8 characters.",
+          error: "newPassword must be at least 8 characters.",
         },
         {
           status: 400,
@@ -150,12 +122,16 @@ export async function PATCH(req: Request){
       )
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
+    // update the password
     await prisma.account.update({
       where: { username },
       data: { password: hashedPassword },
     });
+
+     // Delete the used reset token
+     await prisma.resetPassTable.delete({ where: { token } });
     
     return Response.json(
       {
