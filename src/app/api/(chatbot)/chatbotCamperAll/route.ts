@@ -4,8 +4,6 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-     
-
     const camperByClass = await prisma.camper.findMany({
       select: {
         camperId: true,
@@ -13,14 +11,14 @@ export async function GET() {
         surname: true,
         nickname: true,
         chatbotUserId: true,
-        room : true
+        room: true,
       },
     });
 
     return new Response(
       JSON.stringify({
         message: "success",
-        data : camperByClass
+        data: camperByClass,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );

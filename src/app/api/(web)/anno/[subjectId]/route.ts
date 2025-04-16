@@ -61,7 +61,7 @@ export async function GET(
 export async function POST(req: Request) {
   try {
     // Parse and validate the request body using the interface
-    const body = await req.json() as AnnouncementRequest;
+    const body = (await req.json()) as AnnouncementRequest;
 
     const { subjectId, annoTitle, annoText } = body;
 
@@ -147,7 +147,8 @@ export async function POST(req: Request) {
     return new Response(
       JSON.stringify({
         message: "failed",
-        error: error instanceof Error ? error.message : "Internal server error.",
+        error:
+          error instanceof Error ? error.message : "Internal server error.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );

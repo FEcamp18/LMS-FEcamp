@@ -9,10 +9,11 @@ export async function POST(req: Request, { params }: { params: { username: strin
         const { username } = params;
         const now = new Date();
 
-        // Check if a valid reset token already exists
+      // Check if a valid reset token already 
         const existingToken = await prisma.resetPassTable.findFirst({
-            where: { username, expires_at: { gt: now } },
+          where: { username, expires_at: { gt: now } },
         });
+      
 
         if (existingToken) {
             return Response.json(

@@ -6,15 +6,15 @@ const prisma = new PrismaClient();
 
 interface LoginRequest {
   username: string;
-  hashedPassword: string;
+  password: string;
 }
 
 export async function POST(req: Request) {
-  try {
-    const { username, hashedPassword } = (await req.json()) as LoginRequest;
+  try {    
+    const { username, password } = (await req.json()) as LoginRequest;
 
     // error 1 : Invalid credentials (Invalid user or psw)
-    if (!username || !hashedPassword) {
+    if (!username || !password) {
       return Response.json(
         {
           message: "failed",
@@ -38,11 +38,8 @@ export async function POST(req: Request) {
       });
     }
 
-    // error 2 : wrong password (declare here becuase use 'account')
-    const isPasswordValid = await bcrypt.compare(
-      hashedPassword,
-      account.password,
-    );
+    const isPasswordValid = await bcrypt.compare(password, account.password);
+    
     if (!isPasswordValid) {
       return Response.json(
         {
@@ -59,7 +56,7 @@ export async function POST(req: Request) {
     const token = jwt.sign(
       { username: account.username, role: account.role },
       process.env.JWT_SECRET ?? "your-secret-key", // Secret key for signing the token
-      { expiresIn: "1h" }, // Token expiration time (1 hour)
+      { expiresIn: "7d" }, // Token expiration time (1 hour)
     );
 
     // if successful
@@ -72,7 +69,7 @@ export async function POST(req: Request) {
         status: 200, // OK
       },
     );
-  } catch  {
+  } catch {
     return Response.json(
       {
         message: "failed",

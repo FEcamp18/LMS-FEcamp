@@ -1,18 +1,20 @@
-const cleanPretestRoom = (examData: ExamDataInterface[]): Record<string, ExamDataInterface[]> => {
+const cleanPretestRoom = (
+  examData: ExamDataInterface[],
+): Record<string, ExamDataInterface[]> => {
   const groupedData = examData.reduce(
-        (acc, camper) => {
-          if (acc[camper?.examLocation]) {
-            acc[camper.examLocation] ??= [];
-          }
-          if (camper) {
-            acc[camper.examLocation]?.push(camper);
-          }
-          return acc;
-        },
-        {} as Record<string, ExamDataInterface[]>,
-    );
-    return groupedData
-}
+    (acc, camper) => {
+      if (acc[camper?.examLocation]) {
+        acc[camper.examLocation] ??= [];
+      }
+      if (camper) {
+        acc[camper.examLocation]?.push(camper);
+      }
+      return acc;
+    },
+    {} as Record<string, ExamDataInterface[]>,
+  );
+  return groupedData;
+};
 
 export default cleanPretestRoom;
 
@@ -26,4 +28,4 @@ export interface ExamDataInterface {
   camperName: string;
   seatNumber: string;
   examLocation: string;
-  }
+}
