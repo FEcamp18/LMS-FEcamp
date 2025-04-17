@@ -18,5 +18,6 @@ export async function getClassrooms(){
     return data;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
