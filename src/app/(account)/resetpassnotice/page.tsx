@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";  
+type ResetResponse = {
+    message: string;
+};
 
 export default function ResetPasswordNotice() {
     const [username, setUsername] = useState("");
     const [message, setMessage] = useState<string | null>(null);
-    const [isSending, setIsSending] = useState(false);
-    const router = useRouter();  
+    const [isSending, setIsSending] = useState(false);  
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -22,7 +23,7 @@ export default function ResetPasswordNotice() {
                 },
             });
 
-            const data = await response.json();
+            const data: ResetResponse = await response.json(); 
 
             console.log(data);
 
