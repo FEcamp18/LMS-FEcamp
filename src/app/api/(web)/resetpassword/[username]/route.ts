@@ -67,7 +67,7 @@ export async function POST(req: Request, { params }: { params: { username: strin
         });
 
         // Send the reset email
-        const resetLink = `http://localhost:3000/resetpassword?token=${token}`; // Modify this URL for your reset page
+        const resetLink = `{BASE_URL}/resetpassword?token=${token}`;
         await sendResetEmail(email, resetLink);  // sendResetEmail will be used to send the email
 
         // Return the UUID token
