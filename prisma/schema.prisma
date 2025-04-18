@@ -16,6 +16,8 @@ model Account {
   role     ROLE     @default(CAMPER)
   camper   Camper[]
   staff    Staff[]
+
+  ResetPassTable ResetPassTable[]
 }
 
 model Staff {
@@ -134,6 +136,16 @@ model PreTestRoom {
   examNumber   Int
   seatNumber   Int
   examLocation String
+}
+
+model ResetPassTable {
+  id         Int      @id @default(autoincrement()) 
+  username   String                         
+  token      String   @unique                   
+  created_at DateTime @default(now())           
+  expires_at DateTime 
+
+  account Account @relation(fields: [username], references: [username], onDelete: Cascade)
 }
 
 // PHASE type

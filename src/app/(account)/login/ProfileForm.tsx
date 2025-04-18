@@ -131,7 +131,7 @@ export default function ProfileForm() {
                     )}
                   />
                   <Link
-                    href="/forgot-password"
+                    href="/resetpassnotice"
                     className="mt-2 w-full text-right font-prompt text-sm text-brown"
                   >
                     Forgot password?
