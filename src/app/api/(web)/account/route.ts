@@ -5,7 +5,6 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 interface UpdatePasswordRequest {
-  username: string;
   newPassword: string;
   token: string;
 }
@@ -66,19 +65,29 @@ export async function GET(req: Request) {
 
 export async function PATCH(req: Request){
   try {
-    const { username, newPassword, token } = (await req.json()) as UpdatePasswordRequest;
+    const {  newPassword, token } = (await req.json()) as UpdatePasswordRequest;
 
     // check field
-    if (!username || !token || !newPassword) {
+    if ( !token || !newPassword) {
       return Response.json(
         { message: "failed", error: "Missing token or new password." },
         { status: 400 }
       );
     }
     
+    
+
+    const accountdata = await prisma.resetPassTable.findUnique({
+      where: { token },
+    });
+    if (!accountdata) {
+      return;
+    }
+    const username = accountdata.username;
+    
     // check auth token session
     await checkAuthToken(req, username);
-
+    
     // Check if the reset password token is valid and not expired
     const resetRecord = await prisma.resetPassTable.findUnique({
       where: { token },
