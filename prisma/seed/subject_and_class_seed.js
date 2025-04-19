@@ -214,19 +214,6 @@ async function main() {
     skipDuplicates: true,
   });
 
-  // Create mock camperClass
-  let camperClasses = [];
-  for (let i = 0; i < l_classes; i++) {
-    const class_data = classes[i];
-    if (!class_data?.classId?.endsWith("-1")) continue;
-    camperClasses.push({ camperId: "camper1", classId: class_data.classId });
-  }
-
-  await prisma.camperClass.createMany({
-    data: camperClasses,
-    skipDuplicates: true,
-  });
-
   console.log("Seeding subjects and classes completed!");
 }
 
