@@ -22,11 +22,16 @@ import { useRouter } from "next/navigation";
 import bcrypt from "bcryptjs";
 
 const formSchema = z.object({
-  username: z.string().email({ message: "Username Not Found" }),
+  username: z.string(),
   password: z.string().min(6, {
-    message: "Incorrect Password",
+    message: "Password Must be longer than 6 characters",
   }),
 });
+
+interface RespondLogin {
+  message: string;
+  error?: string;
+}
 
 export default function ProfileForm() {
   const router = useRouter();
@@ -41,9 +46,13 @@ export default function ProfileForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("hi");
+
     try {
       // Hash the password
       const hashedPassword = await bcrypt.hash(values.password, 10);
+
+      console.log(values.username, hashedPassword);
 
       // Call login API
       const response = await fetch("/api/login", {
@@ -56,15 +65,15 @@ export default function ProfileForm() {
           password: hashedPassword,
         }),
       });
-    
-      const data = await response.json();
+
+      const data = (await response.json()) as RespondLogin;
 
       if (response.ok) {
         alert("Login successful!");
         // Redirect to appropriate page based on user role
         router.push("/placeholder"); // Adjust route as needed
       } else {
-        alert(data.error || "Login failed");
+        alert(data.error ?? "Login failed");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -171,7 +180,7 @@ export default function ProfileForm() {
               </div>
               <Button
                 type="submit"
-                className="w-full bg-gray-500 hover:bg-gray-600"
+                className="w-full bg-gray-500 py-3 hover:bg-gray-600"
               >
                 Sign In
               </Button>
