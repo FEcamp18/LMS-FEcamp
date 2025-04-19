@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import bcrypt from "bcryptjs";
 
 const formSchema = z.object({
   username: z.string().email({ message: "Username Not Found" }),
@@ -27,6 +29,7 @@ const formSchema = z.object({
 });
 
 export default function ProfileForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,8 +40,36 @@ export default function ProfileForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(values.password, 10);
+
+      // Call login API
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: values.username,
+          password: hashedPassword,
+        }),
+      });
+    
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Login successful!");
+        // Redirect to appropriate page based on user role
+        router.push("/placeholder"); // Adjust route as needed
+      } else {
+        alert(data.error || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred during login");
+    }
   }
 
   return (
