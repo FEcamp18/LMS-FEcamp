@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import bcrypt from "bcryptjs";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   username: z.string(),
@@ -31,6 +32,12 @@ const formSchema = z.object({
 interface RespondLogin {
   message: string;
   error?: string;
+}
+interface detail {
+  data: {
+    username: string;
+    role: string;
+  };
 }
 
 export default function ProfileForm() {
@@ -46,15 +53,13 @@ export default function ProfileForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("hi");
 
     try {
       // Hash the password
-      const hashedPassword = await bcrypt.hash(values.password, 10);
-
-      console.log(values.username, hashedPassword);
-
+      // const hashedPassword = await bcrypt.hash(values.password, 10);
+      // console.log(values.username, hashedPassword);
       // Call login API
+
       const response = await fetch("/api/login", {
         method: "POST",
         headers: {
@@ -62,22 +67,48 @@ export default function ProfileForm() {
         },
         body: JSON.stringify({
           username: values.username,
-          password: hashedPassword,
+          password: values.password,
         }),
       });
 
       const data = (await response.json()) as RespondLogin;
 
-      if (response.ok) {
-        alert("Login successful!");
+      const getdetail = await fetch(`api/account?username=${values.username}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const getdetaildata = (await getdetail.json()) as detail;
+      const role = getdetaildata.data.role?.trim().toUpperCase();
+
+      if (response.ok && getdetail.ok) {
+        // alert("Login successful!");
+        toast.success("Login successful!");
         // Redirect to appropriate page based on user role
-        router.push("/placeholder"); // Adjust route as needed
+        switch (role) {
+          case "BOARD":
+            window.location.href = "/board";
+            break;
+          case "CAMPER":
+            window.location.href = "/classroom";
+            break;
+          case "STAFF":
+            window.location.href = "/login";
+            break;
+          default:
+            window.location.href = "/login";
+            break;
+        }
       } else {
-        alert(data.error ?? "Login failed");
+        // alert(data.error ?? "Login failed"); 
+        toast.error(data.error ?? "Login failed");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("An error occurred during login");
+      // alert("An error occurred during login");
+      toast.error("An error occurred during login");
     }
   }
 
