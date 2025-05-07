@@ -55,7 +55,7 @@ export default function ProfileForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       // Hash the password
-      const hashedPassword = await bcrypt.hash(values.password, 10);
+      // const hashedPassword = await bcrypt.hash(values.password, 10);
       // console.log(values.username, hashedPassword);
       // Call login API
 
@@ -66,7 +66,7 @@ export default function ProfileForm() {
         },
         body: JSON.stringify({
           username: values.username,
-          password: hashedPassword,
+          password: values.password
         }),
       });
 
