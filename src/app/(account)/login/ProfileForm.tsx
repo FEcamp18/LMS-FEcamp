@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
+import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
   username: z.string(),
@@ -29,19 +30,9 @@ const formSchema = z.object({
   }),
 });
 
-interface RespondLogin {
-  message: string;
-  error?: string;
-}
-interface detail {
-  data: {
-    username: string;
-    role: string;
-  };
-}
-
 export default function ProfileForm() {
   const router = useRouter();
+  const { data: session } = useSession();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,54 +45,37 @@ export default function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password,
-        }),
+      const result = await signIn("credentials", {
+        username: values.username,
+        password: values.password,
+        redirect: false,
       });
 
-      const data = (await response.json()) as RespondLogin;
+      if (result?.error) {
+        console.error("Login error:", result.error);
+        toast.error(result.error || "Login failed");
+        return;
+      }
 
-      const getdetail = await fetch(
-        `/api/account?username=${values.username}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
+      // Show success message
+      toast.success("เข้าสู่ระบบสำเร็จ");
+      // Add a small delay to ensure toast is visible
+      await new Promise((resolve) => setTimeout(resolve, 300));
 
-      const getdetaildata = (await getdetail.json()) as detail;
-      const role = getdetaildata.data.role?.trim().toUpperCase();
-      console.log("done login ", data);
-
-      if (response.ok && getdetail.ok) {
-        toast.success("Login successful!");
-        // Add a small delay to ensure toast is visible
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
-        switch (role) {
-          case "BOARD":
-            router.push("/board");
-            break;
-          case "CAMPER":
-            router.push("/classroom");
-            break;
-          case "STAFF":
-            router.push("/login");
-            break;
-          default:
-            router.push("/login");
-            break;
-        }
-      } else {
-        toast.error(data.error ?? "Login failed");
+      const role = session?.user?.role;
+      switch (role) {
+        case "BOARD":
+          router.push("/board");
+          break;
+        case "CAMPER":
+          router.push("/classroom");
+          break;
+        case "STAFF":
+          router.push("/login");
+          break;
+        default:
+          router.push("/login");
+          break;
       }
     } catch (error) {
       console.error("Login error:", error);

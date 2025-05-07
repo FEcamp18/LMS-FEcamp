@@ -42,9 +42,10 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Missing credentials");
         }
 
+        const baseUrl =  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
         try {
           // Call login API
-          const response = await fetch("api/auth/login", {
+          const response = await fetch(`${baseUrl}/api/login`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -61,7 +62,7 @@ export const authOptions: NextAuthOptions = {
             throw new Error(data.error ?? "Login failed");
           }
 
-          const getdetail = await fetch("api/account?username=" + credentials.username, {
+          const getdetail = await fetch(`${baseUrl}/api/account?username=` + credentials.username, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
