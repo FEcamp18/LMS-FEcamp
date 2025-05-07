@@ -56,8 +56,6 @@ export default function ProfileForm() {
     try {
       // Hash the password
       const hashedPassword = await bcrypt.hash(values.password, 10);
-      // console.log(values.username, hashedPassword);
-      // Call login API
 
       const response = await fetch("/api/login", {
         method: "POST",
@@ -101,7 +99,7 @@ export default function ProfileForm() {
             break;
         }
       } else {
-        // alert(data.error ?? "Login failed"); 
+        // alert(data.error ?? "Login failed");
         toast.error(data.error ?? "Login failed");
       }
     } catch (error) {

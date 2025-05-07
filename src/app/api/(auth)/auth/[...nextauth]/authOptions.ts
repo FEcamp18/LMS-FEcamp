@@ -2,7 +2,7 @@ import { type NextAuthOptions } from "next-auth";
 import type { DefaultSession, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { JWT } from "next-auth/jwt";
-import { ROLE } from "@prisma/client";
+import { type ROLE } from "@prisma/client";
 
 declare module "next-auth" {
   interface User {
@@ -18,6 +18,15 @@ declare module "next-auth" {
       role: ROLE;
     } & DefaultSession["user"];
   }
+}
+
+interface AccountResponse {
+  message: "success" | "failed";
+  data?: {
+    name: string;
+    role: ROLE;
+  };
+  error?: string;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -46,29 +55,33 @@ export const authOptions: NextAuthOptions = {
             }),
           });
 
-          const data = await response.json();
+          const data = await response.json() as { error?: string };
 
           if (!response.ok) {
-            throw new Error(data.error || "Login failed");
+            throw new Error(data.error ?? "Login failed");
           }
 
-          const getdetail = await fetch("api/account" + credentials.username, {
+          const getdetail = await fetch("api/account?username=" + credentials.username, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           });
           if (!getdetail.ok) {
-            throw new Error(data.error || "User Not found");
+            throw new Error(data.error ?? "User Not found");
           }
 
-          const userDetails = await getdetail.json();
+          const userDetails = await getdetail.json() as AccountResponse;
+
+          if (!userDetails.data) {
+            throw new Error("user data is not define");
+          }
 
           // Return user object with all required fields
           return {
             id: credentials.username,
             username: credentials.username,
-            role: userDetails.data.role as ROLE,
+            role: userDetails.data.role,
           };
         } catch (error) {
           console.error("Login error:", error);
