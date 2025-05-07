@@ -1,17 +1,27 @@
 "use client";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import * as ZigzagEdge from "public/image/camperInfo-image/Zigzag_Edge.svg";
 import axios from "axios";
 import { type Camper, type Notes } from "@prisma/client";
+import { Button } from "@/components/ui/button";
+
+interface CamperResponseInterface {
+  message: "success" | "failed";
+  camper: Camper;
+  error?: string;
+}
+
+interface NotesResponseInterface {
+  message: "success" | "failed";
+  notes?: Notes[];
+  error?: string;
+}
 
 interface CamperInfoPopupProps {
   camperId: string;
   onClose: () => void; // Callback to close the popup
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ""; // Get base URL from environment variable
 export default function CamperInfoPopup({
   camperId,
   onClose,
@@ -26,11 +36,15 @@ export default function CamperInfoPopup({
       try {
         console.log(camperId);
 
-        const camperResponse = await axios.get(`/api/camper/${camperId}`);
+        const camperResponse = await axios.get<CamperResponseInterface>(
+          `/api/camper/${camperId}`,
+        );
         setCamperInfo(camperResponse.data.camper);
 
-        const notesResponse = await axios.get(`/api/note/${camperId}`);
-        setCamperNotes(notesResponse.data.notes);
+        const notesResponse = await axios.get<NotesResponseInterface>(
+          `/api/note/${camperId}`,
+        );
+        setCamperNotes(notesResponse.data.notes ?? []);
 
         setLoading(false);
       } catch (err) {
@@ -46,14 +60,14 @@ export default function CamperInfoPopup({
   if (loading || !camperInfo) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="flex h-1/4 w-1/4 flex-col items-center justify-center space-y-3 rounded-sm bg-dark-brown/90 text-white">
+        <div className="flex h-1/4 w-1/4 flex-col items-center justify-center space-y-3 rounded-sm bg-cream text-brown">
           <p>Loading...</p>{" "}
-          <button
+          <Button
             onClick={onClose}
             className="right-4 top-4 rounded-full bg-red-500 px-3 py-1 text-white hover:bg-red-600"
           >
             Close
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -75,16 +89,22 @@ export default function CamperInfoPopup({
       {/* Popup Content */}
       <div className="relative z-10 my-20 flex min-w-[40vw] flex-col items-center justify-center text-sm">
         <div className="relative w-full">
-          <Image src={ZigzagEdge} alt="Zigzag Edge" className="h-auto w-full" />
+          <Image
+            src={`/image/camperInfo-image/Zigzag_Edge.svg`}
+            width={700}
+            height={300}
+            alt="Zigzag Edge"
+            className="h-auto w-full"
+          />
         </div>
-        <div className="w-full rounded border bg-white shadow">
+        <div className="no-scrollbar h-[80vh] w-full overflow-scroll rounded border bg-white shadow">
           {/* Close Button */}
-          <button
+          <Button
             onClick={onClose}
             className="absolute right-4 top-4 rounded-full bg-red-500 px-3 py-1 text-white hover:bg-red-600"
           >
             Close
-          </button>
+          </Button>
 
           <div className="bg-dark-gray bg-[url('/image/camperInfo-image/Top_App_Bar.svg')] bg-cover bg-center p-4 text-lg font-bold">
             <div>
@@ -164,6 +184,15 @@ export default function CamperInfoPopup({
               </div>
             </div>
           </div>
+        </div>
+        <div className="relative w-full">
+          <Image
+            src={`/image/camperInfo-image/Zigzag_Edge.svg`}
+            width={700}
+            height={300}
+            alt="Zigzag Edge"
+            className="h-auto w-full rotate-180"
+          />
         </div>
       </div>
     </div>

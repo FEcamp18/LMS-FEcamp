@@ -1,10 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CamperInfoTable from "../../../components/info/camperInfoTable";
+import CamperInfoTable from "@/components/info/camperInfoTable";
 import { type Camper } from "@prisma/client";
 import axios from "axios";
-import CamperInfoPopup from "@/components/info/ui/camperInfoPopup";
+
+interface CamperResponseInterface {
+  message: "success" | "failed";
+  data: Camper[];
+  error?: string;
+}
 
 export default function ClassroomPage() {
   const [campers, setCampers] = useState<Camper[]>([]);
@@ -14,7 +19,10 @@ export default function ClassroomPage() {
   useEffect(() => {
     const fetchCampers = async () => {
       try {
-        const response = await axios.get("/api/allcamper");
+        const response =
+          await axios.get<CamperResponseInterface>("/api/allcamper");
+        console.log(response);
+
         setCampers(response.data.data);
       } catch (err) {
         console.error("Error fetching campers:", err);
