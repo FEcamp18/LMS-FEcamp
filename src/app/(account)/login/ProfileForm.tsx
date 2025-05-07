@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -53,8 +54,6 @@ export default function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // Call login API
-
       const response = await fetch("/api/login", {
         method: "POST",
         headers: {
@@ -68,41 +67,44 @@ export default function ProfileForm() {
 
       const data = (await response.json()) as RespondLogin;
 
-      const getdetail = await fetch(`api/account?username=${values.username}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+      const getdetail = await fetch(
+        `/api/account?username=${values.username}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       const getdetaildata = (await getdetail.json()) as detail;
       const role = getdetaildata.data.role?.trim().toUpperCase();
+      console.log("done login ", data);
 
       if (response.ok && getdetail.ok) {
-        // alert("Login successful!");
         toast.success("Login successful!");
-        // Redirect to appropriate page based on user role
+        // Add a small delay to ensure toast is visible
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
         switch (role) {
           case "BOARD":
-            window.location.href = "/board";
+            router.push("/board");
             break;
           case "CAMPER":
-            window.location.href = "/classroom";
+            router.push("/classroom");
             break;
           case "STAFF":
-            window.location.href = "/login";
+            router.push("/login");
             break;
           default:
-            window.location.href = "/login";
+            router.push("/login");
             break;
         }
       } else {
-        // alert(data.error ?? "Login failed");
         toast.error(data.error ?? "Login failed");
       }
     } catch (error) {
       console.error("Login error:", error);
-      // alert("An error occurred during login");
       toast.error("An error occurred during login");
     }
   }
