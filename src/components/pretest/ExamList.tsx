@@ -15,7 +15,6 @@ const ExamList: React.FC = () => {
       const res = await axios.get<{ data: ExamDataInterface[] }>(
         "/api/pretest",
       );
-      console.log(res);
 
       const uncleanData = res.data.data;
       if (!uncleanData) return;

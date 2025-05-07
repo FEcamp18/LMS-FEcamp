@@ -1,12 +1,3 @@
-export interface Class {
-  classId: string;
-  subjectId: string;
-  room: number;
-  location: string;
-  startTime: Date;
-  endTime: Date;
-}
-
 export type ClassData = {
   classId: string;
   staffName: string;
@@ -28,3 +19,8 @@ export type MergeClassData = {
   location: string;
   description?: string;
 };
+
+export type ClassResponse = {
+  message: string;
+  courses: MergeClassData[];
+}

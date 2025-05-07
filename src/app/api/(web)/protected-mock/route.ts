@@ -10,7 +10,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
     const token = authHeader.split(" ")[1];
-    console.log(token);
 
     // auth-todo : use apiRequest from "@/utils/api" to verify token
     // try {

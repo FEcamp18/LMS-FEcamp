@@ -15,7 +15,6 @@ api.interceptors.request.use(
   (config) => {
     // auth-todo : Replace with real token retrieval logic
     const token = "pKUlhwawCsHqy2kcUHyIrTUv"; // Change this to actual token retrieval
-    console.log("Token:", token);
 
     if (!token) {
       console.warn("Unauthorized: No token found.");
