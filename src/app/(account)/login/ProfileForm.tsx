@@ -19,7 +19,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import bcrypt from "bcryptjs";
 import toast from "react-hot-toast";
 
 const formSchema = z.object({
@@ -54,8 +53,7 @@ export default function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // Hash the password
-      const hashedPassword = await bcrypt.hash(values.password, 10);
+      // Call login API
 
       const response = await fetch("/api/login", {
         method: "POST",
@@ -64,7 +62,7 @@ export default function ProfileForm() {
         },
         body: JSON.stringify({
           username: values.username,
-          password: hashedPassword,
+          password: values.password,
         }),
       });
 

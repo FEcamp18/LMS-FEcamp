@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     }
 
     const isPasswordValid = await bcrypt.compare(password, account.password);
-    
+
     if (!isPasswordValid) {
       return Response.json(
         {
