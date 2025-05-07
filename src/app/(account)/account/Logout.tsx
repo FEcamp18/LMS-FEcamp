@@ -18,8 +18,10 @@ export default function Logout() {
   const handleLogout = async () => {
     try {
       await signOut();
+
+      toast.success("signout success");
+      await new Promise((resolve) => setTimeout(resolve, 300));
     } catch {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       toast.success("signout failed");
     }
   };

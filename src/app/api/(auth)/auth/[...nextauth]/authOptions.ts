@@ -77,10 +77,6 @@ export const authOptions: NextAuthOptions = {
           if (!userDetails.data) {
             throw new Error("user data is not define");
           }
-
-          console.log("+=====");
-          
-          console.log(userDetails.data);
           
           // Return user object with all required fields
           return {
