@@ -88,7 +88,7 @@ export default function CamperInfoPopup({
 
       {/* Popup Content */}
       <div className="relative z-10 my-20 flex min-w-[40vw] flex-col items-center justify-center text-sm">
-        <div className="relative w-full">
+        <div className="relative w-full max-w-[95vw]">
           <Image
             src={`/image/camperInfo-image/Zigzag_Edge.svg`}
             width={700}
@@ -97,7 +97,7 @@ export default function CamperInfoPopup({
             className="h-auto w-full"
           />
         </div>
-        <div className="no-scrollbar h-[80vh] w-full overflow-scroll rounded border bg-white shadow">
+        <div className="no-scrollbar h-[80vh] max-w-[95vw] overflow-scroll rounded border bg-white shadow">
           {/* Close Button */}
           <Button
             onClick={onClose}
@@ -124,11 +124,28 @@ export default function CamperInfoPopup({
                 + เพิ่ม
               </div>
             </div>
-            <div className="pl-4 pr-4">
-              <div className="flex justify-between">
-                <div className="h-32 w-1/3 rounded bg-white shadow"></div>
-                <div className="mx-4 h-32 w-1/3 rounded bg-white shadow"></div>
-                <div className="h-32 w-1/3 rounded bg-white shadow"></div>
+            <div className="no-scrollbar max-h-[200px] max-w-[70vw] overflow-scroll rounded-xl border-2 border-dark-brown p-3 pl-4 pr-4">
+              {camperNotes.length === 0 && (
+                <p className="w-full text-center">ไม่มีโน๊ต</p>
+              )}
+              <div className="grid grid-cols-3 gap-3">
+                {camperNotes.map((note) => (
+                  <div
+                    key={note.noteId}
+                    className="no-scrollbar relative max-h-32 w-full overflow-scroll rounded bg-white p-4 shadow hover:shadow-lg"
+                  >
+                    <div className="text-sm text-gray-600">{note.notes}</div>
+                    <div className="bottom-1 flex w-full space-x-3 pt-2">
+                      <div className="text-xs text-gray-400">
+                        {new Date(note.time).toLocaleDateString()}
+                      </div>
+                      <div className="text-xs text-gray-400">{note.type}</div>
+                      <div className="text-right text-xs text-gray-400">
+                        <p>{note.staffId}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -185,7 +202,7 @@ export default function CamperInfoPopup({
             </div>
           </div>
         </div>
-        <div className="relative w-full">
+        <div className="relative max-w-[95vw]">
           <Image
             src={`/image/camperInfo-image/Zigzag_Edge.svg`}
             width={700}
