@@ -82,7 +82,7 @@ const Header = () => {
           )}
           <Link
             href="/account"
-            className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:text-xl md:hover:-translate-y-1"
+            className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:gap-2 md:text-base md:hover:-translate-y-1"
           >
             <FaUserCircle className="mb-1 text-lg md:mb-0" />
             <span className="whitespace-nowrap">บัญชี</span>
