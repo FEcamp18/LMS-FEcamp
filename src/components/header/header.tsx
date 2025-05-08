@@ -14,12 +14,14 @@ const Header = () => {
   const isStaff = true;
   const isBoard = true;
   const isTutor = true;
+
   return (
-    <header className="relative flex items-center justify-between overflow-visible">
+    <header className="fixed bottom-0 left-0 right-0 top-auto z-50 md:relative md:top-0">
       <HeaderBG />
-      <div className="relative flex w-full items-center justify-between overflow-visible px-6 py-6">
-        {/* Logo */}
-        <Link href="/">
+
+      <div className="relative flex w-full items-center justify-between overflow-visible px-4 py-3 md:px-6 md:py-6">
+        {/* Logo - Hidden on mobile */}
+        <Link href="/" className="hidden md:block">
           <Image
             src="/components/femainlogo.svg"
             alt="FE Main Logo"
@@ -27,35 +29,35 @@ const Header = () => {
             height={50}
           />
         </Link>
-        {/* Navigation Links */}
 
-        <nav className="flex gap-6">
+        {/* Navigation Links */}
+        <nav className="flex w-full justify-around md:w-auto md:gap-6">
           {isStaff && (
             <>
               <Link
                 href="/camperinfo"
-                className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+                className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:gap-2 md:text-base md:hover:-translate-y-1"
               >
-                <FaAddressBook className="text-lg" />
-                ข้อมูลน้องค่าย
+                <FaAddressBook className="mb-1 text-lg md:mb-0" />
+                <span className="whitespace-nowrap">ข้อมูลน้องค่าย</span>
               </Link>
 
               {isTutor && (
                 <Link
                   href="/tutor"
-                  className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+                  className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:gap-2 md:text-base md:hover:-translate-y-1"
                 >
-                  <FaBook className="text-lg" />
-                  จัดการห้องเรียน
+                  <FaBook className="mb-1 text-lg md:mb-0" />
+                  <span className="whitespace-nowrap">จัดการห้องเรียน</span>
                 </Link>
               )}
               {isBoard && (
                 <Link
                   href="/board"
-                  className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+                  className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:gap-2 md:text-base md:hover:-translate-y-1"
                 >
-                  <FaCog className="text-lg" />
-                  board
+                  <FaCog className="mb-1 text-lg md:mb-0" />
+                  <span className="whitespace-nowrap">board</span>
                 </Link>
               )}
             </>
@@ -64,25 +66,26 @@ const Header = () => {
             <>
               <Link
                 href="/classroom"
-                className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+                className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:gap-2 md:text-base md:hover:-translate-y-1"
               >
-                <FaChalkboardTeacher className="text-lg" />
-                ห้องเรียน
+                <FaChalkboardTeacher className="mb-1 text-lg md:mb-0" />
+                <span className="whitespace-nowrap">ห้องเรียน</span>
               </Link>
               <Link
                 href="/feedback"
-                className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+                className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:gap-2 md:text-base md:hover:-translate-y-1"
               >
-                <FaCommentDots className="text-lg" />
-                แบบประเมิน
+                <FaCommentDots className="mb-1 text-lg md:mb-0" />
+                <span className="whitespace-nowrap">แบบประเมิน</span>
               </Link>
             </>
           )}
           <Link
             href="/account"
-            className="flex items-center text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+            className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:text-xl md:hover:-translate-y-1"
           >
-            <FaUserCircle className="text-xl" />
+            <FaUserCircle className="mb-1 text-lg md:mb-0" />
+            <span className="whitespace-nowrap">บัญชี</span>
           </Link>
         </nav>
       </div>
