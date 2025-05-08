@@ -16,6 +16,8 @@ export default function ResetPasswordNotice() {
         setMessage(null); // Clear previous message
 
         try {
+            console.log(`/api/resetpassword/${username}`);
+
             const response = await fetch(`/api/resetpassword/${username}`, {
                 method: "POST",
                 headers: {
@@ -25,7 +27,7 @@ export default function ResetPasswordNotice() {
 
             const data: ResetResponse = await response.json();
 
-            console.log(data);
+            // console.log(data);
 
             if (data.message === "success") {
                 setMessage(`เราได้ส่งลิงก์สำหรับรีเซ็ตรหัสผ่านไปยังอีเมลของน้อง ${username} แล้ว ! กรุณาตรวจสอบกล่องจดหมายของคุณ`);

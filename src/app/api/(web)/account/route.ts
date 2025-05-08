@@ -14,6 +14,7 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const username = searchParams.get("username");
+
     if (!username) {
       return Response.json(
         {
@@ -25,9 +26,11 @@ export async function GET(req: Request) {
         },
       );
     }
+
     const account = await prisma.account.findUnique({
       where: { username },
     });
+
     if (!account) {
       return Response.json(
         {
@@ -39,6 +42,9 @@ export async function GET(req: Request) {
         },
       );
     }
+
+    console.log("gettttt: ", req);
+
     return Response.json(
       {
         message: "success",
@@ -75,9 +81,6 @@ export async function PATCH(req: Request){
         { status: 400 }
       );
     }
-    
-    // check auth token session
-    await checkAuthToken(req, username);
 
     // Check if the reset password token is valid and not expired
     const resetRecord = await prisma.resetPassTable.findUnique({

@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function ResetPasswordPage() {
     const searchParams = useSearchParams();
     const token = searchParams.get("token"); // ดึง token จาก URL
+    const username = searchParams.get("username");
 
     const [newPassword, setNewPassword] = useState("");
     const [message, setMessage] = useState<string | null>(null);
@@ -13,28 +14,40 @@ export default function ResetPasswordPage() {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
+        if (!token) {
+            setMessage("Invalid token.");
+            return;
+        }
+        if (!username) {
+            setMessage("Username not found.");
+            return;
+        }
+
         try {
-            const response = await fetch("/api/account", {
+            // ส่งข้อมูลไปยัง API เพื่อรีเซ็ตรหัสผ่าน
+            const resetResponse = await fetch("/api/account", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    token,
+                    username,
                     newPassword,
+                    token,
                 }),
             });
 
-            const data = await response.json();
+            const resetData = await resetResponse.json();
 
-            if (data.message === "success") {
+            if (resetData.message === "success") {
                 setMessage("Your password has been successfully reset.");
             } else {
                 setMessage("Failed to reset password. Please try again.");
             }
+
         } catch (error) {
-            console.error("Error resetting password:", error);
-            setMessage("Error resetting password. Please try again.");
+            console.error("Error fetching username:", error);
+            setMessage("Error fetching username. Please try again.");
         }
     };
 
