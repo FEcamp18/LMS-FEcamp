@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -40,19 +39,27 @@ export default function UploadForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     //sent file data
-    console.log(values);
     const file = values.file[0];
-    const fileName = values.fileName;
-    const fileSubject = values.fileSubject;
-
     if (!file) {
-      console.log("No file uploaded");
-
-      return;
+      console.error("No file uploaded");
     }
-    UploadFile({ file, fileName, fileSubject });
+    try {
+      const result = await UploadFile({
+        file: file,
+        fileName: values.fileName,
+        fileSubject: values.fileSubject,
+        fileDescription: values.fileDescription,
+      });
+
+      if (result.success) {
+        console.log("File uploaded successfully:", result.fileInfo);
+        form.reset();
+      }
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
   }
 
   return (
