@@ -1,6 +1,9 @@
 import Link from "next/link";
 import {
+  FaAddressBook,
+  FaBook,
   FaChalkboardTeacher,
+  FaCog,
   FaCommentDots,
   FaUserCircle,
 } from "react-icons/fa";
@@ -8,6 +11,9 @@ import Image from "next/image";
 import HeaderBG from "./headerBG";
 
 const Header = () => {
+  const isStaff = true;
+  const isBoard = true;
+  const isTutor = true;
   return (
     <header className="relative flex items-center justify-between overflow-visible">
       <HeaderBG />
@@ -22,21 +28,56 @@ const Header = () => {
           />
         </Link>
         {/* Navigation Links */}
+
         <nav className="flex gap-6">
-          <Link
-            href="/classroom"
-            className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
-          >
-            <FaChalkboardTeacher className="text-lg" />
-            ห้องเรียน
-          </Link>
-          <Link
-            href="/feedback"
-            className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
-          >
-            <FaCommentDots className="text-lg" />
-            แบบประเมิน
-          </Link>
+          {isStaff && (
+            <>
+              <Link
+                href="/camperinfo"
+                className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+              >
+                <FaAddressBook className="text-lg" />
+                ข้อมูลน้องค่าย
+              </Link>
+
+              {isTutor && (
+                <Link
+                  href="/tutor"
+                  className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+                >
+                  <FaBook className="text-lg" />
+                  จัดการห้องเรียน
+                </Link>
+              )}
+              {isBoard && (
+                <Link
+                  href="/board"
+                  className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+                >
+                  <FaCog className="text-lg" />
+                  board
+                </Link>
+              )}
+            </>
+          )}
+          {!isStaff && (
+            <>
+              <Link
+                href="/classroom"
+                className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+              >
+                <FaChalkboardTeacher className="text-lg" />
+                ห้องเรียน
+              </Link>
+              <Link
+                href="/feedback"
+                className="flex items-center gap-2 text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"
+              >
+                <FaCommentDots className="text-lg" />
+                แบบประเมิน
+              </Link>
+            </>
+          )}
           <Link
             href="/account"
             className="flex items-center text-dark-brown transition-all hover:-translate-y-1 hover:text-light-brown"

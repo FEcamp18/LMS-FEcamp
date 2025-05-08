@@ -84,8 +84,7 @@ export const authOptions: NextAuthOptions = {
             username: credentials.username,
             role: userDetails.data.role,
           };
-        } catch (error) {
-          console.error("Login error:", error);
+        } catch {
           throw new Error("Invalid username or password");
         }
       },
