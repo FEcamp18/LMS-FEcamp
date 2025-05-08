@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useParams } from "next/navigation";
+import UploadFile from "./serverUploadFile";
 
 const formSchema = z.object({
   file: z
@@ -42,6 +43,16 @@ export default function UploadForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     //sent file data
     console.log(values);
+    const file = values.file[0];
+    const fileName = values.fileName;
+    const fileSubject = values.fileSubject;
+
+    if (!file) {
+      console.log("No file uploaded");
+
+      return;
+    }
+    UploadFile({ file, fileName, fileSubject });
   }
 
   return (
