@@ -2,17 +2,21 @@
 
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+interface ResetPasswordResponse {
+  message: string;
+  error?: string;
+}
 
 export default function ResetPasswordPage() {
     const searchParams = useSearchParams();
     const token = searchParams.get("token"); // ดึง token จาก URL
     const username = searchParams.get("username");
 
-    const [newPassword, setNewPassword] = useState("");
-    const [message, setMessage] = useState<string | null>(null);
+  const [newPassword, setNewPassword] = useState("");
+  const [message, setMessage] = useState<string | null>(null);
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
 
         if (!token) {
             setMessage("Invalid token.");
@@ -37,7 +41,7 @@ export default function ResetPasswordPage() {
                 }),
             });
 
-            const resetData = await resetResponse.json();
+            const resetData = await resetResponse.json() as ResetPasswordResponse;
 
             if (resetData.message === "success") {
                 setMessage("Your password has been successfully reset.");
@@ -51,20 +55,20 @@ export default function ResetPasswordPage() {
         }
     };
 
-    return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="password"
-                    placeholder="Enter new password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    required
-                />
-                <button type="submit">Reset Password</button>
-            </form>
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="password"
+          placeholder="Enter new password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          required
+        />
+        <button type="submit">Reset Password</button>
+      </form>
 
-            {message && <p>{message}</p>}
-        </main>
-    );
+      {message && <p>{message}</p>}
+    </main>
+  );
 }

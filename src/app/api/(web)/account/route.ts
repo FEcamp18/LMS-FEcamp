@@ -75,7 +75,7 @@ export async function PATCH(req: Request){
     const { username, newPassword, token } = (await req.json()) as UpdatePasswordRequest;
 
     // check field
-    if (!username || !token || !newPassword) {
+    if ( !token || !newPassword) {
       return Response.json(
         { message: "failed", error: "Missing token or new password." },
         { status: 400 }

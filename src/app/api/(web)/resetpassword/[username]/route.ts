@@ -3,10 +3,9 @@ import { randomUUID } from "crypto";
 import { sendResetEmail } from "@/lib/resend"; 
 
 const prisma = new PrismaClient();
-
-export async function POST(req: Request, { params }: { params: { username: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ username: string }> }) {
     try {
-        const { username } = params;
+        const { username } = await params;
         const now = new Date();
 
       // Check if a valid reset token already 
