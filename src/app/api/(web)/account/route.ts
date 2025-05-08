@@ -107,7 +107,7 @@ export async function PATCH(req: Request){
         },
       )
     }
-
+    
     // check newPassword requirement
     if (newPassword.length < 8) {
       return Response.json(

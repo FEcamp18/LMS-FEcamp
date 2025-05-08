@@ -33,6 +33,7 @@ const accessControl = {
 
 // Define public routes that don't require authentication
 const publicRoutes = [
+  "/",
   "/login",
   "/resetpassnotice",
   "/resetpassword",

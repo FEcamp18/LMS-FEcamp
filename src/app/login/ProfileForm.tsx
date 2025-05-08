@@ -56,26 +56,14 @@ export default function ProfileForm() {
         toast.error(result.error || "Login failed");
         return;
       }
-
+      
       // Show success message
       toast.success("เข้าสู่ระบบสำเร็จ");
       // Add a small delay to ensure toast is visible
       await new Promise((resolve) => setTimeout(resolve, 300));
-      const role = session?.user?.role;
-      switch (role) {
-        case "BOARD":
-          router.push("/board");
-          break;
-        case "CAMPER":
-          router.push("/classroom");
-          break;
-        case "STAFF":
-          router.push("/classroom");
-          break;
-        default:
-          router.push("/login");
-          break;
-      }
+      
+      router.push("/board");
+    
     } catch (error) {
       console.error("Login error:", error);
       toast.error("An error occurred during login");
