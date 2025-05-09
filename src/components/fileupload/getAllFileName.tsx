@@ -8,9 +8,10 @@ export async function getAllFileName(subjectId: string) {
     );
 
     if (response.data.message === "success") {
-      const fileTitles = response.data.files.map(
-        (file: { fileTitle: string }) => file.fileTitle,
-      );
+      const fileTitles = response.data.files
+        .filter((file: { disable?: boolean }) => !file.disable)
+        .map((file: { fileTitle: string }) => file.fileTitle);
+
       return fileTitles;
     }
 
