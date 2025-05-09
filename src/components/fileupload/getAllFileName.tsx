@@ -1,18 +1,26 @@
 "use client";
 import axios from "axios";
 
-export async function getAllFileName(subjectId: string) {
+interface FileInfo {
+  fileId: number;
+  fileTitle: string;
+}
+
+export async function getAllFileName(subjectId: string): Promise<FileInfo[]> {
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/api/file/${subjectId}`,
     );
 
     if (response.data.message === "success") {
-      const fileTitles = response.data.files
-        .filter((file: { disable?: boolean }) => !file.disable)
-        .map((file: { fileTitle: string }) => file.fileTitle);
+      const files = response.data.files
+        .filter((file: { isDisable: boolean }) => !file.isDisable)
+        .map((file: { fileId: number; fileTitle: string }) => ({
+          fileId: file.fileId,
+          fileTitle: file.fileTitle,
+        }));
 
-      return fileTitles;
+      return files;
     }
 
     return [];
