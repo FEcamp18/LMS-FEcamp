@@ -9,12 +9,11 @@ import {
 } from "react-icons/fa";
 import Image from "next/image";
 import HeaderBG from "./headerBG";
+import { getToken } from "next-auth/jwt";
 
 const Header = () => {
-  const isStaff = true;
-  const isBoard = true;
-  const isTutor = true;
-
+  const priority = 3;
+  
   return (
     <header className="fixed bottom-0 left-0 right-0 top-auto z-50 md:relative md:top-0">
       <HeaderBG />
@@ -32,7 +31,7 @@ const Header = () => {
 
         {/* Navigation Links */}
         <nav className="flex w-full justify-around md:w-auto md:gap-6">
-          {isStaff && (
+          {priority > 0 && (
             <>
               <Link
                 href="/camperinfo"
@@ -42,7 +41,7 @@ const Header = () => {
                 <span className="whitespace-nowrap">ข้อมูลน้องค่าย</span>
               </Link>
 
-              {isTutor && (
+              {priority > 1 && (
                 <Link
                   href="/tutor"
                   className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:gap-2 md:text-base md:hover:-translate-y-1"
@@ -51,7 +50,7 @@ const Header = () => {
                   <span className="whitespace-nowrap">จัดการห้องเรียน</span>
                 </Link>
               )}
-              {isBoard && (
+              {priority > 2 && (
                 <Link
                   href="/board"
                   className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:gap-2 md:text-base md:hover:-translate-y-1"

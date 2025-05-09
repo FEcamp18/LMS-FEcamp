@@ -9,7 +9,7 @@ declare module "next-auth" {
     id: string | undefined;
     username: string;
     role?: ROLE;
-    priority?: number;   //isstaff->istutor->isboard
+    priority?: number; //isstaff 1 ->istutor 2 ->isboard 3
   }
 
   interface Session extends DefaultSession {
@@ -30,6 +30,13 @@ interface AccountResponse {
   };
   error?: string;
 }
+interface DepartmentResponse {
+  message: "success" | "failed";
+  data?: {
+    department: string;
+  };
+  error?: string;
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -44,7 +51,8 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Missing credentials");
         }
 
-        const baseUrl =  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
+        const baseUrl =
+          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
         try {
           // Call login API
           const response = await fetch(`${baseUrl}/api/login`, {
@@ -58,33 +66,70 @@ export const authOptions: NextAuthOptions = {
             }),
           });
 
-          const data = await response.json() as { error?: string };
+          const data = (await response.json()) as { error?: string };
 
           if (!response.ok) {
             throw new Error(data.error ?? "Login failed");
           }
 
-          const getdetail = await fetch(`${baseUrl}/api/account?username=` + credentials.username, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
+          const getdetail = await fetch(
+            `${baseUrl}/api/account?username=` + credentials.username,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
             },
-          });
+          );
           if (!getdetail.ok) {
             throw new Error(data.error ?? "User Not found");
           }
 
-          const userDetails = await getdetail.json() as AccountResponse;
+          const userDetails = (await getdetail.json()) as AccountResponse;
 
           if (!userDetails.data) {
             throw new Error("user data is not define");
           }
-          
+
+          let prio = 0;
+          // First check role
+          switch (userDetails.data.role) {
+            case "CAMPER":
+              prio = 0;
+              break;
+            case "BOARD":
+              prio = 3;
+              break;
+            default:
+              // For other roles, check department
+              const getDepartment = await fetch(
+                `${baseUrl}/api/department?username=` + credentials.username,
+                {
+                  method: "GET",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                },
+              );
+              if (!getDepartment.ok) {
+                throw new Error(data.error ?? "Department Not found");
+              }
+              const departmentDetails =
+                (await getDepartment.json()) as DepartmentResponse;
+
+              if (!departmentDetails.data) {
+                throw new Error("Department is not define");
+              }
+              // Set priority based on department for non-BOARD roles
+              prio = departmentDetails.data.department === "VCK" ? 2 : 1;
+          }
+
           // Return user object with all required fields
           return {
             id: credentials.username,
             username: credentials.username,
             role: userDetails.data.role,
+            priority: prio,
           };
         } catch {
           throw new Error("Invalid username or password");

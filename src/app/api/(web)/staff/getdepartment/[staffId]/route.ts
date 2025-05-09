@@ -8,7 +8,7 @@ export async function GET(
 ) {
   const { staffId } = await props.params;
   try {
-    const Department = await prisma.staff.findUnique({
+    const staffData = await prisma.staff.findUnique({
       where: {
         staffId: staffId,
       },
@@ -17,7 +17,7 @@ export async function GET(
       },
     });
 
-    if (!Department) {
+    if (!staffData) {
       return new Response(
         JSON.stringify({
           message: "failed",
@@ -27,10 +27,18 @@ export async function GET(
       );
     }
 
+    // Determine single department based on priority
+    let primaryDepartment = "STAFF"; // default value
+    const departments = staffData.staffDepartment;
+
+    if (departments.includes("VCK")) {
+      primaryDepartment = "VCK";
+    }
+
     return new Response(
       JSON.stringify({
         message: "success",
-        department: Department.staffDepartment,
+        department: primaryDepartment,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
