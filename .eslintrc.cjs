@@ -41,7 +41,8 @@ const config = {
   "ignorePatterns": [
     // ...existing patterns...
     "prisma/csv_data/real_staff_seed.js",
-    "prisma/csv_data/real_camper_seed.js"
+    "prisma/csv_data/real_camper_seed.js",
+    "prisma/csv_data/real_camper_room.js"
   ],
 }
 module.exports = config;
