@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { type Metadata } from "next";
 import Header from "@/components/header/header";
+import Footer from "@/components/footer/Footer";
 
 export const metadata: Metadata = {
   title: "FE camp",
@@ -19,6 +20,7 @@ export default async function RootLayout({
     <main className="m-5 min-h-screen w-[95%] bg-cream shadow-2xl sm:w-[80%]">
       <Header />
       {children}
+      <Footer />
     </main>
   );
 }

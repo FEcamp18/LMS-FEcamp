@@ -3,15 +3,9 @@ import type { MergeClassData } from "@/types/class";
 
 const prisma = new PrismaClient();
 
-export async function GET(
-  req: Request,
-  props: { params: Promise<{ roomId: string }> },
-) {
+export async function GET() {
   try {
-    const { roomId } = await props.params;
-    const Id = parseInt(roomId);
     const courses = await prisma.class.findMany({
-      where: { room: Id },
       select: {
         classId: true,
         subjectId: true,
@@ -36,10 +30,8 @@ export async function GET(
 
     if (!courses || courses.length === 0) {
       return Response.json(
-        { message: "failed", error: "Room does not exist." },
-        {
-          status: 404,
-        },
+        { message: "failed", error: "No classes found." },
+        { status: 404 }
       );
     }
 
@@ -74,7 +66,7 @@ export async function GET(
     return Response.json(
       {
         message: "failed",
-        error: error,
+        error: error instanceof Error ? error : "Internal Server Error",
       },
       {
         status: 500,

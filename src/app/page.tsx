@@ -69,6 +69,10 @@ function LandingCamp() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center pt-16">
       <div className="text-center">
+        <video width={200} height={400} loop muted autoPlay>
+          <source src="/trident_full.webm" type="video/webm" />
+          <p>Your browser does not support the video tag.</p>
+        </video>
         <h1 className="mb-4 text-3xl font-semibold">
           เว็บเปิดแล้ว ลงทะเบียนได้เลย
         </h1>
