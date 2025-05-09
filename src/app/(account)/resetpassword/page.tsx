@@ -4,11 +4,13 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 interface ResetPasswordResponse {
   message: string;
+  error?: string;
 }
 
 export default function ResetPasswordPage() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token"); // ดึง token จาก URL
+    const searchParams = useSearchParams();
+    const token = searchParams.get("token"); // ดึง token จาก URL
+    const username = searchParams.get("username");
 
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
@@ -16,34 +18,42 @@ export default function ResetPasswordPage() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    try {
-      if (!token) {
-        setMessage("Missing Token");
-        return;
-      }
+        if (!token) {
+            setMessage("Invalid token.");
+            return;
+        }
+        if (!username) {
+            setMessage("Username not found.");
+            return;
+        }
 
-      const response = await fetch("/api/account", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token,
-          newPassword,
-        }),
-      });
-      const data = (await response.json()) as ResetPasswordResponse;
+        try {
+            // ส่งข้อมูลไปยัง API เพื่อรีเซ็ตรหัสผ่าน
+            const resetResponse = await fetch("/api/account", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    username,
+                    newPassword,
+                    token,
+                }),
+            });
 
-      if (data.message === "success") {
-        setMessage("Your password has been successfully reset.");
-      } else {
-        setMessage("Failed to reset password. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error resetting password:", error);
-      setMessage("Error resetting password. Please try again.");
-    }
-  };
+            const resetData = await resetResponse.json() as ResetPasswordResponse;
+
+            if (resetData.message === "success") {
+                setMessage("Your password has been successfully reset.");
+            } else {
+                setMessage("Failed to reset password. Please try again.");
+            }
+
+        } catch (error) {
+            console.error("Error fetching username:", error);
+            setMessage("Error fetching username. Please try again.");
+        }
+    };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

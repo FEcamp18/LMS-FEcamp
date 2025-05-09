@@ -66,12 +66,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ usernam
         });
 
         // Send the reset email
-        const resetLink = `{BASE_URL}/resetpassword?token=${token}`;
+        const BASE_URL = process.env.BASE_URL;
+        const resetLink = `${BASE_URL}/resetpassword?token=${token}&username=${username}`;
         await sendResetEmail(email, resetLink);  // sendResetEmail will be used to send the email
 
         // Return the UUID token
         return Response.json(
-            { message: "success", token },
+            { message: "success", token, username },
             { status: 200 }
         );
     } catch (error) {

@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 interface UpdatePasswordRequest {
+  username: string;
   newPassword: string;
   token: string;
 }
@@ -13,6 +14,7 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const username = searchParams.get("username");
+
     if (!username) {
       return Response.json(
         {
@@ -24,9 +26,11 @@ export async function GET(req: Request) {
         },
       );
     }
+
     const account = await prisma.account.findUnique({
       where: { username },
     });
+
     if (!account) {
       return Response.json(
         {
@@ -38,6 +42,9 @@ export async function GET(req: Request) {
         },
       );
     }
+
+    console.log("gettttt: ", req);
+
     return Response.json(
       {
         message: "success",
@@ -65,7 +72,7 @@ export async function GET(req: Request) {
 
 export async function PATCH(req: Request){
   try {
-    const {  newPassword, token } = (await req.json()) as UpdatePasswordRequest;
+    const { username, newPassword, token } = (await req.json()) as UpdatePasswordRequest;
 
     // check field
     if ( !token || !newPassword) {
@@ -74,20 +81,7 @@ export async function PATCH(req: Request){
         { status: 400 }
       );
     }
-    
-    
 
-    const accountdata = await prisma.resetPassTable.findUnique({
-      where: { token },
-    });
-    if (!accountdata) {
-      return;
-    }
-    const username = accountdata.username;
-    
-    // check auth token session
-    await checkAuthToken(req, username);
-    
     // Check if the reset password token is valid and not expired
     const resetRecord = await prisma.resetPassTable.findUnique({
       where: { token },
