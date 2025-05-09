@@ -1,12 +1,23 @@
 "use server";
-import { promises as fs } from "fs";
+import { PrismaClient } from "@prisma/client";
 
-export async function getAllFileName() {
+const prisma = new PrismaClient();
+
+export async function getAllFileName(subjectId: string) {
   try {
-    const folderPath = "C:/FE18/storage";
-    const files = await fs.readdir(folderPath);
-    return files;
-  } catch {
+    const files = await prisma.subjectFiles.findMany({
+      where: {
+        subjectId: subjectId,
+        isDisable: false,
+      },
+      select: {
+        fileTitle: true,
+      },
+    });
+    const fileTitles = files.map((file) => file.fileTitle);
+    return fileTitles;
+  } catch (error) {
+    console.error("Failed to fetch files:", error);
     return [];
   }
 }

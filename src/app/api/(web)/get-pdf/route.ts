@@ -15,7 +15,8 @@ export async function GET(req: NextRequest) {
     }
 
     const targetDir = "C:/FE18/storage";
-    const filePath = path.join(targetDir, filename);
+    const fileNameWithExtension = `${filename}.pdf`;
+    const filePath = path.join(targetDir, fileNameWithExtension);
     const fileBuffer = await fs.readFile(filePath);
 
     return new NextResponse(fileBuffer, {

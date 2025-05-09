@@ -3,12 +3,12 @@ import React, { useState, useEffect } from "react";
 import { getFile } from "./getFile";
 import { getAllFileName } from "./getAllFileName";
 
-const FileTable = () => {
+const FileTable = ({ subjectId }: { subjectId: string }) => {
   const [files, setFiles] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchFiles() {
-      const data = await getAllFileName();
+      const data = await getAllFileName(subjectId);
       if (data) setFiles(data);
     }
     fetchFiles();
@@ -33,8 +33,8 @@ const FileTable = () => {
             </td>
           </tr>
         ) : (
-          files.map((file) => (
-            <tr key={file} className="bg-gray-200 even:bg-gray-100">
+          files.map((file, id) => (
+            <tr key={id} className="bg-gray-200 even:bg-gray-100">
               <td className="border border-gray-300 px-4 py-3">{file}</td>
               <td className="border border-gray-300 px-4 py-3 text-center">
                 <button
