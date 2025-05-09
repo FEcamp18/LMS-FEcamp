@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { GET as getFilesBySubjectId } from "../../file/[subjectId]/route";
 import { GET as getAnnouncementsBySubjectId } from "../../anno/[subjectId]/route";
 import { GET as getStaffsByClassId } from "../../staffClass/[classId]/route";
@@ -10,7 +9,7 @@ import type {
 } from "@/types/announcement";
 import type { Staff, StaffsByClassIdResponse } from "@/types/staff";
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 export async function GET(
   req: Request,
@@ -152,7 +151,5 @@ export async function GET(
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }

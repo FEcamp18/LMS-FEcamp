@@ -1,4 +1,4 @@
-import { PrismaClient, type ROLE } from "@prisma/client";
+import { type ROLE } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 interface SignupRequest {
@@ -8,7 +8,7 @@ interface SignupRequest {
   roomId?: string;
 }
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {

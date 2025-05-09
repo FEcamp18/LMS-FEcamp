@@ -1,6 +1,6 @@
-import { PHASE, PrismaClient } from "@prisma/client";
+import { PHASE } from "@prisma/client";
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 async function main() {
   console.log("Seeding Notes and Phases ...");

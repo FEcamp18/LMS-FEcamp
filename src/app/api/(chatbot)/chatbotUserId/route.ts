@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 interface requestBodySchema {
   camperId: string;
@@ -55,8 +54,6 @@ export async function PATCH(request: Request) {
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -107,7 +104,5 @@ export async function DELETE(request: Request) {
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
