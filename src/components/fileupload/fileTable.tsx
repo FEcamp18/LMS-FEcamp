@@ -1,14 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { getFile } from "./getFile";
-import { getAllFiles } from "./getAllFiles";
+import { getAllFileName } from "./getAllFileName";
 
 const FileTable = () => {
   const [files, setFiles] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchFiles() {
-      const data = await getAllFiles();
+      const data = await getAllFileName();
       if (data) setFiles(data);
     }
     fetchFiles();
