@@ -36,7 +36,7 @@ export default async function UploadFile({
     const fileMetadata = await prisma.subjectFiles.create({
       data: {
         subjectId: fileSubject,
-        fileTitle: fileName,
+        fileTitle: `${fileSubject}-${fileName}`,
         fileLocation: filePath,
         fileDescription: fileDescription,
         isDisable: false,
