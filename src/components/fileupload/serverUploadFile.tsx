@@ -44,13 +44,12 @@ export default async function UploadFile({
     });
 
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/file/${fileMetadata.subjectId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/file/${fileMetadata.subjectId}/${fileMetadata.fileId}`,
     );
     const responseData = response.data;
 
     return {
       success: true,
-      fileId: fileMetadata.fileId,
       fileInfo: responseData,
     };
   } catch (error) {
