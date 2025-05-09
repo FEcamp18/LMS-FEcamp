@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { getFile } from "./getFile";
 import { getAllFileName } from "./getAllFileName";
 import { disableFile } from "./disableFile";
-import { useSession } from "next-auth/react";
-import { ROLE } from "@prisma/client";
+import { usePathname } from "next/navigation";
+
 interface FileInfo {
   fileId: number;
   fileTitle: string;
@@ -12,13 +12,16 @@ interface FileInfo {
 
 const FileTable = ({ subjectId }: { subjectId: string }) => {
   const [files, setFiles] = useState<FileInfo[]>([]);
-  const { data: session } = useSession();
-  const isAuthorizedRole = session?.user?.role === (ROLE.STAFF || ROLE.BOARD);
+  const pathname = usePathname();
+
+  const isTutorPath = pathname?.startsWith("/tutor/");
+  const showDeleteButton = isTutorPath;
 
   const fetchFiles = async () => {
     const data = await getAllFileName(subjectId);
     if (data) setFiles(data);
   };
+
   useEffect(() => {
     fetchFiles();
   }, [subjectId]);
@@ -38,7 +41,7 @@ const FileTable = ({ subjectId }: { subjectId: string }) => {
         <tr className="bg-ameri text-white">
           <th className="border border-gray-300 px-4 py-2">Filename</th>
           <th className="border border-gray-300 px-4 py-2">Download</th>
-          {isAuthorizedRole && (
+          {showDeleteButton && (
             <th className="border border-gray-300 px-4 py-2">Delete</th>
           )}
         </tr>
@@ -48,7 +51,7 @@ const FileTable = ({ subjectId }: { subjectId: string }) => {
           <tr>
             <td
               className="border border-gray-300 px-4 py-3 text-center text-gray-500"
-              colSpan={isAuthorizedRole ? 3 : 2}
+              colSpan={showDeleteButton ? 3 : 2}
             >
               No files available
             </td>
@@ -67,7 +70,7 @@ const FileTable = ({ subjectId }: { subjectId: string }) => {
                   Download
                 </button>
               </td>
-              {isAuthorizedRole && (
+              {showDeleteButton && (
                 <td className="border border-gray-300 px-4 py-3 text-center">
                   <button
                     className="cursor-pointer rounded-md bg-red-500 px-3 py-1 text-white transition-colors duration-200 hover:bg-red-600"
