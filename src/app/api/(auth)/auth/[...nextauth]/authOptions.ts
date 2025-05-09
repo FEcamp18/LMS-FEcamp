@@ -9,6 +9,7 @@ declare module "next-auth" {
     id: string | undefined;
     username: string;
     role?: ROLE;
+    priority?: number;   //isstaff->istutor->isboard
   }
 
   interface Session extends DefaultSession {
@@ -16,6 +17,7 @@ declare module "next-auth" {
       id: string | undefined;
       username: string;
       role: ROLE;
+      priority?: number;
     } & DefaultSession["user"];
   }
 }
