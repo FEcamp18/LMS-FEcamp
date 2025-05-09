@@ -1,21 +1,20 @@
-"use server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+"use client";
+import axios from "axios";
 
 export async function getAllFileName(subjectId: string) {
   try {
-    const files = await prisma.subjectFiles.findMany({
-      where: {
-        subjectId: subjectId,
-        isDisable: false,
-      },
-      select: {
-        fileTitle: true,
-      },
-    });
-    const fileTitles = files.map((file) => file.fileTitle);
-    return fileTitles;
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/file/${subjectId}`,
+    );
+
+    if (response.data.message === "success") {
+      const fileTitles = response.data.files.map(
+        (file: { fileTitle: string }) => file.fileTitle,
+      );
+      return fileTitles;
+    }
+
+    return [];
   } catch (error) {
     console.error("Failed to fetch files:", error);
     return [];
