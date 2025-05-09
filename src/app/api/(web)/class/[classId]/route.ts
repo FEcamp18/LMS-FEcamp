@@ -1,6 +1,6 @@
-import { GET as getFilesBySubjectId } from "../../file/[subjectId]/route";
-import { GET as getAnnouncementsBySubjectId } from "../../anno/[subjectId]/route";
-import { GET as getStaffsByClassId } from "../../staffClass/[classId]/route";
+import { GET as getFilesBySubjectId } from "@/app/api/(web)/file/[subjectId]/route";
+import { GET as getAnnouncementsBySubjectId } from "@/app/api/(web)/anno/[subjectId]/route";
+import { GET as getStaffsByClassId } from "@/app/api/(web)/staffClass/[classId]/route";
 
 import type { File, FileBySubjectIdResponse } from "@/types/file";
 import type {
