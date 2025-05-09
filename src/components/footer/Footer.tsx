@@ -1,14 +1,10 @@
 import Image from "next/image";
 
 const Footer = () => {
-  const Asponsors = [
-    { name: "Sponsor 1", path: "/sponsor/A_Bright.webp" },
-    { name: "Sponsor 2", path: "/sponsor/A_sappe.webp" },
-  ];
   const Bsponsors = [
-    { name: "Sponsor 3", path: "/sponsor/B_DR.mooyang.webp" },
-    { name: "Sponsor 4", path: "/sponsor/B_Kohkae.webp" },
-    { name: "Sponsor 5", path: "/sponsor/B_usefulFood.webp" },
+    { name: "Dr.mooyang", path: "/sponsor/B_DR.mooyang.webp" },
+    { name: "Kohkae", path: "/sponsor/B_Kohkae.webp" },
+    { name: "UsefulFood", path: "/sponsor/B_usefulFood.webp" },
   ];
 
   return (
@@ -20,28 +16,36 @@ const Footer = () => {
         </p>
 
         {/* Sponsor Images */}
-        <div className="flex w-full flex-row items-center justify-end space-x-2 sm:w-[85%]">
-          {Asponsors.map((sponsor, index) => (
-            <div key={index} className={`relative h-20 w-20 md:h-32 md:w-32`}>
-              <Image
-                src={sponsor.path}
-                alt={sponsor.name}
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 64px,
-                       (max-width: 1200px) 80px"
-              />
-            </div>
-          ))}
+        <div className="flex w-full flex-row items-center justify-end space-x-4 sm:w-[85%]">
+          {/* A-level Sponsors */}
+          <div className="relative h-24 w-24 md:h-20 md:w-24">
+            <Image
+              src="/sponsor/A_Bright.webp"
+              alt="Bright"
+              fill
+              className="object-contain"
+              sizes="96px, 128px"
+            />
+          </div>
+          <div className="relative h-24 w-24 md:h-20 md:w-32">
+            <Image
+              src="/sponsor/A_sappe.webp"
+              alt="Sappe"
+              fill
+              className="object-contain"
+              sizes="96px, 128px"
+            />
+          </div>
+
+          {/* B-level Sponsors */}
           {Bsponsors.map((sponsor, index) => (
-            <div key={index} className={`relative h-10 w-10 md:h-12 md:w-12`}>
+            <div key={index} className="relative h-10 w-10 md:h-10 md:w-10">
               <Image
                 src={sponsor.path}
                 alt={sponsor.name}
                 fill
                 className="object-contain"
-                sizes="(max-width: 768px) 64px,
-                       (max-width: 1200px) 80px"
+                sizes="40px, 48px"
               />
             </div>
           ))}
