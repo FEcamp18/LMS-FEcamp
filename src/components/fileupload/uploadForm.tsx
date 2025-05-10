@@ -95,7 +95,7 @@ export default function UploadForm() {
           เพิ่มไฟล์
         </button>
       </DialogTrigger>
-      <DialogContent className="h-[396px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.png')] p-0 text-base [&>*]:rounded-none">
+      <DialogContent className="h-[396px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.png')] p-0 text-base">
         <Image
           src="/image/modal/zigzag-top.png"
           alt="top-edge"
