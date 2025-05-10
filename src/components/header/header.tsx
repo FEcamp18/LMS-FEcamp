@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   FaAddressBook,
@@ -9,11 +10,19 @@ import {
 } from "react-icons/fa";
 import Image from "next/image";
 import HeaderBG from "./headerBG";
-import { getToken } from "next-auth/jwt";
-
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 const Header = () => {
-  const priority = 3;
-  
+  const { data: session, update } = useSession();
+
+  useEffect(() => {
+    const handleLoad = async () => {
+      await update();
+    };
+    void handleLoad();
+  }, []);
+ // Get priority from session with fallback to 0
+  const priority = session?.user?.priority ?? 0;
   return (
     <header className="fixed bottom-0 left-0 right-0 top-auto z-50 md:relative md:top-0">
       <HeaderBG />
@@ -61,7 +70,7 @@ const Header = () => {
               )}
             </>
           )}
-          {!isStaff && (
+          {priority <1 && (
             <>
               <Link
                 href="/classroom"
