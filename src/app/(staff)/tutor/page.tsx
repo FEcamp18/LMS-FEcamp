@@ -32,3 +32,6 @@ export default async function TutorPage() {
     </div>
   );
 }
+
+// fix build error (headers in route)
+export const dynamic = "force-dynamic";

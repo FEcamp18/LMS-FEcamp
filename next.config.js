@@ -4,7 +4,24 @@
  */
 import "./src/env.js";
 
+// /** @type {import("next").NextConfig} */
+// const config = {};
+
+// export default config;
+
+
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  output: 'standalone',
+  experimental: {
+    // Modern way to handle dynamic features
+    serverActions: {
+      bodySizeLimit: '4mb'
+    },
+  },
+  // Add this to disable symlinks
+  skipTrailingSlashRedirect: true,
+  skipMiddlewareUrlNormalize: true
+};
 
 export default config;

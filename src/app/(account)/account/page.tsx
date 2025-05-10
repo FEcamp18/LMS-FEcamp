@@ -15,6 +15,7 @@ export default function AccountPage() {
     };
     void handleLoad();
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <div>Loading...</div>;

@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 // Define an interface for the request body
 interface AnnouncementRequest {
@@ -53,8 +51,6 @@ export async function GET(
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -152,7 +148,5 @@ export async function POST(req: Request) {
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
