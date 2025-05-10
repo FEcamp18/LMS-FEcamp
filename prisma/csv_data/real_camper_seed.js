@@ -31,8 +31,7 @@ async function main() {
 
   for (const record of records) {
     try {      
-      // Extract password from format "XXXX_YYYY"
-      const password = record.password.replace('_', '');
+      const password = record.password;
       const hashedPassword = await hash(String(password), 10);
       
       // First, create the account
