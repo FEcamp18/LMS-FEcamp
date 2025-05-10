@@ -1,4 +1,3 @@
-import { checkAuthToken } from "@/lib/checkAuthToken";
 import bcrypt from "bcryptjs";
 
 import { prisma } from "@/lib/prisma";
