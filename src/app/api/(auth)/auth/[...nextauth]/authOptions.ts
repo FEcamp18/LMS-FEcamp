@@ -148,6 +148,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.username = user.username;
         token.role = user.role;
+        token.priority = user.priority;
       }
       // console.log("jwt last token", token);
 
@@ -159,6 +160,7 @@ export const authOptions: NextAuthOptions = {
       session.user.id = token.id as string;
       session.user.username = token.username as string;
       session.user.role = token.role as ROLE;
+      session.user.priority = token.priority as number;
 
       // console.log("Final session object:", session);
 

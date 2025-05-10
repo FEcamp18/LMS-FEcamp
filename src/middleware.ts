@@ -33,7 +33,6 @@ const accessControl = {
 
 // Define public routes that don't require authentication
 const publicRoutes = [
-  "/",
   "/login",
   "/resetpassnotice",
   "/resetpassword",
@@ -65,7 +64,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
   const role = token.role as keyof typeof accessControl;
-  // const role = token.role.toUpperCase() as keyof typeof accessControl;
 
   // Handle invalid roles
   if (!accessControl[role]) {
