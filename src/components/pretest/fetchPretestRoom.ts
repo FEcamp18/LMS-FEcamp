@@ -1,18 +1,22 @@
 const cleanPretestRoom = (
   examData: ExamDataInterface[],
-): Record<string, ExamDataInterface[]> => {
+): Record<string, ExamDataInterface[]> => {  
   const groupedData = examData.reduce(
     (acc, camper) => {
-      if (acc[camper?.examLocation]) {
-        acc[camper.examLocation] ??= [];
+      // Initialize the array for this location if it doesn't exist
+      if (!acc[camper?.examLocation]) {
+        acc[camper.examLocation] = [];
       }
-      if (camper) {
-        acc[camper.examLocation]?.push(camper);
-      }
+      
+      // Add the camper to the array for their exam location
+      if(camper?.examLocation){
+        acc[camper?.examLocation]?.push(camper);}
+      
       return acc;
     },
     {} as Record<string, ExamDataInterface[]>,
   );
+  
   return groupedData;
 };
 

@@ -15,10 +15,13 @@ const ExamList: React.FC = () => {
       const res = await axios.get<{ data: ExamDataInterface[] }>(
         "/api/pretest",
       );
-
       const uncleanData = res.data.data;
+      console.log(uncleanData);
+
       if (!uncleanData) return;
       const examData = cleanPretestRoom(uncleanData);
+      console.log(examData);
+
       if (!examData) return;
       setGroupedData(examData);
     };
