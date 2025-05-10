@@ -1,6 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 export async function GET(
   req: Request,
@@ -42,7 +40,5 @@ export async function GET(
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }

@@ -1,8 +1,9 @@
 // write your code here
 import { getClassroomsByRoomId } from "@/lib/getClassroomsByRoomId";
 import type { MergeClassData } from "@/types/class";
+import { Suspense } from "react";
 
-export default async function ClassroomPage() {
+async function ClassroomItems() {
   const res = await getClassroomsByRoomId({ roomId: "1" });
 
   return (
@@ -32,3 +33,18 @@ export default async function ClassroomPage() {
     </div>
   );
 }
+
+export default async function ClassroomPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-full w-full items-center justify-center">
+          <p className="text-xl text-dark-brown">Loading...</p>
+        </div>
+      }
+    >
+      <ClassroomItems />
+    </Suspense>
+  );
+}
+export const dynamic = "force-dynamic";

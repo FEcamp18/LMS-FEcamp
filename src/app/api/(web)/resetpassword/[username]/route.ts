@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { randomUUID } from "crypto";
 import { sendResetEmail } from "@/lib/resend"; 
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 export async function POST(req: Request, { params }: { params: Promise<{ username: string }> }) {
     try {
         const { username } = await params;
