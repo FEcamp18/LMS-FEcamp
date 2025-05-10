@@ -16,7 +16,12 @@ async function main() {
       { username: "staff7", password: "securepassword7", role: "STAFF" },
       { username: "staff8", password: "securepassword8", role: "STAFF" },
       { username: "staff9", password: "securepassword9", role: "STAFF" },
-      { username: "dev-staff", password: "$2b$10$CiACGDAA3W.tH1e6d62T8.WNb41mRLN3/M0UxuahrnkdJ8CKsPQva", role: "STAFF" },
+      {
+        username: "dev-staff",
+        password:
+          "$2b$10$CiACGDAA3W.tH1e6d62T8.WNb41mRLN3/M0UxuahrnkdJ8CKsPQva",
+        role: "STAFF",
+      },
     ],
     skipDuplicates: true,
   });
