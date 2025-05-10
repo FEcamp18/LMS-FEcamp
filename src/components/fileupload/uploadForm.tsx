@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import Image from "next/image";
+import toast, { Toaster } from "react-hot-toast";
 
 const formSchema = z.object({
   file: z
@@ -75,7 +76,7 @@ export default function UploadForm() {
     try {
       const file = values.file?.[0];
       if (!file) {
-        console.error("No file uploaded");
+        toast.error("No file uploaded");
         return;
       }
 
@@ -87,23 +88,26 @@ export default function UploadForm() {
       });
 
       if (result.success) {
+        toast.success("Uploaded successfully");
         console.log("File uploaded successfully:", result.fileInfo);
         form.reset();
         setOpen(false);
       }
     } catch (error) {
+      toast.error("Upload failed");
       console.error("Upload failed:", error);
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <Toaster />
       <DialogTrigger asChild>
         <button className="h-[40px] w-[158px] bg-light-gray text-white hover:bg-opacity-50">
           เพิ่มไฟล์
         </button>
       </DialogTrigger>
-      <DialogContent className="h-[396px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.png')] p-0 text-base [&>*]:rounded-none">
+      <DialogContent className="min-h-[396px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.png')] p-0 text-base">
         <Image
           src="/image/modal/zigzag-top.png"
           alt="top-edge"
@@ -230,7 +234,7 @@ export default function UploadForm() {
                       </div>
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  {/* <FormMessage /> */}
                 </FormItem>
               )}
             />

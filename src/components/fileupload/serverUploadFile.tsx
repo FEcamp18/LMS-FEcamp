@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import axios from "axios";
 import { promises as fs } from "fs";
 import path from "path";
+import toast from "react-hot-toast";
 
 const ALLOWED_FILE_TYPES = [".pdf"];
 const prisma = new PrismaClient();
@@ -61,6 +62,7 @@ export default async function UploadFile({
       fileInfo: responseData,
     };
   } catch (error: unknown) {
+    toast.error(`File upload failed ${error}`);
     throw new Error(
       `File upload failed,  ${error instanceof Error ? error.message : String(error)}`,
     );
