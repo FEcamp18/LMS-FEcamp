@@ -64,6 +64,15 @@ async function main() {
         },
       });
 
+      // Update camper pretest
+      await prisma.preTestRoom.create({
+        data: {
+          camperId: String(record.camperId),
+          examNumber: record.examNumber,
+          seatNumber: record.seatNumber,
+          examLocation : `ตึก 3 ห้อง ${String(record.examLocation)}`
+        }
+      })
       // console.log(`Created camper: ${record.camperId} - ${record.name}`);
     } catch (error) {
       console.error(`Error creating camper ${record.camperId}:`, error);
