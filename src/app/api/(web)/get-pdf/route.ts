@@ -18,17 +18,18 @@ export async function GET(req: NextRequest) {
     const fileNameWithExtension = `${filename}.pdf`;
     const filePath = path.join(targetDir, fileNameWithExtension);
     const fileBuffer = await fs.readFile(filePath);
+    const blob = new Blob([new Uint8Array(fileBuffer)], { type: 'application/pdf' });
 
-    return new NextResponse(fileBuffer, {
+    return new NextResponse(blob, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="${filename}"`,
       },
     });
-  } catch (error) {
+  } catch (error:unknown) {
     return NextResponse.json(
-      { error: `Failed to read PDF file ${error}` },
+      { error: `Failed to read PDF file ${error instanceof Error ? error.message : String(error)}` },
       { status: 500 },
     );
   }

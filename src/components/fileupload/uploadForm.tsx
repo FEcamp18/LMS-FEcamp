@@ -25,7 +25,14 @@ import { useState } from "react";
 import Image from "next/image";
 
 const formSchema = z.object({
-  file: z.any(),
+  file: z
+    .custom<FileList | null>(
+      (value) => value === null || value instanceof FileList,
+      {
+        message: "Invalid file input",
+      },
+    )
+    .nullable(),
   fileName: z.string().min(1, "File name is required"),
   fileDescription: z.string().min(1, "File description is required"),
   fileSubject: z.string(),
@@ -40,7 +47,7 @@ export default function UploadForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      file: undefined,
+      file: null,
       fileName: "",
       fileDescription: "",
       fileSubject: slug,
@@ -49,8 +56,9 @@ export default function UploadForm() {
 
   const handleFileUploading = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: any,
+    field: { onChange: (value: FileList | null) => void },
   ) => {
+    if (!e.target.files) return;
     const files = e.target.files;
     if (files?.length) {
       setIsFileUploading(true);
@@ -65,7 +73,7 @@ export default function UploadForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const file = values.file[0];
+      const file = values.file?.[0];
       if (!file) {
         console.error("No file uploaded");
         return;
@@ -151,7 +159,7 @@ export default function UploadForm() {
                             : ""
                         }`}
                         id="file-upload"
-                        disabled={field?.value?.[0]?.name || isFileUploading}
+                        disabled={!!field?.value?.[0]?.name || isFileUploading}
                       />
                       <div
                         className={`flex h-[56px] items-center justify-between gap-2 rounded-none border border-dark-brown px-4 ${
@@ -197,12 +205,11 @@ export default function UploadForm() {
                           >
                             {isFileUploading
                               ? "อัพโหลดไฟล์..."
-                              : field.value?.[0]?.name
-                                ? field.value[0].name
-                                : "กดที่นี่เพื่อเพิ่มไฟล์"}
+                              : (field?.value?.[0]?.name ??
+                                "กดที่นี่เพื่อเพิ่มไฟล์")}
                           </label>
                         </div>
-                        {field.value?.[0]?.name && !isFileUploading && (
+                        {field?.value?.[0]?.name && !isFileUploading && (
                           <button
                             type="button"
                             onClick={(e) => {

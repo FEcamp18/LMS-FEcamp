@@ -43,16 +43,26 @@ export default async function UploadFile({
       },
     });
 
-    const response = await axios.get(
+    interface FileResponse {
+      subjectId: string;
+      fileId: string;
+      fileTitle: string;
+      fileLocation: string;
+      fileDescription: string;
+    }
+
+    const response = await axios.get<FileResponse>(
       `${process.env.NEXT_PUBLIC_API_URL}/api/file/${fileMetadata.subjectId}/${fileMetadata.fileId}`,
     );
-    const responseData = response.data;
+    const responseData: FileResponse = response.data;
 
     return {
       success: true,
       fileInfo: responseData,
     };
-  } catch (error) {
-    throw new Error(`File upload failed, ${error}`);
+  } catch (error: unknown) {
+    throw new Error(
+      `File upload failed,  ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 }
