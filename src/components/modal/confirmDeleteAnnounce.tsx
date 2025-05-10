@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import Image from "next/image";
 
-export default function ConfirmDeleteFile() {
+export default function ConfirmDeleteAnnounce() {
   const [open, setOpen] = useState(false);
 
   function handleDelete() {
@@ -22,7 +22,7 @@ export default function ConfirmDeleteFile() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button className="h-[40px] w-[158px] bg-light-gray text-white hover:bg-opacity-50">
-          ลบไฟล์
+          ลบประกาศ
         </button>
       </DialogTrigger>
       <DialogContent className="h-[228px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.png')] p-0 text-base">
@@ -56,18 +56,19 @@ export default function ConfirmDeleteFile() {
         />
         <DialogHeader>
           <DialogTitle className="mt-16 text-center text-2xl">
-            ลบไฟล์
+            ยืนยันการลบประกาศ
           </DialogTitle>
         </DialogHeader>
-        <div className="text-center">
-          คุณต้องการลบไฟล์ "file name" ใช่หรือไม่
+        <div className="-mt-4 flex flex-col items-center text-center">
+          <span>คุณต้องการลบประกาศ</span>
+          <span>"Announce" ใช่หรือไม่</span>
         </div>
         <div className="mt-auto flex w-full p-0">
           <Button
             type="button"
             variant="outline"
             onClick={() => setOpen(false)}
-            className="h-[58px] flex-1 rounded-none border bg-transparent"
+            className="h-[58px] flex-1 rounded-none border-0 border-t border-dark-brown bg-transparent"
           >
             ยกเลิก
           </Button>
@@ -75,7 +76,7 @@ export default function ConfirmDeleteFile() {
             onClick={() => {
               handleDelete();
             }}
-            className="h-[58px] flex-1 rounded-none border bg-dark-gray shadow-none"
+            className="h-[58px] flex-1 rounded-none border-0 border-t border-dark-brown bg-dark-gray shadow-none"
           >
             ลบ
           </Button>
