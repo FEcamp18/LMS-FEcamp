@@ -29,7 +29,7 @@ export default async function UploadFile({
       throw new Error("Invalid file type.");
     }
     //storage dir
-    const targetDir = "C:/FE18/storage/";
+    const targetDir = process.env.FILE_TARGET_DIR ?? "C:/FE18/storage/";
     const filePath = `${targetDir}${fileSubject}-${fileName}${fileExtension}`;
 
     await fs.writeFile(filePath, Buffer.from(data));

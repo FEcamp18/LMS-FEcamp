@@ -14,11 +14,13 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const targetDir = "C:/FE18/storage";
+    const targetDir = process.env.FILE_TARGET_DIR ?? "C:/FE18/storage";
     const fileNameWithExtension = `${filename}.pdf`;
     const filePath = path.join(targetDir, fileNameWithExtension);
     const fileBuffer = await fs.readFile(filePath);
-    const blob = new Blob([new Uint8Array(fileBuffer)], { type: 'application/pdf' });
+    const blob = new Blob([new Uint8Array(fileBuffer)], {
+      type: "application/pdf",
+    });
 
     return new NextResponse(blob, {
       status: 200,
@@ -27,9 +29,11 @@ export async function GET(req: NextRequest) {
         "Content-Disposition": `attachment; filename="${filename}"`,
       },
     });
-  } catch (error:unknown) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: `Failed to read PDF file ${error instanceof Error ? error.message : String(error)}` },
+      {
+        error: `Failed to read PDF file ${error instanceof Error ? error.message : String(error)}`,
+      },
       { status: 500 },
     );
   }
