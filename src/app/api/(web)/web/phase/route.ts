@@ -1,5 +1,5 @@
-import { PrismaClient, PHASE } from "@prisma/client";
-const prisma = new PrismaClient();
+import { PHASE } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 
 // Define an interface for the request body
 interface PhaseUpdateRequest {

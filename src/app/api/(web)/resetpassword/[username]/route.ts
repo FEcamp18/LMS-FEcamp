@@ -1,12 +1,10 @@
-import { PrismaClient } from "@prisma/client";
 import { randomUUID } from "crypto";
 import { sendResetEmail } from "@/lib/resend"; 
 
-const prisma = new PrismaClient();
-
-export async function POST(req: Request, { params }: { params: { username: string } }) {
+import { prisma } from "@/lib/prisma";
+export async function POST(req: Request, { params }: { params: Promise<{ username: string }> }) {
     try {
-        const { username } = params;
+        const { username } = await params;
         const now = new Date();
 
       // Check if a valid reset token already 
@@ -67,12 +65,13 @@ export async function POST(req: Request, { params }: { params: { username: strin
         });
 
         // Send the reset email
-        const resetLink = `http://localhost:3000/resetpassword?token=${token}`; // Modify this URL for your reset page
+        const BASE_URL = process.env.BASE_URL;
+        const resetLink = `${BASE_URL}/resetpassword?token=${token}&username=${username}`;
         await sendResetEmail(email, resetLink);  // sendResetEmail will be used to send the email
 
         // Return the UUID token
         return Response.json(
-            { message: "success", token },
+            { message: "success", token, username },
             { status: 200 }
         );
     } catch (error) {

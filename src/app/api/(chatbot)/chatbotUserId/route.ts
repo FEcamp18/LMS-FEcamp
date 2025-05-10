@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 interface requestBodySchema {
   camperId: string;
   newChatbotUserId: string;
+  chatbotUserId: string;
 }
 
 export async function PATCH(request: Request) {
@@ -54,18 +54,16 @@ export async function PATCH(request: Request) {
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
 export async function DELETE(request: Request) {
   try {
-    const { camperId } = (await request.json()) as requestBodySchema;
+    const { chatbotUserId } = (await request.json()) as requestBodySchema;
 
-    const camperBycamperId = await prisma.camper.findUnique({
+    const camperBycamperId = await prisma.camper.findFirst({
       where: {
-        camperId: camperId,
+        chatbotUserId: chatbotUserId,
       },
     });
 
@@ -81,7 +79,7 @@ export async function DELETE(request: Request) {
 
     const newCamperBycamperId = await prisma.camper.update({
       where: {
-        camperId: camperId,
+        camperId: camperBycamperId.camperId,
       },
       data: {
         chatbotUserId: "no-line-id",
@@ -106,7 +104,5 @@ export async function DELETE(request: Request) {
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }

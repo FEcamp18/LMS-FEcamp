@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import type { ClassData, MergeClassData } from "@/types/class";
+import type { MergeClassData } from "@/types/class";
 
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 export async function GET(
   req: Request,
@@ -28,7 +27,6 @@ export async function GET(
             },
           },
         },
-
         subject: {
           select: { subjectDescription: true },
         },
@@ -43,47 +41,29 @@ export async function GET(
         },
       );
     }
-    const flattenedCourses = courses.flatMap((course) =>
-      course.StaffClass.map((staffClass) => ({
+
+    // Single-pass merge using a Map for O(1) lookups instead of O(n) with find()
+    const classMap = new Map<string, MergeClassData>();
+    
+    for (const course of courses) {
+      const tutors = course.StaffClass.map(sc => sc.staff.nickname);
+      
+      classMap.set(course.classId, {
         classId: course.classId,
-        staffName: staffClass.staff.nickname, // Unnested staff name
+        tutors: tutors,
         roomId: course.room,
         subjectId: course.subjectId,
         startTime: course.startTime,
         endTime: course.endTime,
         location: course.location,
         description: course.subject?.subjectDescription,
-      })),
-    );
-    const mergeData = (data: ClassData[]): MergeClassData[] => {
-      const merged = data.reduce((acc, curr) => {
-        const existing = acc.find((item) => item.classId === curr.classId);
-        if (existing) {
-          existing.tutors.push(curr.staffName);
-        } else {
-          acc.push({
-            classId: curr.classId,
-            tutors: [curr.staffName],
-            roomId: curr.roomId,
-            subjectId: curr.subjectId,
-            startTime: curr.startTime,
-            endTime: curr.endTime,
-            location: curr.location,
-            description: curr.description,
-          });
-        }
-        return acc;
-      }, [] as MergeClassData[]);
-
-      return merged;
-    };
-
-    const mergedcourse = mergeData(flattenedCourses as ClassData[]);
+      });
+    }
 
     return Response.json(
       {
         message: "success",
-        courses: mergedcourse,
+        courses: Array.from(classMap.values()),
       },
       {
         status: 200,
