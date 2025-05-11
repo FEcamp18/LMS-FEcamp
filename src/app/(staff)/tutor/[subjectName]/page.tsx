@@ -60,8 +60,7 @@ export default function SubjectPage() {
     };
 
     void fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [params.subjectName]);
 
   if (!subjectDetails) {
     return (
@@ -72,23 +71,23 @@ export default function SubjectPage() {
   }
 
   return (
-    <div className="flex flex-col p-4">
+    <div className="relative flex w-full flex-col p-4">
       {/* Top Section */}
-      <div className="relative flex flex-col items-center">
+      <div className="relative flex w-full flex-row items-center justify-between">
         <button
           onClick={() => router.back()}
-          className="absolute left-4 top-4 rounded bg-dark-brown px-4 py-2 text-cream"
+          className="rounded bg-dark-brown px-4 py-2 text-cream"
         >
           Back
         </button>
-        <h1 className="text-2xl font-bold text-dark-brown">
-          {subjectDetails.subjectId} - {subjectDetails.subjectName}
-        </h1>
-        <div className="absolute left-1/2 top-16 w-3/4 -translate-x-1/2 rounded bg-light-brown p-4 text-center text-dark-brown">
+        <div className="text-center text-2xl font-bold text-dark-brown">
+          <p>{subjectDetails.subjectId}</p>
+          <p className="text-sm font-normal">{subjectDetails.subjectName}</p>
+        </div>
+        <div className="w-96 bg-light-gray p-4 text-center text-dark-brown">
           {subjectDetails.subjectDescription}
         </div>
       </div>
-
       {/* Left Section */}
       <div className="mt-20 flex flex-col space-y-16">
         {/* Announcements */}
