@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ClassCard } from "@/components/classroom/classCard";
 import { ClassContainer } from "@/components/classroom/classContainer";
 import { ClassCardTutor } from "@/components/classroom/classCardTutor";
+import Image from "next/image";
 interface SubjectResponse {
   message: string;
   subjects: Subject[];
@@ -41,7 +42,15 @@ export default function TutorPage() {
     );
   return (
     <div className="w-full flex-col p-4 lg:grid-cols-4">
-      <p className="col-span-2 text-center lg:col-span-4">กดเลือกวิชา</p>
+      <div className="flex w-full items-center justify-center">
+        <Image
+          src="/image/subject-picture/CourseTitle.svg"
+          width={300}
+          height={20}
+          className="w-52"
+          alt="Course Title"
+        />
+      </div>
       <div className="grid w-full grid-cols-1 gap-6 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {subjects.map((classData, index) => (
           <div key={index} className="flex items-start justify-center">
