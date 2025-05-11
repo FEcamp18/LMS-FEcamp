@@ -16,17 +16,15 @@ export default function ResetPasswordNotice() {
     setIsSending(true);
     setMessage(null); // Clear previous message
 
-        try {
-            console.log(`/api/resetpassword/${username}`);
+    try {
+      const response = await fetch(`/api/resetpassword/${username}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-            const response = await fetch(`/api/resetpassword/${username}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            const data = await response.json() as ResetResponse;
+      const data = (await response.json()) as ResetResponse;
 
       if (data.message === "success") {
         setMessage(

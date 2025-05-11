@@ -34,8 +34,6 @@ export default function CamperInfoPopup({
   useEffect(() => {
     const fetchCamperData = async () => {
       try {
-        console.log(camperId);
-
         const camperResponse = await axios.get<CamperResponseInterface>(
           `/api/camper/${camperId}`,
         );

@@ -41,8 +41,6 @@ export async function GET(req: Request) {
       );
     }
 
-    console.log("gettttt: ", req);
-
     return Response.json(
       {
         message: "success",

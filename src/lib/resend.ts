@@ -19,8 +19,8 @@ export const sendResetEmail = async (email: string, link: string) => {
             <p>FE18 IT team</p>
             `
         });
-        console.log("Resend API response:", response); // Log the response for debugging
-        console.log("This is RESEND_API_KEY: ", resend); // Log for debugging
+        if (response.error)
+            throw new Error("error during send email");
     } catch (error) {
         console.error("Error sending reset email:", error); // Catch and log errors
     }

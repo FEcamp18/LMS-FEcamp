@@ -21,7 +21,6 @@ export default function ClassroomPage() {
       try {
         const response =
           await axios.get<CamperResponseInterface>("/api/allcamper");
-        console.log(response);
 
         setCampers(response.data.data);
       } catch (err) {
