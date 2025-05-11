@@ -37,7 +37,7 @@ const FileTable = forwardRef<FileTableRef, { subjectId: string }>(
     }));
 
     useEffect(() => {
-      fetchFiles();
+      void fetchFiles();
     }, [subjectId]);
 
     const handleDelete = async (fileId: number) => {

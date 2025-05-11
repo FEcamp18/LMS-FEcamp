@@ -33,7 +33,7 @@ export const authOptions: NextAuthOptions = {
           id: "camper1",
           username: "temp-auth-user",
           password: "temp-auth-pass",
-          role: ROLE.CAMPER,
+          role: ROLE.STAFF,
         };
 
         if (mockUser) {
