@@ -1,15 +1,15 @@
-"use client";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+"use client"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/ui/dialog"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -17,9 +17,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/form"
+import { useForm } from "react-hook-form"
+import { Input } from "@/components/ui/input"
 
 const formSchema = z.object({
   oldPassword: z.string().min(6, {
@@ -28,7 +28,7 @@ const formSchema = z.object({
   newPassword: z.string().min(6, {
     message: "Username must be at least 6 characters.",
   }),
-});
+})
 
 export default function ChangePassForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,10 +37,10 @@ export default function ChangePassForm() {
       oldPassword: "",
       newPassword: "",
     },
-  });
+  })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    console.log(values)
   }
 
   return (
@@ -90,5 +90,5 @@ export default function ChangePassForm() {
         </DialogContent>
       </Dialog>
     </>
-  );
+  )
 }

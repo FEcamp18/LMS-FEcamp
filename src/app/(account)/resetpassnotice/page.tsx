@@ -1,20 +1,20 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import { useState } from "react"
 type ResetResponse = {
-  message: string;
-  error?: string;
-};
+  message: string
+  error?: string
+}
 
 export default function ResetPasswordNotice() {
-  const [username, setUsername] = useState("");
-  const [message, setMessage] = useState<string | null>(null);
-  const [isSending, setIsSending] = useState(false);
+  const [username, setUsername] = useState("")
+  const [message, setMessage] = useState<string | null>(null)
+  const [isSending, setIsSending] = useState(false)
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setIsSending(true);
-    setMessage(null); // Clear previous message
+    event.preventDefault()
+    setIsSending(true)
+    setMessage(null) // Clear previous message
 
     try {
       const response = await fetch(`/api/resetpassword/${username}`, {
@@ -22,32 +22,32 @@ export default function ResetPasswordNotice() {
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
 
-      const data = (await response.json()) as ResetResponse;
+      const data = (await response.json()) as ResetResponse
 
       if (data.message === "success") {
         setMessage(
           `เราได้ส่งลิงก์สำหรับรีเซ็ตรหัสผ่านไปยังอีเมลของน้อง ${username} แล้ว ! กรุณาตรวจสอบกล่องจดหมายของคุณ`,
-        );
+        )
       } else {
         if (data.error === "Username not found.") {
           setMessage(
             "ไม่พบชื่อผู้ใช้ กรุณาตรวจสอบความถูกต้อง หรือติดต่อฝ่ายไอที",
-          );
+          )
         } else {
           setMessage(
             "กรุณาตรวจสอบอีเมลของคุณ หากยังไม่ได้รับ กรุณาลองใหม่อีกครั้งภายใน 10 นาที",
-          );
+          )
         }
       }
     } catch (error) {
-      console.error("Error sending email:", error);
-      setMessage("การส่งอีเมลล้มเหลว กรุณาลองอีกครั้ง");
+      console.error("Error sending email:", error)
+      setMessage("การส่งอีเมลล้มเหลว กรุณาลองอีกครั้ง")
     } finally {
-      setIsSending(false);
+      setIsSending(false)
     }
-  };
+  }
 
   return (
     <main className="flex min-h-screen w-[40vw] flex-col items-center justify-center p-6">
@@ -83,5 +83,5 @@ export default function ResetPasswordNotice() {
         )}
       </div>
     </main>
-  );
+  )
 }

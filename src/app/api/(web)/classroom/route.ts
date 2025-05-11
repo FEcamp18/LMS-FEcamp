@@ -1,6 +1,6 @@
-import type { MergeClassData } from "@/types/class";
+import type { MergeClassData } from "@/types/class"
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"
 
 export async function GET() {
   try {
@@ -25,21 +25,21 @@ export async function GET() {
           select: { subjectDescription: true },
         },
       },
-    });
+    })
 
     if (!courses || courses.length === 0) {
       return Response.json(
         { message: "failed", error: "No classes found." },
-        { status: 404 }
-      );
+        { status: 404 },
+      )
     }
 
     // Single-pass merge using a Map for O(1) lookups instead of O(n) with find()
-    const classMap = new Map<string, MergeClassData>();
-    
+    const classMap = new Map<string, MergeClassData>()
+
     for (const course of courses) {
-      const tutors = course.StaffClass.map(sc => sc.staff.nickname);
-      
+      const tutors = course.StaffClass.map((sc) => sc.staff.nickname)
+
       classMap.set(course.classId, {
         classId: course.classId,
         tutors: tutors,
@@ -49,7 +49,7 @@ export async function GET() {
         endTime: course.endTime,
         location: course.location,
         description: course.subject?.subjectDescription,
-      });
+      })
     }
 
     return Response.json(
@@ -60,7 +60,7 @@ export async function GET() {
       {
         status: 200,
       },
-    );
+    )
   } catch (error) {
     return Response.json(
       {
@@ -70,6 +70,6 @@ export async function GET() {
       {
         status: 500,
       },
-    );
+    )
   }
 }

@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client"
+const prisma = new PrismaClient()
 
 async function main() {
-  console.log("Seeding Staff database...");
+  console.log("Seeding Staff database...")
 
   // Create mock subjects
   await prisma.account.createMany({
@@ -16,10 +16,15 @@ async function main() {
       { username: "staff7", password: "securepassword7", role: "STAFF" },
       { username: "staff8", password: "securepassword8", role: "STAFF" },
       { username: "staff9", password: "securepassword9", role: "STAFF" },
-      { username: "dev-staff", password: "$2b$10$CiACGDAA3W.tH1e6d62T8.WNb41mRLN3/M0UxuahrnkdJ8CKsPQva", role: "STAFF" },
+      {
+        username: "dev-staff",
+        password:
+          "$2b$10$CiACGDAA3W.tH1e6d62T8.WNb41mRLN3/M0UxuahrnkdJ8CKsPQva",
+        role: "STAFF",
+      },
     ],
     skipDuplicates: true,
-  });
+  })
   //Create mock staff with different StaffDepartment
   await prisma.staff.createMany({
     data: [
@@ -165,17 +170,17 @@ async function main() {
       },
     ],
     skipDuplicates: true,
-  });
+  })
 
-  console.log("Seeding staff completed!");
+  console.log("Seeding staff completed!")
 }
 
 main()
   .then(async () => {
-    await prisma.$disconnect();
+    await prisma.$disconnect()
   })
   .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })

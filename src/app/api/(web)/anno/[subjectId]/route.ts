@@ -1,21 +1,21 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"
 
 // Define an interface for the request body
 interface AnnouncementRequest {
-  subjectId: string;
-  annoTitle: string;
-  annoText: string;
+  subjectId: string
+  annoTitle: string
+  annoText: string
 }
 
 export async function GET(
   req: Request,
   props: { params: Promise<{ subjectId: string }> },
 ) {
-  const { subjectId } = await props.params;
+  const { subjectId } = await props.params
   try {
     const isSubjectIdExist = await prisma.subject.findUnique({
       where: { subjectId },
-    });
+    })
 
     if (!isSubjectIdExist) {
       return new Response(
@@ -24,14 +24,14 @@ export async function GET(
           error: "SubjectId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
     const announcementsBySubjectId = await prisma.subjectAnnouncements.findMany(
       {
         where: { subjectId },
       },
-    );
+    )
 
     return new Response(
       JSON.stringify({
@@ -39,7 +39,7 @@ export async function GET(
         announcements: announcementsBySubjectId,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -50,16 +50,16 @@ export async function GET(
             : "Failed to fetch announcements by subjectId.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }
 
 export async function POST(req: Request) {
   try {
     // Parse and validate the request body using the interface
-    const body = (await req.json()) as AnnouncementRequest;
+    const body = (await req.json()) as AnnouncementRequest
 
-    const { subjectId, annoTitle, annoText } = body;
+    const { subjectId, annoTitle, annoText } = body
 
     if (!subjectId || !annoTitle || !annoText) {
       return new Response(
@@ -68,10 +68,10 @@ export async function POST(req: Request) {
           error: "Missing required fields.",
         }),
         { status: 400, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
-    const subject = await prisma.subject.findUnique({ where: { subjectId } });
+    const subject = await prisma.subject.findUnique({ where: { subjectId } })
     if (!subject) {
       return new Response(
         JSON.stringify({
@@ -79,10 +79,10 @@ export async function POST(req: Request) {
           error: "SubjectId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
-    const staffId = req.headers.get("staff-id");
+    const staffId = req.headers.get("staff-id")
     if (!staffId) {
       return new Response(
         JSON.stringify({
@@ -90,10 +90,10 @@ export async function POST(req: Request) {
           error: "Unauthorized tutor.",
         }),
         { status: 403, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
-    const staff = await prisma.staff.findUnique({ where: { staffId } });
+    const staff = await prisma.staff.findUnique({ where: { staffId } })
     if (!staff) {
       return new Response(
         JSON.stringify({
@@ -101,7 +101,7 @@ export async function POST(req: Request) {
           error: "Staff does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
     // Check if the tutor is assigned to the class
@@ -112,7 +112,7 @@ export async function POST(req: Request) {
           subjectId: subjectId,
         },
       },
-    });
+    })
 
     if (!staffClass) {
       return new Response(
@@ -121,7 +121,7 @@ export async function POST(req: Request) {
           error: "Tutor not assigned to this class.",
         }),
         { status: 403, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
     // Create the announcement
@@ -132,14 +132,14 @@ export async function POST(req: Request) {
         annoText,
         annoTime: new Date(),
       },
-    });
+    })
 
     return new Response(JSON.stringify({ message: "success" }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
-    });
+    })
   } catch (error) {
-    console.error(error);
+    console.error(error)
     return new Response(
       JSON.stringify({
         message: "failed",
@@ -147,6 +147,6 @@ export async function POST(req: Request) {
           error instanceof Error ? error.message : "Internal server error.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }

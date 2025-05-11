@@ -1,55 +1,55 @@
-"use client";
+"use client"
 import React, {
   useState,
   useEffect,
   forwardRef,
   useImperativeHandle,
-} from "react";
-import { getFile } from "./getFile";
-import { getAllFileName } from "./getAllFileName";
-import { disableFile } from "./disableFile";
-import { usePathname } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
+} from "react"
+import { getFile } from "./getFile"
+import { getAllFileName } from "./getAllFileName"
+import { disableFile } from "./disableFile"
+import { usePathname } from "next/navigation"
+import toast, { Toaster } from "react-hot-toast"
 
 interface FileInfo {
-  fileId: number;
-  fileTitle: string;
+  fileId: number
+  fileTitle: string
 }
 
 export interface FileTableRef {
-  fetchFiles: () => Promise<void>;
+  fetchFiles: () => Promise<void>
 }
 
 const FileTable = forwardRef<FileTableRef, { subjectId: string }>(
   ({ subjectId }, ref) => {
-    const [files, setFiles] = useState<FileInfo[]>([]);
-    const pathname = usePathname();
+    const [files, setFiles] = useState<FileInfo[]>([])
+    const pathname = usePathname()
 
-    const isTutorPath = pathname?.startsWith("/tutor/");
-    const showDeleteButton = isTutorPath;
+    const isTutorPath = pathname?.startsWith("/tutor/")
+    const showDeleteButton = isTutorPath
 
     const fetchFiles = async () => {
-      const data = await getAllFileName(subjectId);
-      if (data) setFiles(data);
-    };
+      const data = await getAllFileName(subjectId)
+      if (data) setFiles(data)
+    }
 
     useImperativeHandle(ref, () => ({
       fetchFiles,
-    }));
+    }))
 
     useEffect(() => {
-      void fetchFiles();
-    }, [subjectId]);
+      void fetchFiles()
+    }, [subjectId])
 
     const handleDelete = async (fileId: number) => {
-      const success = await disableFile(fileId);
+      const success = await disableFile(fileId)
       if (success) {
-        toast.success("Successfully deleted file");
-        await fetchFiles();
+        toast.success("Successfully deleted file")
+        await fetchFiles()
       } else {
-        toast.error("Failed to delete file");
+        toast.error("Failed to delete file")
       }
-    };
+    }
 
     return (
       <table className="min-w-full border-collapse rounded-lg border border-gray-300 shadow-md">
@@ -102,10 +102,10 @@ const FileTable = forwardRef<FileTableRef, { subjectId: string }>(
           )}
         </tbody>
       </table>
-    );
+    )
   },
-);
+)
 
-FileTable.displayName = "FileTable";
+FileTable.displayName = "FileTable"
 
-export default FileTable;
+export default FileTable

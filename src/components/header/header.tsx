@@ -1,11 +1,11 @@
-import Link from "next/link";
+import Link from "next/link"
 import {
   FaChalkboardTeacher,
   FaCommentDots,
   FaUserCircle,
-} from "react-icons/fa";
-import Image from "next/image";
-import HeaderBG from "./headerBG";
+} from "react-icons/fa"
+import Image from "next/image"
+import HeaderBG from "./headerBG"
 
 const Header = () => {
   return (
@@ -46,7 +46,7 @@ const Header = () => {
         </nav>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

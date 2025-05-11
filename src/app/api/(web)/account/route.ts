@@ -1,17 +1,17 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs"
 
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"
 
 interface UpdatePasswordRequest {
-  username: string;
-  newPassword: string;
-  token: string;
+  username: string
+  newPassword: string
+  token: string
 }
 
 export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
-    const username = searchParams.get("username");
+    const { searchParams } = new URL(req.url)
+    const username = searchParams.get("username")
 
     if (!username) {
       return Response.json(
@@ -22,12 +22,12 @@ export async function GET(req: Request) {
         {
           status: 404,
         },
-      );
+      )
     }
 
     const account = await prisma.account.findUnique({
       where: { username },
-    });
+    })
 
     if (!account) {
       return Response.json(
@@ -38,7 +38,7 @@ export async function GET(req: Request) {
         {
           status: 404,
         },
-      );
+      )
     }
 
     return Response.json(
@@ -52,7 +52,7 @@ export async function GET(req: Request) {
       {
         status: 200,
       },
-    );
+    )
   } catch (error) {
     return Response.json(
       {
@@ -62,38 +62,42 @@ export async function GET(req: Request) {
       {
         status: 500,
       },
-    );
+    )
   }
 }
 
-export async function PATCH(req: Request){
+export async function PATCH(req: Request) {
   try {
-    const { username, newPassword, token } = (await req.json()) as UpdatePasswordRequest;
+    const { username, newPassword, token } =
+      (await req.json()) as UpdatePasswordRequest
 
     // check field
-    if ( !token || !newPassword) {
+    if (!token || !newPassword) {
       return Response.json(
         { message: "failed", error: "Missing token or new password." },
-        { status: 400 }
-      );
+        { status: 400 },
+      )
     }
 
     // Check if the reset password token is valid and not expired
     const resetRecord = await prisma.resetPassTable.findUnique({
       where: { token },
-    });
+    })
 
-    if (!resetRecord || new Date(resetRecord.expires_at).getTime() < new Date().getTime()) {
+    if (
+      !resetRecord ||
+      new Date(resetRecord.expires_at).getTime() < new Date().getTime()
+    ) {
       return Response.json(
         { message: "failed", error: "Invalid or expired token." },
-        { status: 400 }
-      );
+        { status: 400 },
+      )
     }
 
     // check if account exits
     const account = await prisma.account.findUnique({
-      where: { username }
-    });
+      where: { username },
+    })
 
     if (!account) {
       return Response.json(
@@ -120,17 +124,17 @@ export async function PATCH(req: Request){
       )
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
 
     // update the password
     await prisma.account.update({
       where: { username },
       data: { password: hashedPassword },
-    });
+    })
 
-     // Delete the used reset token
-     await prisma.resetPassTable.delete({ where: { token } });
-    
+    // Delete the used reset token
+    await prisma.resetPassTable.delete({ where: { token } })
+
     return Response.json(
       {
         message: "success",

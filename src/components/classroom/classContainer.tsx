@@ -1,11 +1,11 @@
-import { ClassCard } from "./classCard";
+import { ClassCard } from "./classCard"
 import {
   AudioLines,
   ChartLine,
   FlaskConical,
   Biohazard,
   Laptop,
-} from "lucide-react";
+} from "lucide-react"
 
 const ClassContainer: React.FC = () => {
   const mockClasses = [
@@ -79,7 +79,7 @@ const ClassContainer: React.FC = () => {
       icon: <Laptop size={120} strokeWidth={2.5} opacity={0.05} />,
       bgColor: "#D1C1FF",
     },
-  ];
+  ]
 
   return (
     <div className="grid w-full grid-cols-1 gap-6 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -89,7 +89,7 @@ const ClassContainer: React.FC = () => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export { ClassContainer };
+export { ClassContainer }

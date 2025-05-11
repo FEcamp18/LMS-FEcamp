@@ -1,10 +1,10 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"
 
 export async function GET(
   req: Request,
   props: { params: Promise<{ staffId: string }> },
 ) {
-  const { staffId } = await props.params;
+  const { staffId } = await props.params
   try {
     const courses = await prisma.staffClass.findMany({
       where: { staffId },
@@ -17,7 +17,7 @@ export async function GET(
           },
         },
       },
-    });
+    })
 
     if (!courses || courses.length === 0) {
       return Response.json(
@@ -28,13 +28,13 @@ export async function GET(
         {
           status: 404,
         },
-      );
+      )
     }
 
     const staffCourses = courses.map(({ class: { subject, ...course } }) => ({
       ...course,
       description: subject?.subjectDescription,
-    }));
+    }))
 
     return Response.json(
       {
@@ -44,7 +44,7 @@ export async function GET(
       {
         status: 200,
       },
-    );
+    )
   } catch (error) {
     return Response.json(
       {
@@ -54,6 +54,6 @@ export async function GET(
       {
         status: 500,
       },
-    );
+    )
   }
 }

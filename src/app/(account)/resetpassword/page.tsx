@@ -1,33 +1,33 @@
-"use client";
+"use client"
 
-import { Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense } from "react"
+import { useSearchParams } from "next/navigation"
+import { useState } from "react"
 
 interface ResetPasswordResponse {
-  message: string;
-  error?: string;
+  message: string
+  error?: string
 }
 
 // Separate client component for the form
 function ResetPasswordForm() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const username = searchParams.get("username");
+  const searchParams = useSearchParams()
+  const token = searchParams.get("token")
+  const username = searchParams.get("username")
 
-  const [newPassword, setNewPassword] = useState("");
-  const [message, setMessage] = useState<string | null>(null);
+  const [newPassword, setNewPassword] = useState("")
+  const [message, setMessage] = useState<string | null>(null)
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (!token) {
-      setMessage("Invalid token.");
-      return;
+      setMessage("Invalid token.")
+      return
     }
     if (!username) {
-      setMessage("Username not found.");
-      return;
+      setMessage("Username not found.")
+      return
     }
 
     try {
@@ -41,20 +41,20 @@ function ResetPasswordForm() {
           newPassword,
           token,
         }),
-      });
+      })
 
-      const resetData = (await resetResponse.json()) as ResetPasswordResponse;
+      const resetData = (await resetResponse.json()) as ResetPasswordResponse
 
       if (resetData.message === "success") {
-        setMessage("Your password has been successfully reset.");
+        setMessage("Your password has been successfully reset.")
       } else {
-        setMessage("Failed to reset password. Please try again.");
+        setMessage("Failed to reset password. Please try again.")
       }
     } catch (error) {
-      console.error("Error resetting password:", error);
-      setMessage("Error resetting password. Please try again.");
+      console.error("Error resetting password:", error)
+      setMessage("Error resetting password. Please try again.")
     }
-  };
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -76,7 +76,7 @@ function ResetPasswordForm() {
       </form>
       {message && <p className="mt-4 text-center">{message}</p>}
     </main>
-  );
+  )
 }
 
 // Main page component
@@ -91,5 +91,5 @@ export default function ResetPasswordPage() {
     >
       <ResetPasswordForm />
     </Suspense>
-  );
+  )
 }
