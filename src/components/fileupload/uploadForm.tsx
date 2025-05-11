@@ -39,7 +39,11 @@ const formSchema = z.object({
   fileSubject: z.string(),
 });
 
-export default function UploadForm() {
+export default function UploadForm({
+  uploadSuccess,
+}: {
+  uploadSuccess: () => Promise<void>;
+}) {
   const [open, setOpen] = useState(false);
   const params = useParams();
   const slug = params.subjectName as string;
@@ -92,6 +96,7 @@ export default function UploadForm() {
         console.log("File uploaded successfully:", result.fileInfo);
         form.reset();
         setOpen(false);
+        if (uploadSuccess) await uploadSuccess();
       }
     } catch (error) {
       toast.error("Upload failed");
