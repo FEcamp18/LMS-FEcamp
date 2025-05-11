@@ -101,14 +101,12 @@ export default function UploadForm({
 
       if (result.success) {
         toast.success("Uploaded successfully");
-        console.log("File uploaded successfully:", result.fileInfo);
         form.reset();
         setOpen(false);
         if (uploadSuccess) await uploadSuccess();
       }
-    } catch (error) {
+    } catch {
       toast.error("Upload failed");
-      console.error("Upload failed:", error);
     }
   }
 
