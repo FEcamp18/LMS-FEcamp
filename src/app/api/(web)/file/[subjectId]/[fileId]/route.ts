@@ -4,9 +4,9 @@ const prisma = new PrismaClient();
 
 export async function GET(
   req: Request,
-  props: { params: { subjectId: string; fileId: string } },
+  props: { params: Promise<{ subjectId: string; fileId: string }> },
 ) {
-  const { fileId } = props.params;
+  const { fileId } = await props.params; // Await the params object
 
   try {
     const fileByFileId = await prisma.subjectFiles.findFirst({
