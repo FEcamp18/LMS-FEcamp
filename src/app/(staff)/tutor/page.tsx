@@ -1,34 +1,63 @@
-// write your code here
-import { getClassrooms } from "@/lib/getClassrooms";
-import type { MergeClassData } from "@/types/class";
+"use client";
+import { type Subject } from "@prisma/client";
+import { useState, useEffect } from "react";
+import { ClassCard } from "@/components/classroom/classCard";
+import { ClassContainer } from "@/components/classroom/classContainer";
+interface SubjectResponse {
+  message: string;
+  subjects: Subject[];
+}
 
-export default async function TutorPage() {
-  const res = await getClassrooms();
+export default function TutorPage() {
+  const [subjects, setSubjects] = useState<Subject[] | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/subject`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        },
+      );
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
 
-  return (
-    <div className="grid grid-cols-2 gap-4 p-4 lg:grid-cols-4">
-      <p className="col-span-2 text-center lg:col-span-4">
-        Count: {res?.courses.length}
+      const data = (await response.json()) as SubjectResponse;
+      setSubjects(data.subjects);
+    };
+    void fetchData();
+  }, []);
+
+  if (!subjects)
+    return (
+      <p className="h-full w-full py-5 text-center text-xl font-bold text-dark-brown">
+        Loading...
       </p>
-      {res?.courses.length === 0 ? (
-        <p>No classes found.</p>
-      ) : (
-        res?.courses.map((course: MergeClassData) => (
-          <div
-            key={course.classId}
-            className="rounded-lg p-4 text-sm shadow-md"
-          >
-            <h2>{course.subjectId}</h2>
-            <p>
-              {new Date(course.startTime).toLocaleTimeString()} -{" "}
-              {new Date(course.endTime).toLocaleTimeString()}
-            </p>
-            <p>Room: {course.roomId}</p>
-            <p>Location: {course.location}</p>
-            <p>Tutors: {course.tutors.join(", ")}</p>
-          </div>
-        ))
-      )}
+    );
+  return (
+    <div className="w-full flex-col p-4 lg:grid-cols-4">
+      <div className="h-full w-full">
+        <ClassContainer />
+      </div>
+
+      <p className="col-span-2 text-center lg:col-span-4">กดเลือกวิชา</p>
+      {subjects.map((subject: Subject) => (
+        <div
+          key={subject.subjectId}
+          className="rounded-lg p-4 text-sm shadow-md"
+        >
+          {/* <ClassCard class={subject} /> */}
+          {/* <h2>{subject.subjectId}</h2>
+
+          <p>{subject.subjectName}</p>
+          <p>{subject.subjectTopic}</p>
+          <p className="text-xs text-gray-600">{subject.subjectDescription}</p> */}
+        </div>
+      ))}
     </div>
   );
 }
