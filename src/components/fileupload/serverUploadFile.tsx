@@ -30,20 +30,27 @@ export default async function UploadFile({
       throw new Error("Invalid file type.");
     }
     //storage dir
-    const targetDir = process.env.FILE_TARGET_DIR ?? "C:/FE18/storage/";
-    const filePath = `${targetDir}${fileSubject}-${fileName}${fileExtension}`;
-
-    await fs.writeFile(filePath, Buffer.from(data));
     const fileMetadata = await prisma.subjectFiles.create({
       data: {
         subjectId: fileSubject,
         fileTitle: `${fileSubject}-${fileName}`,
-        fileLocation: filePath,
+        fileLocation: "",
         fileDescription: fileDescription,
         isDisable: false,
       },
     });
 
+    const targetDir = process.env.FILE_TARGET_DIR ?? "C:/FE18/storage/";
+    const filePath = `${targetDir}${fileSubject}-${fileName}-${fileMetadata.fileId}${fileExtension}`;
+
+    await fs.writeFile(filePath, Buffer.from(data));
+    await prisma.subjectFiles.update({
+      where: { fileId: fileMetadata.fileId },
+      data: {
+        fileTitle: `${fileSubject}-${fileName}-${fileMetadata.fileId}`,
+        fileLocation: filePath,
+      },
+    });
     interface FileResponse {
       subjectId: string;
       fileId: string;
