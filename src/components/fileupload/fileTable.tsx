@@ -9,6 +9,7 @@ import { getFile } from "./getFile";
 import { getAllFileName } from "./getAllFileName";
 import { disableFile } from "./disableFile";
 import { usePathname } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 interface FileInfo {
   fileId: number;
@@ -43,14 +44,16 @@ const FileTable = forwardRef<FileTableRef, { subjectId: string }>(
     const handleDelete = async (fileId: number) => {
       const success = await disableFile(fileId);
       if (success) {
+        toast.success("Successfully deleted file");
         await fetchFiles();
       } else {
-        console.error("Failed to delete file");
+        toast.error("Failed to delete file");
       }
     };
 
     return (
       <table className="min-w-full border-collapse rounded-lg border border-gray-300 shadow-md">
+        <Toaster />
         <thead>
           <tr className="bg-ameri text-white">
             <th className="border border-gray-300 px-4 py-2">Filename</th>
