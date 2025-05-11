@@ -5,7 +5,7 @@ import { sendResetEmail } from "@/lib/resend";
 const prisma = new PrismaClient();
 export async function POST(
   req: Request,
-  { params }: { params: Promise<{ username: string }> },
+  { params }: { params: { username: string } }
 ) {
   try {
     const { username } = await params;
@@ -15,6 +15,8 @@ export async function POST(
     const existingToken = await prisma.resetPassTable.findFirst({
       where: { username, expires_at: { gt: now } },
     });
+
+    console.log("Existing token:", existingToken);
 
     if (existingToken) {
       return Response.json(

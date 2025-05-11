@@ -18,7 +18,10 @@ export const sendResetEmail = async (email: string, link: string) => {
   `;
 
   const msg = {
-    sender: { name: "ITFEcamp", email: "itfecamp@gmail.com" },
+    sender: {
+      name: "FECAMP IT",
+      email: "fecamp18chula@gmail.com",
+    },
     to: [{ email }],
     subject: "Reset Password for FEcamp account",
     htmlContent: emailContent,
