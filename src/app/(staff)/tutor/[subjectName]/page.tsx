@@ -4,8 +4,13 @@ import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import AnnouncementCard from "@/components/classroom/announcementCard";
 import FileCard from "@/components/classroom/fileCard";
-import { type SubjectAnnouncements, type SubjectFiles } from "@prisma/client";
+import {
+  type Subject,
+  type SubjectAnnouncements,
+  type SubjectFiles,
+} from "@prisma/client";
 import React from "react";
+import { FaArrowLeft } from "react-icons/fa";
 
 interface AnnouncementResponse {
   message: string;
@@ -14,6 +19,11 @@ interface AnnouncementResponse {
 interface FileResponse {
   message: string;
   files: SubjectFiles[];
+}
+
+interface SubjectResponse {
+  message: string;
+  subject: Subject;
 }
 
 export default function SubjectPage() {
@@ -49,11 +59,16 @@ export default function SubjectPage() {
           }
         }
 
-        setSubjectDetails({
-          subjectId: subjectName,
-          subjectName: subjectName,
-          subjectDescription: "คำอธิบายของวิชานี้",
-        });
+        // Fetch subject details
+        const subjectResponse = await fetch(`/api/subject/${subjectName}`);
+        const subjectData = (await subjectResponse.json()) as SubjectResponse;
+        if (subjectData.message == "success" && subjectData.subject) {
+          setSubjectDetails({
+            subjectId: subjectData.subject.subjectId,
+            subjectName: subjectData.subject.subjectName,
+            subjectDescription: subjectData.subject.subjectDescription,
+          });
+        }
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
@@ -74,11 +89,8 @@ export default function SubjectPage() {
     <div className="relative flex w-full flex-col p-4">
       {/* Top Section */}
       <div className="relative flex w-full flex-row items-center justify-between">
-        <button
-          onClick={() => router.back()}
-          className="rounded bg-dark-brown px-4 py-2 text-cream"
-        >
-          Back
+        <button onClick={() => router.back()} className="h-10 w-10 px-4 py-2">
+          <FaArrowLeft className="scale-150" />
         </button>
         <div className="text-center text-2xl font-bold text-dark-brown">
           <p>{subjectDetails.subjectId}</p>
