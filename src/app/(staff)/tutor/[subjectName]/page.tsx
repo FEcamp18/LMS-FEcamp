@@ -114,6 +114,7 @@ export default function SubjectPage() {
                 annoTitle={anno.annoTitle}
                 annoText={anno.annoText}
                 annoTime={new Date(anno.annoTime)}
+                isTutor={true}
               />
             ))}
           </div>
@@ -131,8 +132,7 @@ export default function SubjectPage() {
                 fileTitle={file.fileTitle}
                 fileLocation={file.fileLocation}
                 fileDescription={file.fileDescription}
-                // fileUploadTime={file.fileUpLoadTime.getTime()}
-                fileUploadTime="00.00"
+                fileUploadTime={new Date(file.fileUpLoadTime)}
                 isTutor={true}
               />
             ))}

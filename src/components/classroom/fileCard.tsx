@@ -8,7 +8,7 @@ type fileCard = {
   fileTitle: string;
   fileLocation: string;
   fileDescription: string;
-  fileUploadTime: string;
+  fileUploadTime: Date;
   isTutor: boolean;
 };
 export default function FileCard({
@@ -38,12 +38,16 @@ export default function FileCard({
         height={100}
       />
 
-      <div className="flex place-items-center justify-center pr-4">
-        <Folder className="" size={50} strokeWidth={1} />
+      <div className="flex h-full flex-col place-items-center justify-center space-y-2 pr-4">
+        <Folder className="z-20 h-[40%]" size={50} strokeWidth={2} />
+        <div className="h-[25%] text-center text-xs">
+          {`${fileUploadTime.getDate()}/${fileUploadTime.getMonth() + 1}/${fileUploadTime.getFullYear().toString().substr(-2)}`}{" "}
+          <br /> {`${fileUploadTime.getHours()}:${fileUploadTime.getMinutes()}`}
+        </div>
       </div>
       <div className="col-span-4">
-        <h3 className="font-prompt text-2xl font-bold max-sm:text-xs">
-          {fileTitle}
+        <h3 className="flex flex-col items-end space-x-2 font-prompt text-2xl font-bold max-sm:text-xs sm:flex-row">
+          <p>{fileTitle}</p>
         </h3>
         <p className="font-prompt text-xs">{fileDescription}</p>
       </div>
