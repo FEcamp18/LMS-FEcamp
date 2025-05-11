@@ -183,7 +183,7 @@ export default function UploadForm({
                             : "bg-dark-gray text-white"
                         }`}
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="flex cursor-pointer items-center gap-2">
                           <Image
                             src={
                               isFileUploading
@@ -212,11 +212,7 @@ export default function UploadForm({
                           />
                           <label
                             htmlFor="file-upload"
-                            className={
-                              field?.value?.[0]?.name || isFileUploading
-                                ? "cursor-default"
-                                : "cursor-pointer"
-                            }
+                            className="cursor-pointer"
                           >
                             {isFileUploading
                               ? "อัพโหลดไฟล์..."
@@ -261,7 +257,7 @@ export default function UploadForm({
                       className="h-[56px] placeholder-dark-gray"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="px-4" />
                 </FormItem>
               )}
             />
@@ -277,7 +273,7 @@ export default function UploadForm({
                       className="h-[104px] rounded-none border-y-[1px] border-dark-brown align-text-top placeholder:bg-dark-gray"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="px-4" />
                 </FormItem>
               )}
             />
@@ -295,7 +291,7 @@ export default function UploadForm({
               </Button>
               <Button
                 type="submit"
-                className="h-[58px] flex-1 rounded-none border bg-dark-gray shadow-none"
+                className="h-[58px] flex-1 rounded-none border bg-dark-gray shadow-none hover:bg-dark-gray/70"
               >
                 เพิ่ม
               </Button>
