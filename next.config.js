@@ -16,7 +16,7 @@ const config = {
   experimental: {
     // Modern way to handle dynamic features
     serverActions: {
-      bodySizeLimit: '4mb'
+      bodySizeLimit: '10mb'
     },
   },
   // Add this to disable symlinks

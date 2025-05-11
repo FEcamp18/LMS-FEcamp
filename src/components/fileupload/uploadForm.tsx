@@ -84,6 +84,14 @@ export default function UploadForm({
         return;
       }
 
+      // Check file size
+      const MAX_FILE_SIZE_MB = 10;
+      const fileSizeMB = file.size / (1024 * 1024); // Convert bytes to MB
+      if (fileSizeMB > MAX_FILE_SIZE_MB) {
+        toast.error(`File size exceeds ${MAX_FILE_SIZE_MB} MB.`);
+        throw new Error(`File size exceeds ${MAX_FILE_SIZE_MB} MB.`);
+      }
+
       const result = await UploadFile({
         file: file,
         fileName: values.fileName,
