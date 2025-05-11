@@ -22,14 +22,16 @@ export default function AnnouncementCard({
         width={140}
         height={100}
       />
-      <div className="flex items-center justify-items-center border-b border-gray-400 sm:border-b-0 sm:border-r-2">
+      <div className="flex items-center justify-items-center border-b border-gray-400 max-sm:text-xs sm:border-b-0 sm:border-r-2">
         <p className="p-2 align-middle font-medium text-gray-600">
           {`${annoTime.getDate()}/${annoTime.getMonth() + 1}/${annoTime.getFullYear().toString().substr(-2)}`}{" "}
           <br /> {`${annoTime.getHours()}:${annoTime.getMinutes()}`}
         </p>
       </div>
       <div className="col-span-4 pl-5">
-        <h3 className="font-prompt text-2xl font-bold">{annoTitle}</h3>
+        <h3 className="font-prompt text-2xl font-bold max-sm:text-sm">
+          {annoTitle}
+        </h3>
         <p className="font-prompt text-xs">{annoText}</p>
       </div>
 

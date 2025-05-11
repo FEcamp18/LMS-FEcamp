@@ -92,11 +92,11 @@ export default function SubjectPage() {
         <button onClick={() => router.back()} className="h-10 w-10 px-4 py-2">
           <FaArrowLeft className="scale-150" />
         </button>
-        <div className="text-center text-2xl font-bold text-dark-brown">
+        <div className="text-center text-lg font-bold text-dark-brown sm:text-2xl">
           <p>{subjectDetails.subjectId}</p>
           <p className="text-sm font-normal">{subjectDetails.subjectName}</p>
         </div>
-        <div className="w-96 bg-light-gray p-4 text-center text-dark-brown">
+        <div className="w-28 bg-light-gray p-4 text-center text-dark-brown sm:w-96">
           {subjectDetails.subjectDescription}
         </div>
       </div>

@@ -29,7 +29,7 @@ export default function FileCard({
   };
 
   return (
-    <div className="r relative m-3 grid max-h-40 max-w-3xl grid-cols-8 gap-3 bg-[url('/image/subject-picture/bg-card.webp')] bg-cover bg-center p-3 pl-5">
+    <div className="relative m-3 grid max-h-40 max-w-3xl grid-cols-8 gap-3 bg-[url('/image/subject-picture/bg-card.webp')] bg-cover bg-center p-3 pl-5">
       <Image
         className="absolute -left-12 -top-16"
         src="/image/subject-picture/deco-1.svg"
@@ -42,7 +42,9 @@ export default function FileCard({
         <Folder className="" size={50} strokeWidth={1} />
       </div>
       <div className="col-span-4">
-        <h3 className="font-prompt text-2xl font-bold">{fileTitle}</h3>
+        <h3 className="font-prompt text-2xl font-bold max-sm:text-xs">
+          {fileTitle}
+        </h3>
         <p className="font-prompt text-xs">{fileDescription}</p>
       </div>
 
