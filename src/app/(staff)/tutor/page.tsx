@@ -69,7 +69,7 @@ export default function TutorPage() {
       </div>
 
       {/* Filter Buttons */}
-      <div className="flex justify-center gap-4 py-4">
+      <div className="flex flex-col justify-center gap-4 py-4 sm:flex-row">
         {["MATHS", "PHYSICS", "CHEMISTRY", "TPAT3"].map((filter) => (
           <button
             key={filter}
