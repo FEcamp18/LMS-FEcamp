@@ -1,15 +1,18 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+
 interface ResetPasswordResponse {
   message: string;
   error?: string;
 }
 
-export default function ResetPasswordPage() {
+// Separate client component for the form
+function ResetPasswordForm() {
   const searchParams = useSearchParams();
-  const token = searchParams.get("token"); // ดึง token จาก URL
+  const token = searchParams.get("token");
   const username = searchParams.get("username");
 
   const [newPassword, setNewPassword] = useState("");
@@ -28,7 +31,6 @@ export default function ResetPasswordPage() {
     }
 
     try {
-      // ส่งข้อมูลไปยัง API เพื่อรีเซ็ตรหัสผ่าน
       const resetResponse = await fetch("/api/account", {
         method: "PATCH",
         headers: {
@@ -49,25 +51,45 @@ export default function ResetPasswordPage() {
         setMessage("Failed to reset password. Please try again.");
       }
     } catch (error) {
-      console.error("Error fetching username:", error);
-      setMessage("Error fetching username. Please try again.");
+      console.error("Error resetting password:", error);
+      setMessage("Error resetting password. Please try again.");
     }
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="password"
           placeholder="Enter new password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           required
+          className="rounded border p-2"
         />
-        <button type="submit">Reset Password</button>
+        <button
+          type="submit"
+          className="rounded bg-blue-500 p-2 text-white hover:bg-blue-600"
+        >
+          Reset Password
+        </button>
       </form>
-
-      {message && <p>{message}</p>}
+      {message && <p className="mt-4 text-center">{message}</p>}
     </main>
+  );
+}
+
+// Main page component
+export default function ResetPasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-full w-full items-center justify-center">
+          <p className="text-xl text-dark-brown">Loading...</p>
+        </div>
+      }
+    >
+      <ResetPasswordForm />
+    </Suspense>
   );
 }

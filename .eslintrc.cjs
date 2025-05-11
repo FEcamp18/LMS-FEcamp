@@ -30,11 +30,17 @@ const config = {
     "@typescript-eslint/no-misused-promises": [
       "error",
       {
-        checksVoidReturn: {
-          attributes: false,
-        },
-      },
-    ],
+        "checksVoidReturn": {
+          "attributes": false
+        }
+      }
+    ]
   },
-};
+  "ignorePatterns": [
+    // ...existing patterns...
+    "prisma/csv_data/real_staff_seed.js",
+    "prisma/csv_data/real_camper_seed.js",
+    "prisma/csv_data/real_camper_room.js"
+  ],
+}
 module.exports = config;

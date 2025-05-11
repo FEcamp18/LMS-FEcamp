@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-
 const prisma = new PrismaClient();
 
 async function main() {
@@ -38,6 +37,7 @@ async function main() {
           room: 1,
           healthInfo: "No allergies",
           foodInfo: "Vegetarian",
+          miscellaneous: "Prefers spicy food",
           certificate: "Basic Camper Certificate",
           scorePostTest: [85.5, 90.0, 88.0, 75.2],
         },
@@ -57,6 +57,7 @@ async function main() {
           room: 2,
           healthInfo: "Asthma",
           foodInfo: "No seafood",
+          miscellaneous: "",
           certificate: "Advanced Camper Certificate",
           scorePostTest: [92.0, 95.0, 91.5, 65.2],
         },
@@ -76,6 +77,7 @@ async function main() {
           room: 3,
           healthInfo: "Nut allergy",
           foodInfo: "No nuts",
+          miscellaneous: "Prefers vegetarian meals",
           certificate: "Elite Camper Certificate",
           scorePostTest: [80.0, 82.5, 85.0, 78.5],
         },
