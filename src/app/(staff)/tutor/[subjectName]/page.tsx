@@ -122,6 +122,8 @@ export default function SubjectPage() {
                 annoTitle={anno.annoTitle}
                 annoText={anno.annoText}
                 annoTime={new Date(anno.annoTime)}
+                subjectId={anno.subjectId}
+                annoId={String(anno.annoId)}
                 isTutor={true}
               />
             ))}

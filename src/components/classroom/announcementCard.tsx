@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { FaRegFile } from "react-icons/fa";
 import ConfirmDeleteAnnounce from "../modal/confirmDeleteAnnounce";
@@ -9,6 +8,8 @@ type announcementCard = {
   annoTitle: string;
   annoText: string;
   isTutor: boolean;
+  subjectId: string;
+  annoId: string;
 };
 
 export default function AnnouncementCard({
@@ -16,6 +17,8 @@ export default function AnnouncementCard({
   annoTitle,
   annoText,
   isTutor,
+  subjectId,
+  annoId,
 }: announcementCard) {
   return (
     <div className="relative m-3 grid max-h-40 max-w-3xl grid-cols-6 gap-3 bg-[url('/image/subject-picture/bg-card.webp')] bg-cover bg-center p-3 pl-5 font-prompt">
@@ -41,7 +44,13 @@ export default function AnnouncementCard({
         <p className="font-prompt text-xs">{annoText}</p>
       </div>
 
-      {isTutor && <ConfirmDeleteAnnounce announceName={annoTitle} />}
+      {isTutor && (
+        <ConfirmDeleteAnnounce
+          annoId={annoId}
+          subjectId={subjectId}
+          announceName={annoTitle}
+        />
+      )}
       <Image
         className="absolute -bottom-16 -right-4"
         src="/image/subject-picture/deco-2.svg"

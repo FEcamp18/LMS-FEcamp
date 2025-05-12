@@ -10,22 +10,45 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import Image from "next/image";
+import toast, { Toaster } from "react-hot-toast";
 
 interface ConfirmDeleteAnnounceProps {
   announceName: string;
+  subjectId: string;
+  annoId: string;
 }
 
 export default function ConfirmDeleteAnnounce({
   announceName,
+  subjectId,
+  annoId,
 }: ConfirmDeleteAnnounceProps) {
   const [open, setOpen] = useState(false);
 
   function handleDelete() {
-    //write function here
-    setOpen(false);
+    fetch(`/api/anno/${subjectId}/${annoId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete announcement");
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        toast.error(`${error}`);
+      })
+      .finally(() => {
+        toast.success("ลบสำเร็จ โปรดรีเฟรชหน้าเว็บ");
+        setOpen(false);
+      });
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <Toaster />
       <DialogTrigger asChild>
         <button className="flex h-16 w-16 items-center justify-center">
           <Image
