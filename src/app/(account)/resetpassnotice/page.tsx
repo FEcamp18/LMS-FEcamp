@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { User } from "lucide-react";
 
 type ResetResponse = {
   message: string;
@@ -57,16 +58,20 @@ export default function ResetPasswordNotice() {
         <p className="pb-4 text-center font-inknut text-xl sm:text-2xl md:text-3xl">
           ส่งคำขอเปลี่ยนรหัสผ่าน
         </p>
+        <div className="relative w-full">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brown">
+            <User size={18} />
+          </span>
 
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          className="w-full rounded border bg-cream px-3 py-2 font-inknut text-brown"
-        />
-
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            className="w-full rounded border bg-cream py-2 pl-10 pr-10 font-sans text-brown placeholder:text-brown"
+          />
+        </div>
         <button
           type="submit"
           disabled={isSending}
@@ -77,7 +82,7 @@ export default function ResetPasswordNotice() {
       </form>
 
       {message && (
-        <p className="mt-2 text-center text-sm text-gray-700">{message}</p>
+        <p className="text-m mt-2 text-center text-light-brown">{message}</p>
       )}
     </div>
   );

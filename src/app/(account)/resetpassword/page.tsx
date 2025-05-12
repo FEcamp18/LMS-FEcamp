@@ -1,9 +1,10 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // For Next.js 13+
+import { useRouter } from "next/navigation";
+import { Lock, Eye, EyeOff } from "lucide-react";
 
 interface ResetPasswordResponse {
   message: string;
@@ -17,6 +18,9 @@ export default function ResetPasswordPage() {
 
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
+
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -49,15 +53,13 @@ export default function ResetPasswordPage() {
       if (resetData.message === "success") {
         setMessage("Your password has been successfully reset.");
       } else {
-        setMessage("Failed to reset password. Please try again.");
+        setMessage("เกิดข้อผิดพลาดระหว่างกำหนดรหัสผ่าน กรุณาติดต่อฝ่ายไอที");
       }
     } catch (error) {
       console.error("Error fetching username:", error);
       setMessage("Error fetching username. Please try again.");
     }
   };
-
-  const router = useRouter();
 
   const handleRedirect = () => {
     router.push("/account"); // change to your desired path
@@ -72,14 +74,29 @@ export default function ResetPasswordPage() {
       >
         <p className="pb-4 font-inknut text-3xl">กำหนดรหัสผ่านใหม่</p>
 
-        <input
-          type="Password"
-          placeholder="Password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-          className="w-full rounded border bg-cream px-3 py-2 font-inknut text-brown"
-        />
+        {/* Password Input with Eye Toggle */}
+        <div className="relative w-full">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brown">
+            <Lock size={18} />
+          </span>
+
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+            className="w-full rounded border bg-cream py-2 pl-10 pr-10 font-sans text-brown placeholder:text-brown"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 font-inknut text-brown"
+            tabIndex={-1}
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
 
         <button
           type="submit"
@@ -89,8 +106,8 @@ export default function ResetPasswordPage() {
         </button>
       </form>
 
-      {message && (
-        <p className="mt-2 text-center text-sm text-gray-700">{message}</p>
+      {message && message != "Your password has been successfully reset." && (
+        <p className="text-m mt-2 text-center text-light-brown">{message}</p>
       )}
     </div>
   );
@@ -146,7 +163,9 @@ export default function ResetPasswordPage() {
 
         {/* Main content centered */}
         <div className="flex h-full w-full items-center justify-center p-2">
-          {message === "success" ? successView : defaultView}
+          {message === "Your password has been successfully reset."
+            ? successView
+            : defaultView}
         </div>
       </div>
     </main>
