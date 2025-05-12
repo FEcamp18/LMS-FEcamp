@@ -107,7 +107,7 @@ function ResetPasswordForm() {
         </button>
       </form>
 
-      {message && message != "Your password has been successfully reset." && (
+      {message && message != "กำหนดรหัสผ่านใหม่สำเร็จ" && (
         <p className="text-m mt-2 text-center text-light-brown">{message}</p>
       )}
     </div>
@@ -164,7 +164,7 @@ function ResetPasswordForm() {
 
         {/* Main content centered */}
         <div className="flex h-full w-full items-center justify-center p-2">
-          {message === "Your password has been successfully reset."
+          {message === "กำหนดรหัสผ่านใหม่สำเร็จ"
             ? successView
             : defaultView}
         </div>
