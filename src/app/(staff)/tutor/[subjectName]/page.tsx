@@ -11,6 +11,8 @@ import {
 } from "@prisma/client";
 import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import FileTable from "@/components/fileupload/fileTable";
+import UploadForm from "@/components/fileupload/uploadForm";
 
 interface AnnouncementResponse {
   message: string;
@@ -29,6 +31,7 @@ interface SubjectResponse {
 export default function SubjectPage() {
   const router = useRouter();
   const params = useParams<{ subjectName: string }>();
+  const subjectId = params.subjectName;
 
   const [announcements, setAnnouncements] = useState<SubjectAnnouncements[]>(
     [],
@@ -143,6 +146,8 @@ export default function SubjectPage() {
           <div className="absolute bottom-0 right-3 mt-5 flex h-12 w-40 cursor-pointer items-center justify-center bg-light-gray p-2 text-white hover:bg-dark-gray">
             เพิ่มไฟล์
           </div>
+          <UploadForm />
+          <FileTable subjectId={subjectId} />
         </div>
       </div>
     </div>
