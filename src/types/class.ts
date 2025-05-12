@@ -23,4 +23,4 @@ export type MergeClassData = {
 export type ClassResponse = {
   message: string;
   courses: MergeClassData[];
-}
+};
