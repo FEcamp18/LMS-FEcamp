@@ -54,30 +54,30 @@ export default function ResetPasswordNotice() {
         onSubmit={handleSubmit}
         className="flex w-full flex-col items-center gap-4"
       >
-        <p className="pb-4 text-center font-inknut text-xl sm:text-2xl md:text-3xl">
+        <p className="pb-4 text-center text-xl sm:text-2xl md:text-3xl">
           ส่งคำขอเปลี่ยนรหัสผ่าน
         </p>
 
         <input
           type="text"
-          placeholder="Username"
+          placeholder="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          className="w-full rounded border bg-cream px-3 py-2 font-inknut text-brown"
+          className="w-full rounded border bg-cream px-3 py-2 text-brown"
         />
 
         <button
           type="submit"
           disabled={isSending}
-          className="w-full rounded bg-dark-gray px-3 py-2 font-inknut text-white"
+          className="w-full rounded bg-dark-gray px-3 py-2 text-white"
         >
           {isSending ? "กำลังส่ง..." : "ส่งคำขอ"}
         </button>
       </form>
 
       {message && (
-        <p className="mt-2 text-center text-sm text-gray-700">{message}</p>
+        <p className="mt-2 text-center text-sm text-light-brown">{message}</p>
       )}
     </div>
   );
@@ -85,14 +85,14 @@ export default function ResetPasswordNotice() {
   const successView = (
     <div className="flex w-full flex-col items-center justify-center gap-y-3 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8">
       <Image src="Logo.svg" alt="Logo" width={100} height={100} />
-      <p className="pb-2 text-center font-inknut text-xl text-dark-brown sm:text-2xl md:text-3xl">
+      <p className="pb-2 text-center text-xl text-dark-brown sm:text-2xl md:text-3xl">
         ส่งคำขอเปลี่ยนรหัสผ่านสำเร็จ
       </p>
-      <p className="text-center font-inknut font-bold text-dark-brown">
+      <p className="text-center font-bold text-dark-brown">
         เราได้ส่งลิงก์สำหรับรีเซ็ตรหัสผ่านไปยังอีเมล <br />
         ของน้อง {username} แล้ว !
       </p>
-      <p className="text-center font-inknut font-bold text-dark-brown">
+      <p className="text-center font-bold text-dark-brown">
         กรุณาตรวจสอบกล่องจดหมาย gmail
       </p>
     </div>

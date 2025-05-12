@@ -22,11 +22,11 @@ export default function ResetPasswordPage() {
     event.preventDefault();
 
     if (!token) {
-      setMessage("Invalid token.");
+      setMessage("ลิงก์ผิดพลาด token นี้ไม่ถูกต้อง");
       return;
     }
     if (!username) {
-      setMessage("Username not found.");
+      setMessage("ลิงก์ผิดพลาด ไม่พบ username");
       return;
     }
 
@@ -47,9 +47,9 @@ export default function ResetPasswordPage() {
       const resetData = (await resetResponse.json()) as ResetPasswordResponse;
 
       if (resetData.message === "success") {
-        setMessage("Your password has been successfully reset.");
+        setMessage("กำหนดรหัสผ่านใหม่สำเร็จ");
       } else {
-        setMessage("Failed to reset password. Please try again.");
+        setMessage("เกิดข้อผิดพลาดระหว่างกำหนดรหัสผ่าน กรุณาติดต่อฝ่ายไอที");
       }
     } catch (error) {
       console.error("Error fetching username:", error);
@@ -70,27 +70,27 @@ export default function ResetPasswordPage() {
         onSubmit={handleSubmit}
         className="flex flex-col items-center gap-4"
       >
-        <p className="pb-4 font-inknut text-3xl">กำหนดรหัสผ่านใหม่</p>
+        <p className="pb-4 text-3xl">กำหนดรหัสผ่านใหม่</p>
 
         <input
           type="Password"
-          placeholder="Password"
+          placeholder="password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           required
-          className="w-full rounded border bg-cream px-3 py-2 font-inknut text-brown"
+          className="w-full rounded border bg-cream px-3 py-2 text-brown"
         />
 
         <button
           type="submit"
-          className="w-full rounded bg-dark-gray px-2 py-2 font-inknut text-white"
+          className="w-full rounded bg-dark-gray px-2 py-2 text-white"
         >
           ยืนยัน
         </button>
       </form>
 
       {message && (
-        <p className="mt-2 text-center text-sm text-gray-700">{message}</p>
+        <p className="mt-2 text-center text-sm text-light-brown">{message}</p>
       )}
     </div>
   );
@@ -98,13 +98,13 @@ export default function ResetPasswordPage() {
   const successView = (
     <div className="flex w-full flex-col items-center justify-center gap-y-3 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8">
       <Image src="Logo.svg" alt="Logo" width={100} height={100} />
-      <p className="pb-8 text-center font-inknut text-xl text-dark-brown sm:text-2xl md:text-3xl">
+      <p className="pb-8 text-center text-xl text-dark-brown sm:text-2xl md:text-3xl">
         กำหนดรหัสผ่านใหม่สำเร็จ
       </p>
       <button
         type="button"
         onClick={handleRedirect}
-        className="w-full rounded bg-dark-gray px-2 py-2 font-inknut text-white"
+        className="w-full rounded bg-dark-gray px-2 py-2 text-white"
       >
         ไปหน้าบัญชี
       </button>
