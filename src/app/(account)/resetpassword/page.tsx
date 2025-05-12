@@ -1,7 +1,8 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Lock, Eye, EyeOff } from "lucide-react";
@@ -11,9 +12,10 @@ interface ResetPasswordResponse {
   error?: string;
 }
 
-export default function ResetPasswordPage() {
+// Separate client component for the form
+function ResetPasswordForm() {
   const searchParams = useSearchParams();
-  const token = searchParams.get("token"); // ดึง token จาก URL
+  const token = searchParams.get("token");
   const username = searchParams.get("username");
 
   const [newPassword, setNewPassword] = useState("");
@@ -35,7 +37,6 @@ export default function ResetPasswordPage() {
     }
 
     try {
-      // ส่งข้อมูลไปยัง API เพื่อรีเซ็ตรหัสผ่าน
       const resetResponse = await fetch("/api/account", {
         method: "PATCH",
         headers: {
@@ -169,5 +170,20 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+// Main page component
+export default function ResetPasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-full w-full items-center justify-center">
+          <p className="text-xl text-dark-brown">Loading...</p>
+        </div>
+      }
+    >
+      <ResetPasswordForm />
+    </Suspense>
   );
 }

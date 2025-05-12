@@ -1,9 +1,14 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# data CSV
+/prisma/csv_data/FE_camper.csv
+/prisma/csv_data/FE_staff.csv
+/prisma/csv_data/FE_camper_room.csv
+
 .env
 # package files
 package-lock.json
-
+/prisma/csv_data/*.csv
 # dependencies
 /node_modules
 /.pnp
