@@ -10,8 +10,7 @@ export const sendResetEmail = async (email: string, link: string) => {
   const emailContent = `
     <p>Hello,</p>
     <p>We received a request to reset your password. Click the link below to set a new password:</p>
-    <p><a href="${link}">Reset Your Password</a></p>
-    <p>use this link >> ${link} </p> 
+    <p><a href="${link}">Reset Your Password</a></p> 
     <p>If you didn’t request this, please ignore this email.</p>
     <p>Thank you,</p>
     <p>FE18 IT team</p>
