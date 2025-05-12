@@ -166,7 +166,7 @@ export default function UploadForm({
                     <div className="relative">
                       <Input
                         type="file"
-                        accept="application/pdf"
+                        accept=".pdf,.png,.jpg,.pptx"
                         onChange={(e) => handleFileUploading(e, field)}
                         className={`absolute inset-0 w-full cursor-pointer opacity-0 ${
                           field?.value?.[0]?.name || isFileUploading
