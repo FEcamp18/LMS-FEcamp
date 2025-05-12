@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation"; // For Next.js 13+
 
 interface ResetPasswordResponse {
   message: string;
@@ -10,9 +11,9 @@ interface ResetPasswordResponse {
 }
 
 export default function ResetPasswordPage() {
-    const searchParams = useSearchParams();
-    const token = searchParams.get("token"); // ดึง token จาก URL
-    const username = searchParams.get("username");
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token"); // ดึง token จาก URL
+  const username = searchParams.get("username");
 
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
@@ -20,82 +21,133 @@ export default function ResetPasswordPage() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-        if (!token) {
-            setMessage("Invalid token.");
-            return;
-        }
-        if (!username) {
-            setMessage("Username not found.");
-            return;
-        }
+    if (!token) {
+      setMessage("Invalid token.");
+      return;
+    }
+    if (!username) {
+      setMessage("Username not found.");
+      return;
+    }
 
-        try {
-            // ส่งข้อมูลไปยัง API เพื่อรีเซ็ตรหัสผ่าน
-            const resetResponse = await fetch("/api/account", {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username,
-                    newPassword,
-                    token,
-                }),
-            });
+    try {
+      // ส่งข้อมูลไปยัง API เพื่อรีเซ็ตรหัสผ่าน
+      const resetResponse = await fetch("/api/account", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          newPassword,
+          token,
+        }),
+      });
 
-            const resetData = await resetResponse.json() as ResetPasswordResponse;
+      const resetData = (await resetResponse.json()) as ResetPasswordResponse;
 
-            if (resetData.message === "success") {
-                setMessage("Your password has been successfully reset.");
-            } else {
-                setMessage("Failed to reset password. Please try again.");
-            }
+      if (resetData.message === "success") {
+        setMessage("Your password has been successfully reset.");
+      } else {
+        setMessage("Failed to reset password. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error fetching username:", error);
+      setMessage("Error fetching username. Please try again.");
+    }
+  };
 
-        } catch (error) {
-            console.error("Error fetching username:", error);
-            setMessage("Error fetching username. Please try again.");
-        }
-    };
+  const router = useRouter();
+
+  const handleRedirect = () => {
+    router.push("/account"); // change to your desired path
+  };
+
+  const defaultView = (
+    <div className="flex w-full flex-col items-center justify-center gap-y-6 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8 md:py-10">
+      <Image src="Logo.svg" alt="Logo" width={100} height={100} />
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center gap-4"
+      >
+        <p className="pb-4 font-inknut text-3xl">กำหนดรหัสผ่านใหม่</p>
+
+        <input
+          type="Password"
+          placeholder="Password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          required
+          className="w-full rounded border bg-cream px-3 py-2 font-inknut text-brown"
+        />
+
+        <button
+          type="submit"
+          className="w-full rounded bg-dark-gray px-2 py-2 font-inknut text-white"
+        >
+          ยืนยัน
+        </button>
+      </form>
+
+      {message && (
+        <p className="mt-2 text-center text-sm text-gray-700">{message}</p>
+      )}
+    </div>
+  );
+
+  const successView = (
+    <div className="flex w-full flex-col items-center justify-center gap-y-3 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8">
+      <Image src="Logo.svg" alt="Logo" width={100} height={100} />
+      <p className="pb-8 text-center font-inknut text-xl text-dark-brown sm:text-2xl md:text-3xl">
+        กำหนดรหัสผ่านใหม่สำเร็จ
+      </p>
+      <button
+        type="button"
+        onClick={handleRedirect}
+        className="w-full rounded bg-dark-gray px-2 py-2 font-inknut text-white"
+      >
+        ไปหน้าบัญชี
+      </button>
+    </div>
+  );
 
   return (
-    <main className="flex min-h-screen w-screen flex-col items-center justify-center p-6 bg-[url('public/image/background/resetpassword-background.webp')] bg-cover bg-center">
-      <div className="relative w-[90%] max-w-[884px] h-[80vh] max-h-[698px] items-center justify-center bg-cream shadow-lg p-8">
-        <Image src="/image/subject-picture/helmfx1 1.webp" alt="Logo" width={150} height={200} className="absolute left-[12] bottom-[30]"/>
-        <Image src="/image/subject-picture/crownfx1 1.webp" alt="Logo" width={150} height={200} className="absolute left-[12] top-[140]"/>
-        <Image src="/image/subject-picture/shieldfx1 1.webp" alt="Logo" width={150} height={200} className="absolute right-[12] top-[180]"/>
-        <Image src="/image/subject-picture/swordfx1 1.webp" alt="Logo" width={150} height={200} className="absolute right-[30] bottom-[70]"/>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex w-full flex-col items-center justify-center gap-y-7 rounded-2xl bg-gradient-to-b from-white to-cream px-8 pb-5 pt-3 md:max-w-md">
-            <Image src="/image/subject-picture/Logo.webp" alt="Logo" width={100} height={200}/>
-            <form
-                onSubmit={handleSubmit}
-                className="flex flex-col items-center gap-4"
-              >
-                
-                <p className="text-3xl font-inknut pb-4">
-                  กำหนดรหัสผ่านใหม่
-                </p>
+    <main className="flex min-h-screen w-screen flex-col items-center justify-center bg-[url('public/image/background/resetpassword-background.webp')] bg-cover bg-center p-6">
+      <div className="relative h-auto max-h-[698px] w-full max-w-[884px] bg-cream p-4 shadow-lg sm:h-[80vh] sm:w-[90%] sm:p-8">
+        {/* Decorative Images */}
+        <Image
+          src="/image/subject-picture/helmfx1 1.webp"
+          alt="Helm"
+          width={100}
+          height={100}
+          className="absolute bottom-[30px] left-[12px] hidden w-[150px] sm:block sm:w-[150px] md:bottom-[20px]"
+        />
+        <Image
+          src="/image/subject-picture/crownfx1 1.webp"
+          alt="Crown"
+          width={100}
+          height={100}
+          className="absolute left-[12px] top-[140px] hidden sm:block sm:w-[150px] md:top-[20px]"
+        />
+        <Image
+          src="/image/subject-picture/shieldfx1 1.webp"
+          alt="Shield"
+          width={100}
+          height={100}
+          className="absolute right-[12px] top-[180px] hidden w-[70px] sm:block sm:w-[150px] md:top-[10px]"
+        />
+        <Image
+          src="/image/subject-picture/swordfx1 1.webp"
+          alt="Sword"
+          width={100}
+          height={100}
+          className="absolute bottom-[70px] right-[30px] hidden w-[70px] sm:block sm:w-[150px] md:bottom-[20px]"
+        />
 
-                <input
-                  type="Password"
-                  placeholder="Password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  required
-                  className="rounded border w-full px-3 py-2 bg-cream text-brown"
-                />
-
-                <button
-                  type="submit"
-                  className="rounded bg-dark-gray px-2 py-2 text-white w-full"
-                >
-                  ยืนยัน
-                </button>
-            </form>
-
-              {message && (
-                <p className="mt-2 text-center text-sm text-gray-700">{message}</p>
-              )}
-          </div>
+        {/* Main content centered */}
+        <div className="flex h-full w-full items-center justify-center p-2">
+          {message === "success" ? successView : defaultView}
+        </div>
       </div>
     </main>
   );

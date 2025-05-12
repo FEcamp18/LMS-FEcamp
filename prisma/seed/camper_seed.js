@@ -10,7 +10,12 @@ async function main() {
       data: [
         { username: "camper2", password: "securepassword2", role: "CAMPER" },
         { username: "camper3", password: "securepassword3", role: "CAMPER" },
-        { username: "dev-camper", password: "$2b$10$l1tV0LY4zg5GQ/9krFLaAucZ7laW7hVHIMkYZSx.dYvtpPBmdrFIq", role: "CAMPER" },
+        {
+          username: "dev-camper",
+          password:
+            "$2b$10$l1tV0LY4zg5GQ/9krFLaAucZ7laW7hVHIMkYZSx.dYvtpPBmdrFIq",
+          role: "CAMPER",
+        },
       ],
       skipDuplicates: true,
     });
@@ -35,7 +40,7 @@ async function main() {
           foodInfo: "Vegetarian",
           miscellaneous: "Prefers spicy food",
           certificate: "Basic Camper Certificate",
-          scorePostTest: [85.5, 90.0, 88.0,75.2],
+          scorePostTest: [85.5, 90.0, 88.0, 75.2],
         },
         {
           camperId: "camper2",
@@ -75,7 +80,7 @@ async function main() {
           foodInfo: "No nuts",
           miscellaneous: "Prefers vegetarian meals",
           certificate: "Elite Camper Certificate",
-          scorePostTest: [80.0, 82.5, 85.0,78.5],
+          scorePostTest: [80.0, 82.5, 85.0, 78.5],
         },
         {
           camperId: "dev-camper",
@@ -94,7 +99,7 @@ async function main() {
           healthInfo: "Nut allergy",
           foodInfo: "No nuts",
           certificate: "Elite Camper Certificate",
-          scorePostTest: [80.0, 82.5, 85.0,98.5],
+          scorePostTest: [80.0, 82.5, 85.0, 98.5],
         },
       ],
       skipDuplicates: true,
