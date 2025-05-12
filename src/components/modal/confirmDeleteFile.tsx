@@ -11,7 +11,13 @@ import {
 import { useState } from "react";
 import Image from "next/image";
 
-export default function ConfirmDeleteFile() {
+interface ConfirmDeleteFielProps {
+  fileName: string;
+}
+
+export default function ConfirmDeleteFile({
+  fileName,
+}: ConfirmDeleteFielProps) {
   const [open, setOpen] = useState(false);
 
   function handleDelete() {
@@ -61,7 +67,7 @@ export default function ConfirmDeleteFile() {
         </DialogHeader>
         <div className="-mt-4 flex flex-col items-center text-center">
           <span>คุณต้องการลบไฟล์</span>
-          <span>"File name" ใช่หรือไม่</span>
+          <span>"{fileName}" ใช่หรือไม่</span>
         </div>
         <div className="mt-auto flex w-full p-0">
           <Button

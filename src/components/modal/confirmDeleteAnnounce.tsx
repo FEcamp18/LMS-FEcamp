@@ -11,7 +11,13 @@ import {
 import { useState } from "react";
 import Image from "next/image";
 
-export default function ConfirmDeleteAnnounce() {
+interface ConfirmDeleteAnnounceProps {
+  announceName: string;
+}
+
+export default function ConfirmDeleteAnnounce({
+  announceName,
+}: ConfirmDeleteAnnounceProps) {
   const [open, setOpen] = useState(false);
 
   function handleDelete() {
@@ -61,7 +67,7 @@ export default function ConfirmDeleteAnnounce() {
         </DialogHeader>
         <div className="-mt-4 flex flex-col items-center text-center">
           <span>คุณต้องการลบประกาศ</span>
-          <span>"Announce" ใช่หรือไม่</span>
+          <span>"{announceName}" ใช่หรือไม่</span>
         </div>
         <div className="mt-auto flex w-full p-0">
           <Button
