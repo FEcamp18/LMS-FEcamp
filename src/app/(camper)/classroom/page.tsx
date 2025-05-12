@@ -4,6 +4,10 @@ import ClassroomService from "@/lib/ClassroomService";
 import type { MergeClassData } from "@/types/class";
 import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
+import {
+  get_god_name,
+  get_god_schedule_image_path,
+} from "@/components/general/god-by-room";
 
 function ClassroomItems() {
   const [subjects, setSubjects] = useState<MergeClassData[] | null>(null);
@@ -11,6 +15,9 @@ function ClassroomItems() {
     null,
   );
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [god_name, set_god_name] = useState<string>("");
+  const [god_schedule_image_path, set_god_schedule_image_path] =
+    useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +28,12 @@ function ClassroomItems() {
       } catch (error) {
         console.error("Failed to fetch classrooms:", error);
       }
+      const god_name_res = await get_god_name();
+      const god_schedule_image_path_res = await get_god_schedule_image_path();
+      console.log(god_schedule_image_path_res);
+
+      set_god_name(god_name_res ?? "");
+      set_god_schedule_image_path(god_schedule_image_path_res);
     };
 
     void fetchData();
@@ -40,7 +53,33 @@ function ClassroomItems() {
   };
 
   return (
-    <div className="w-full flex-col p-4 lg:grid-cols-4">
+    <div className="w-full flex-col space-y-6 p-4 lg:grid-cols-4">
+      <div className="mt-5 flex w-full items-center justify-center">
+        <div className="flex h-24 w-[80%] rotate-[-3deg] items-center justify-center bg-white text-dark-brown sm:w-[45%]"></div>
+        <p className="absolute font-inknut text-5xl text-dark-brown">
+          {god_name}
+        </p>
+      </div>
+
+      <div className="flex w-full items-center justify-center">
+        <Image
+          src="/image/subject-picture/SectionTitle.svg"
+          width={300}
+          height={20}
+          className="w-52"
+          alt="Course Title"
+        />
+      </div>
+      <div className="relative left-1/2 min-h-64 w-[115%] -translate-x-1/2 bg-white p-10 px-8 sm:w-[110%] sm:px-20">
+        {god_schedule_image_path != "" && (
+          <Image
+            src={god_schedule_image_path}
+            alt={"schedule"}
+            height={300}
+            width={2400}
+          />
+        )}
+      </div>
       <div className="flex w-full items-center justify-center">
         <Image
           src="/image/subject-picture/CourseTitle.svg"
