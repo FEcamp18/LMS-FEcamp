@@ -35,7 +35,7 @@ export async function GET(
 
     // Single-pass merge using a Map for O(1) lookups instead of O(n) with find()
     const classMap = new Map<string, MergeClassData>();
-    
+
     for (const course of courses) {
       // tutors is no longer use in frontend ui
       // I'll remove from interface
