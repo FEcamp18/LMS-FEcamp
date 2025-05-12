@@ -58,13 +58,27 @@ export default function TutorPage() {
   return (
     <div className="w-full flex-col p-4 lg:grid-cols-4">
       {/* Title */}
-      <div className="flex w-full items-center justify-center">
+      <div className="relative flex w-full items-center justify-center">
         <Image
           src="/image/subject-picture/CourseTitle.svg"
           width={300}
           height={20}
           className="w-52"
           alt="Course Title"
+        />
+        <Image
+          src="/image/subject-picture/helmfx1 1.webp"
+          alt="Helm"
+          width={200}
+          height={200}
+          className="absolute -top-5 right-5 hidden w-[150px] sm:block"
+        />
+        <Image
+          src="/image/subject-picture/shieldfx1 1.webp"
+          alt="Helm"
+          width={200}
+          height={200}
+          className="absolute left-10 top-2 hidden w-[150px] sm:block"
         />
       </div>
 

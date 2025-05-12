@@ -56,11 +56,25 @@ function ClassroomItems() {
 
   return (
     <div className="w-full flex-col space-y-6 p-4 lg:grid-cols-4">
-      <div className="mt-5 flex w-full items-center justify-center">
+      <div className="relative mt-5 flex w-full items-center justify-center">
         <div className="flex h-24 w-[80%] rotate-[-3deg] items-center justify-center bg-white text-dark-brown sm:w-[45%]"></div>
         <p className="absolute font-inknut text-5xl text-dark-brown">
           {god_name}
         </p>
+        <Image
+          src="/image/subject-picture/helmfx1 1.webp"
+          alt="Helm"
+          width={350}
+          height={350}
+          className="absolute -top-10 right-5 hidden w-[320px] sm:block"
+        />
+        <Image
+          src="/image/subject-picture/shieldfx1 1.webp"
+          alt="Helm"
+          width={350}
+          height={350}
+          className="absolute left-10 top-8 hidden w-[250px] sm:block"
+        />
       </div>
 
       <div className="flex w-full items-center justify-center">
@@ -69,9 +83,10 @@ function ClassroomItems() {
           width={300}
           height={20}
           className="w-52"
-          alt="Course Title"
+          alt="Timetable"
         />
       </div>
+
       <div className="relative left-1/2 min-h-64 w-[115%] -translate-x-1/2 bg-white p-10 px-8 sm:w-[110%] sm:px-20">
         {god_schedule_image_path != "" && (
           <Image
@@ -82,13 +97,27 @@ function ClassroomItems() {
           />
         )}
       </div>
-      <div className="flex w-full items-center justify-center">
+      <div className="relative flex w-full items-center justify-center">
         <Image
           src="/image/subject-picture/CourseTitle.svg"
           width={300}
           height={20}
           className="w-52"
           alt="Course Title"
+        />
+        <Image
+          src="/image/subject-picture/swordfx1 1.webp"
+          alt="Helm"
+          width={200}
+          height={200}
+          className="absolute -top-2 right-14 hidden w-[200px] sm:block"
+        />
+        <Image
+          src="/image/subject-picture/swordfx1 1.webp"
+          alt="Helm"
+          width={200}
+          height={200}
+          className="absolute -top-2 left-14 hidden w-[200px] scale-x-[-1] transform sm:block"
         />
       </div>
 
