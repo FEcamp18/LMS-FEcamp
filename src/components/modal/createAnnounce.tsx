@@ -23,8 +23,10 @@ import { useState } from "react";
 import Image from "next/image";
 
 const formSchema = z.object({
-  announceName: z.string(),
-  announceDescription: z.string(),
+  announceName: z.string().min(1, "Announcement name is required"),
+  announceDescription: z
+    .string()
+    .min(1, "Announcement description is required"),
 });
 
 export default function CreateAnnounce() {
@@ -52,7 +54,7 @@ export default function CreateAnnounce() {
           เพิ่มประกาศ
         </button>
       </DialogTrigger>
-      <DialogContent className="h-[340px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.png')] p-0 text-base">
+      <DialogContent className="h-auto w-[312px] rounded-none border-none bg-[url('/image/modal/background.png')] p-0 text-base">
         <Image
           src="/image/modal/zigzag-top.png"
           alt="top-edge"
@@ -96,14 +98,16 @@ export default function CreateAnnounce() {
               name="announceName"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="หัวข้อ"
-                      {...field}
-                      className="h-[56px] rounded-none border-t border-dark-brown placeholder:bg-dark-gray"
-                    />
-                  </FormControl>
-                  <FormMessage />
+                  <div className="h-auto rounded-none border-t border-dark-brown align-text-top">
+                    <FormControl>
+                      <Input
+                        placeholder="หัวข้อ"
+                        {...field}
+                        className="placeholder:bg-dark-gray"
+                      />
+                    </FormControl>
+                    <FormMessage className="p-2" />
+                  </div>
                 </FormItem>
               )}
             />
@@ -112,14 +116,16 @@ export default function CreateAnnounce() {
               name="announceDescription"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="ข้อความประกาศ"
-                      {...field}
-                      className="h-[104px] rounded-none border-t border-dark-brown align-text-top placeholder:bg-dark-gray"
-                    />
-                  </FormControl>
-                  <FormMessage />
+                  <div className="h-auto rounded-none border-t border-dark-brown align-text-top">
+                    <FormControl>
+                      <Input
+                        placeholder="ข้อความประกาศ"
+                        {...field}
+                        className="placeholder:bg-dark-gray"
+                      />
+                    </FormControl>
+                    <FormMessage className="p-2" />
+                  </div>
                 </FormItem>
               )}
             />
