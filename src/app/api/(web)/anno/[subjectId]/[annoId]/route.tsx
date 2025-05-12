@@ -5,16 +5,13 @@ export async function DELETE(
   props: { params: Promise<{ subjectId: string; annoId: string }> },
 ) {
   const { subjectId, annoId } = await props.params;
-  
+
   try {
-    const intannoid=parseInt(annoId);
+    const intannoid = parseInt(annoId);
     // Check if announcement exists with both IDs
     const announcement = await prisma.subjectAnnouncements.findFirst({
       where: {
-        AND: [
-          { subjectId: subjectId },
-          { "annoId": intannoid }
-        ]
+        AND: [{ subjectId: subjectId }, { annoId: intannoid }],
       },
     });
 
@@ -22,19 +19,17 @@ export async function DELETE(
       return new Response(
         JSON.stringify({
           message: "failed",
-          error: "Announcement not found for given subject and announcement ID.",
+          error:
+            "Announcement not found for given subject and announcement ID.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
       );
     }
 
     // Delete the specific announcement
-    const deleteAnnouncement = await prisma.subjectAnnouncements.deleteMany({
+    await prisma.subjectAnnouncements.deleteMany({
       where: {
-        AND: [
-          { subjectId: subjectId },
-          { "annoId": intannoid }
-        ]
+        AND: [{ subjectId: subjectId }, { annoId: intannoid }],
       },
     });
 
@@ -44,9 +39,9 @@ export async function DELETE(
         data: {
           deletedAnnouncement: {
             subjectId,
-            annoId: intannoid
+            annoId: intannoid,
           },
-        }
+        },
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
