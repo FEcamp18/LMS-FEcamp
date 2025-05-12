@@ -35,6 +35,10 @@ function ResetPasswordForm() {
       setMessage("ลิงก์ผิดพลาด ไม่พบ username");
       return;
     }
+    if (!(newPassword.length >= 8)) {
+      setMessage("รหัสผ่านต้องยาวมากกว่า 8 ตัวอักษร");
+      return;
+    }
 
     try {
       const resetResponse = await fetch("/api/account", {
@@ -107,7 +111,7 @@ function ResetPasswordForm() {
         </button>
       </form>
 
-      {message && message != "Your password has been successfully reset." && (
+      {message && message != "กำหนดรหัสผ่านใหม่สำเร็จ" && (
         <p className="text-m mt-2 text-center text-light-brown">{message}</p>
       )}
     </div>
@@ -164,9 +168,7 @@ function ResetPasswordForm() {
 
         {/* Main content centered */}
         <div className="flex h-full w-full items-center justify-center p-2">
-          {message === "Your password has been successfully reset."
-            ? successView
-            : defaultView}
+          {message === "กำหนดรหัสผ่านใหม่สำเร็จ" ? successView : defaultView}
         </div>
       </div>
     </main>
