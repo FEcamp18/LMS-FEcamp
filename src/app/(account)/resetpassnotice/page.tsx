@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { User } from "lucide-react";
 
@@ -14,6 +14,9 @@ export default function ResetPasswordNotice() {
   const [message, setMessage] = useState<string | null>(null);
   const [isSending, setIsSending] = useState(false);
 
+  useEffect(() => {
+    setUsername("");
+  }, []);
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSending(true);
