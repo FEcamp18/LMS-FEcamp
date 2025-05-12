@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { useRouter, useParams } from "next/navigation";
 import AnnouncementCard from "@/components/classroom/announcementCard";
 import FileCard from "@/components/classroom/fileCard";
@@ -11,6 +12,8 @@ import {
 } from "@prisma/client";
 import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import FileTable from "@/components/fileupload/fileTable";
+import UploadForm from "@/components/fileupload/uploadForm";
 
 interface AnnouncementResponse {
   message: string;
@@ -29,6 +32,7 @@ interface SubjectResponse {
 export default function SubjectPage() {
   const router = useRouter();
   const params = useParams<{ subjectName: string }>();
+  const subjectId = params.subjectName;
 
   const [announcements, setAnnouncements] = useState<SubjectAnnouncements[]>(
     [],
@@ -144,6 +148,8 @@ export default function SubjectPage() {
             เพิ่มไฟล์
           </div>
         </div>
+        <UploadForm />
+        <FileTable subjectId={subjectId} />
       </div>
     </div>
   );
