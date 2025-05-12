@@ -42,6 +42,7 @@ export default function SubjectPage() {
     subjectId: string;
     subjectName: string;
     subjectDescription: string;
+    subjectTopic: string;
   } | null>(null);
 
   useEffect(() => {
@@ -66,11 +67,13 @@ export default function SubjectPage() {
         // Fetch subject details
         const subjectResponse = await fetch(`/api/subject/${subjectName}`);
         const subjectData = (await subjectResponse.json()) as SubjectResponse;
+
         if (subjectData.message == "success" && subjectData.subject) {
           setSubjectDetails({
             subjectId: subjectData.subject.subjectId,
             subjectName: subjectData.subject.subjectName,
             subjectDescription: subjectData.subject.subjectDescription,
+            subjectTopic: subjectData.subject.subjectTopic,
           });
         }
       } catch (error) {
@@ -97,8 +100,8 @@ export default function SubjectPage() {
           <FaArrowLeft className="scale-150" />
         </button>
         <div className="text-center text-lg font-bold text-dark-brown sm:text-2xl">
-          <p>{subjectDetails.subjectId}</p>
-          <p className="text-sm font-normal">{subjectDetails.subjectName}</p>
+          <p>{subjectDetails.subjectTopic}</p>
+          <p className="text-sm font-normal">{subjectDetails.subjectId}</p>
         </div>
         <div className="w-28 bg-light-gray p-4 text-center text-dark-brown sm:w-96">
           {subjectDetails.subjectDescription}
