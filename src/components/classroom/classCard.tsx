@@ -39,7 +39,7 @@ const ClassCard: React.FC<{ subject: MergeClassData }> = ({ subject }) => {
             className="object-cover"
           />
           <div className="absolute bottom-0 z-20 flex h-12 w-full flex-col items-center justify-center bg-white/80 text-center text-xl font-bold text-dark-brown">
-            <p>{subject.classId}</p>
+            <p>{subject.topic}</p>
             <p className="text-xs">{subject.location}</p>
           </div>
         </div>

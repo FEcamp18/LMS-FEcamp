@@ -46,7 +46,7 @@ const ClassCardTutor: React.FC<{ subject: ClassCardProps }> = ({ subject }) => {
             className="object-cover"
           />
           <p className="absolute bottom-0 z-20 flex h-12 w-full items-center justify-center bg-white/80 text-center text-xl font-bold text-dark-brown">
-            {subject.subjectId}
+            {subject.subjectTopic}
           </p>
         </div>
         {/* Bottom Section */}

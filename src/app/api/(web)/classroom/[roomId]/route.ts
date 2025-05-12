@@ -18,17 +18,8 @@ export async function GET(
         endTime: true,
         location: true,
         room: true,
-        StaffClass: {
-          select: {
-            staff: {
-              select: {
-                nickname: true,
-              },
-            },
-          },
-        },
         subject: {
-          select: { subjectDescription: true },
+          select: { subjectDescription: true, subjectTopic : true },
         },
       },
     });
@@ -46,17 +37,19 @@ export async function GET(
     const classMap = new Map<string, MergeClassData>();
     
     for (const course of courses) {
-      const tutors = course.StaffClass.map(sc => sc.staff.nickname);
+      // tutors is no longer use in frontend ui
+      // I'll remove from interface
+      // const tutors = course.StaffClass.map(sc => sc.staff.nickname);
       
       classMap.set(course.classId, {
         classId: course.classId,
-        tutors: tutors,
         roomId: course.room,
         subjectId: course.subjectId,
         startTime: course.startTime,
         endTime: course.endTime,
         location: course.location,
         description: course.subject?.subjectDescription,
+        topic : course.subject?.subjectTopic
       });
     }
 

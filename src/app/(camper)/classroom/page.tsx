@@ -24,6 +24,8 @@ function ClassroomItems() {
       try {
         const data = await ClassroomService.getClassroomsByRoomId("1");
         setSubjects(data.courses);
+        console.log(data.courses);
+
         setFilterSubject(data.courses); // Initially show all subjects
       } catch (error) {
         console.error("Failed to fetch classrooms:", error);
