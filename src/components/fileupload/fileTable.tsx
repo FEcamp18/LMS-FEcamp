@@ -23,7 +23,7 @@ const FileTable = ({ subjectId }: { subjectId: string }) => {
   };
 
   useEffect(() => {
-    fetchFiles();
+    void fetchFiles();
   }, [subjectId]);
 
   const handleDelete = async (fileId: number) => {

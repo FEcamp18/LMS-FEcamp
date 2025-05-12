@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { FaRegFile } from "react-icons/fa";
+import ConfirmDeleteAnnounce from "../modal/confirmDeleteAnnounce";
 
 type announcementCard = {
   annoTime: Date;
@@ -40,18 +41,7 @@ export default function AnnouncementCard({
         <p className="font-prompt text-xs">{annoText}</p>
       </div>
 
-      {isTutor && (
-        <div className="static z-20 flex cursor-pointer place-items-center justify-end pl-11 pr-4">
-          <Button variant="link" className="flex-1 bg-inherit p-1">
-            <Image
-              src="/image/subject-picture/Trash.svg"
-              alt="Trash Icon"
-              width={35}
-              height={100}
-            />
-          </Button>
-        </div>
-      )}
+      {isTutor && <ConfirmDeleteAnnounce announceName={annoTitle} />}
       <Image
         className="absolute -bottom-16 -right-4"
         src="/image/subject-picture/deco-2.svg"

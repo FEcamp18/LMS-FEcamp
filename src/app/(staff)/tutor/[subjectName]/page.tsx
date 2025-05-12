@@ -14,6 +14,7 @@ import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import FileTable from "@/components/fileupload/fileTable";
 import UploadForm from "@/components/fileupload/uploadForm";
+import CreateAnnounce from "@/components/modal/createAnnounce";
 
 interface AnnouncementResponse {
   message: string;
@@ -125,8 +126,8 @@ export default function SubjectPage() {
               />
             ))}
           </div>
-          <div className="absolute bottom-0 right-3 flex h-12 w-40 cursor-pointer items-center justify-center bg-light-gray p-2 text-white hover:bg-dark-gray">
-            เพิ่มประกาศ
+          <div className="absolute bottom-0 right-3 flex h-12 w-40 cursor-pointer items-center justify-center">
+            <CreateAnnounce />
           </div>
         </div>
 
@@ -147,11 +148,10 @@ export default function SubjectPage() {
               />
             ))}
           </div>
-          <div className="absolute bottom-0 right-3 mt-5 flex h-12 w-40 cursor-pointer items-center justify-center bg-light-gray p-2 text-white hover:bg-dark-gray">
-            เพิ่มไฟล์
+          <div className="absolute bottom-0 right-3 mt-5 flex h-12 w-40 cursor-pointer items-center justify-center">
+            <UploadForm />
           </div>
         </div>
-        <UploadForm />
         <FileTable subjectId={subjectId} />
       </div>
     </div>
