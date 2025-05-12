@@ -9,7 +9,7 @@ interface LoginRequest {
 }
 
 export async function POST(req: Request) {
-  try {    
+  try {
     const { username, password } = (await req.json()) as LoginRequest;
 
     // error 1 : Invalid credentials (Invalid user or psw)
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     }
 
     const isPasswordValid = await bcrypt.compare(password, account.password);
-    
+
     if (!isPasswordValid) {
       return Response.json(
         {
