@@ -101,9 +101,9 @@ export default function SubjectPage() {
         </div>
       </div>
       {/* Left Section */}
-      <div className="mt-20 flex flex-col space-y-16">
+      <div className="relative mt-20 flex h-auto flex-col space-y-16 sm:w-[50vw]">
         {/* Announcements */}
-        <div>
+        <div className="relative w-full pb-14">
           <h2 className="mb-4 text-xl font-bold text-dark-brown">
             ประกาศจากพี่ๆ
           </h2>
@@ -118,10 +118,13 @@ export default function SubjectPage() {
               />
             ))}
           </div>
+          <div className="absolute bottom-0 right-3 flex h-12 w-40 cursor-pointer items-center justify-center bg-light-gray p-2 text-white hover:bg-dark-gray">
+            เพิ่มประกาศ
+          </div>
         </div>
 
         {/* Files */}
-        <div>
+        <div className="relative w-full pb-10">
           <h2 className="mb-4 text-xl font-bold text-dark-brown">
             ไฟล์เนื้อหา
           </h2>
@@ -136,6 +139,9 @@ export default function SubjectPage() {
                 isTutor={true}
               />
             ))}
+          </div>
+          <div className="absolute bottom-0 right-3 mt-5 flex h-12 w-40 cursor-pointer items-center justify-center bg-light-gray p-2 text-white hover:bg-dark-gray">
+            เพิ่มไฟล์
           </div>
         </div>
       </div>

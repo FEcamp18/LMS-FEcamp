@@ -41,7 +41,7 @@ export default function AnnouncementCard({
       </div>
 
       {isTutor && (
-        <div className="static flex place-items-center justify-end pl-11 pr-4">
+        <div className="static z-20 flex cursor-pointer place-items-center justify-end pl-11 pr-4">
           <Button variant="link" className="flex-1 bg-inherit p-1">
             <Image
               src="/image/subject-picture/Trash.svg"

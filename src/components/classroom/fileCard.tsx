@@ -76,7 +76,10 @@ export default function FileCard({
             </div>
 
             {isTutor && (
-              <Button variant="link" className="bg-inherit p-1">
+              <Button
+                variant="link"
+                className="z-20 cursor-pointer bg-inherit p-1"
+              >
                 <Image
                   src="/image/subject-picture/Trash.svg"
                   alt="Trash Icon"
