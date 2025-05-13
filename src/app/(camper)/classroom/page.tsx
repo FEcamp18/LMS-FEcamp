@@ -8,6 +8,7 @@ import {
   get_god_name,
   get_god_schedule_image_path,
 } from "@/components/general/god-by-room";
+import { getClassroomsByRoomId } from "@/lib/getClassroomsByRoomId";
 
 function ClassroomItems() {
   const [subjects, setSubjects] = useState<MergeClassData[] | null>(null);
@@ -22,16 +23,16 @@ function ClassroomItems() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await ClassroomService.getClassroomsByRoomId("1");
+        const data = await getClassroomsByRoomId({ roomId: "0" });
         setSubjects(data.courses);
         console.log(data.courses);
 
-        setFilterSubject(data.courses); // Initially show all subjects
+        setFilterSubject(data.courses);
       } catch (error) {
         console.error("Failed to fetch classrooms:", error);
       }
-      const god_name_res = await get_god_name();
-      const god_schedule_image_path_res = await get_god_schedule_image_path();
+      const god_name_res = await get_god_name(0);
+      const god_schedule_image_path_res = await get_god_schedule_image_path(0);
       console.log(god_schedule_image_path_res);
 
       set_god_name(god_name_res ?? "");
@@ -44,7 +45,7 @@ function ClassroomItems() {
   const handleFilter = (filter: string | null) => {
     setSelectedFilter(filter);
     if (!filter) {
-      setFilterSubject(subjects); // Show all subjects if no filter is selected
+      setFilterSubject(subjects);
     } else {
       setFilterSubject(
         subjects?.filter(

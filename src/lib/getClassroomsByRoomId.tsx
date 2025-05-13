@@ -15,7 +15,10 @@ export async function getClassroomsByRoomId({ roomId }: { roomId: string }) {
     );
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
+      return {
+        message: "course not found",
+        courses: [],
+      };
     }
 
     const data = (await response.json()) as ClassResponse;

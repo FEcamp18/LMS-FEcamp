@@ -9,6 +9,7 @@ declare module "next-auth" {
     id: string | undefined;
     username: string;
     role?: ROLE;
+    roomNumber: number;
     priority?: number; //isstaff 1 ->istutor 2 ->isboard 3
   }
 
@@ -18,6 +19,7 @@ declare module "next-auth" {
       username: string;
       role: ROLE;
       priority?: number;
+      roomNumber: number;
     } & DefaultSession["user"];
   }
 }
@@ -52,7 +54,6 @@ export const authOptions: NextAuthOptions = {
         const baseUrl =
           process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
         try {
-          // Call login API
           const response = await fetch(`${baseUrl}/api/login`, {
             method: "POST",
             credentials:"include",
@@ -91,11 +92,31 @@ export const authOptions: NextAuthOptions = {
             throw new Error("user data is not define");
           }
 
+          let roomNumber = 0;
           let prio = 0;
           // First check role
           switch (userDetails.data.role) {
             case "CAMPER":
               prio = 0;
+              const getRoomNumber = await fetch(
+                `${baseUrl}/api/camper/` + credentials.username,
+                {
+                  method: "GET",
+                  credentials: "include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                },
+              );
+
+              if (!getRoomNumber.ok) {
+                throw new Error("Failed to fetch room number for camper.");
+              }
+
+              const camperData = await getRoomNumber.json() as { camper: { roomNumber: number } };
+              console.log(camperData);
+              
+              roomNumber = camperData?.camper?.roomNumber ?? 0; // Extract roomNumber or default to 0
               break;
             case "BOARD":
               prio = 3;
@@ -132,6 +153,7 @@ export const authOptions: NextAuthOptions = {
             username: credentials.username,
             role: userDetails.data.role,
             priority: prio,
+            roomNumber: roomNumber,
           };
         } catch {
           throw new Error("Invalid username or password");
@@ -151,6 +173,7 @@ export const authOptions: NextAuthOptions = {
         token.username = user.username;
         token.role = user.role;
         token.priority = user.priority;
+        token.roomNumber = user.roomNumber;
       }
       // console.log("jwt last token", token);
 
@@ -163,6 +186,7 @@ export const authOptions: NextAuthOptions = {
       session.user.username = token.username as string;
       session.user.role = token.role as ROLE;
       session.user.priority = token.priority as number;
+      session.user.roomNumber = token.roomNumber as number;
 
       // console.log("Final session object:", session);
 
