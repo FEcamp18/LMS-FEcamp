@@ -10,7 +10,7 @@ interface LoginRequest {
 }
 
 export async function POST(req: Request) {
-  try {    
+  try {
     const { username, password } = (await req.json()) as LoginRequest;
 
     // error 1 : Invalid credentials (Invalid user or psw)
