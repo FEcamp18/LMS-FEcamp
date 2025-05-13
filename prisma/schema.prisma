@@ -103,6 +103,7 @@ model SubjectFiles {
   fileLocation    String   @default("file-location")
   fileDescription String   @default("file-description")
   fileUpLoadTime  DateTime @default(now())
+  isDisable       Boolean  @default(false)
 
   subject Subject @relation(fields: [subjectId], references: [subjectId])
 }
