@@ -9,7 +9,7 @@ interface SessionGodInterface  {
 }
 
 const godMapping: Record<number, string> = {
-  0: "Athena",
+  0: "Olympus",
   1: "Athena",
   2: "Artemis",
   3: "Aphrodite",
