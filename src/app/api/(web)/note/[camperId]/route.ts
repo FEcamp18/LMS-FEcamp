@@ -1,16 +1,16 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"
 
 export async function GET(
   req: Request,
   props: { params: Promise<{ camperId: string }> },
 ) {
-  const { camperId } = await props.params;
+  const { camperId } = await props.params
   try {
     const camperBycamperId = await prisma.camper.findUnique({
       where: {
         camperId: camperId,
       },
-    });
+    })
 
     if (!camperBycamperId) {
       return new Response(
@@ -19,14 +19,14 @@ export async function GET(
           error: "camperId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
     const noteOfCamper = await prisma.notes.findMany({
       where: {
         camperId: camperId,
       },
-    });
+    })
 
     return new Response(
       JSON.stringify({
@@ -34,7 +34,7 @@ export async function GET(
         notes: noteOfCamper,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -45,7 +45,7 @@ export async function GET(
             : "Failed to fetch staff by camperId.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }
 

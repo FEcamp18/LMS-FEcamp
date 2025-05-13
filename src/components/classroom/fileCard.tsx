@@ -1,16 +1,16 @@
-"use client";
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Folder } from "lucide-react";
-import Image from "next/image";
+"use client"
+import React from "react"
+import { Button } from "@/components/ui/button"
+import { Folder } from "lucide-react"
+import Image from "next/image"
 
 type fileCard = {
-  fileTitle: string;
-  fileLocation: string;
-  fileDescription: string;
-  fileUploadTime: string;
-  isTutor: boolean;
-};
+  fileTitle: string
+  fileLocation: string
+  fileDescription: string
+  fileUploadTime: string
+  isTutor: boolean
+}
 export default function FileCard({
   fileTitle,
   fileLocation,
@@ -20,13 +20,13 @@ export default function FileCard({
   isTutor,
 }: fileCard) {
   const downloadFile = () => {
-    const aTag = document.createElement("a");
-    aTag.href = fileLocation;
-    aTag.setAttribute("download", fileTitle);
-    document.body.appendChild(aTag);
-    aTag.click();
-    aTag.remove();
-  };
+    const aTag = document.createElement("a")
+    aTag.href = fileLocation
+    aTag.setAttribute("download", fileTitle)
+    document.body.appendChild(aTag)
+    aTag.click()
+    aTag.remove()
+  }
 
   return (
     <div className="r relative m-3 grid max-h-40 max-w-3xl grid-cols-8 gap-3 bg-[url('/image/subject-picture/bg-card.webp')] bg-cover bg-center p-3 pl-5">
@@ -83,5 +83,5 @@ export default function FileCard({
         </div>
       )}
     </div>
-  );
+  )
 }

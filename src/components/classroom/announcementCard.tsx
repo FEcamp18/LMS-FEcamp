@@ -1,12 +1,12 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import React from "react"
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 type announcementCard = {
-  annoTime: Date;
-  annoTitle: string;
-  annoText: string;
-};
+  annoTime: Date
+  annoTitle: string
+  annoText: string
+}
 
 export default function AnnouncementCard({
   annoTime,
@@ -53,5 +53,5 @@ export default function AnnouncementCard({
       {/* <Image className="absolute -top-2 -left-1" src="/image/subject-picture/deco-1.png" alt="deco-1" width={80} height={100} />
       <Image className="absolute bottom-90 right-10" src="/image/subject-picture/deco-2.png" alt="deco-2" width={80} height={100} /> */}
     </div>
-  );
+  )
 }

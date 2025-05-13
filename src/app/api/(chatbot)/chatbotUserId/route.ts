@@ -1,21 +1,21 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"
 
 interface requestBodySchema {
-  camperId: string;
-  newChatbotUserId: string;
-  chatbotUserId: string;
+  camperId: string
+  newChatbotUserId: string
+  chatbotUserId: string
 }
 
 export async function PATCH(request: Request) {
   try {
     const { camperId, newChatbotUserId } =
-      (await request.json()) as requestBodySchema;
+      (await request.json()) as requestBodySchema
 
     const camperBycamperId = await prisma.camper.findUnique({
       where: {
         camperId: camperId,
       },
-    });
+    })
 
     if (!camperBycamperId) {
       return new Response(
@@ -24,7 +24,7 @@ export async function PATCH(request: Request) {
           error: "camperId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
     const newCamperBycamperId = await prisma.camper.update({
@@ -34,7 +34,7 @@ export async function PATCH(request: Request) {
       data: {
         chatbotUserId: newChatbotUserId,
       },
-    });
+    })
 
     return new Response(
       JSON.stringify({
@@ -42,7 +42,7 @@ export async function PATCH(request: Request) {
         camper: newCamperBycamperId,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -53,19 +53,19 @@ export async function PATCH(request: Request) {
             : "Failed to update camper information.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }
 
 export async function DELETE(request: Request) {
   try {
-    const { chatbotUserId } = (await request.json()) as requestBodySchema;
+    const { chatbotUserId } = (await request.json()) as requestBodySchema
 
     const camperBycamperId = await prisma.camper.findFirst({
       where: {
         chatbotUserId: chatbotUserId,
       },
-    });
+    })
 
     if (!camperBycamperId) {
       return new Response(
@@ -74,7 +74,7 @@ export async function DELETE(request: Request) {
           error: "camperId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
     const newCamperBycamperId = await prisma.camper.update({
@@ -84,7 +84,7 @@ export async function DELETE(request: Request) {
       data: {
         chatbotUserId: "no-line-id",
       },
-    });
+    })
 
     return new Response(
       JSON.stringify({
@@ -92,7 +92,7 @@ export async function DELETE(request: Request) {
         camper: newCamperBycamperId,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -103,6 +103,6 @@ export async function DELETE(request: Request) {
             : "Failed to update camper information.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }

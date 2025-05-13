@@ -1,21 +1,21 @@
-import { PHASE } from "@prisma/client";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { PHASE } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
+const prisma = new PrismaClient()
 
 async function main() {
-  console.log("Seeding Notes and Phases ...");
+  console.log("Seeding Notes and Phases ...")
 
   /* Using try-catch for prevent error */
   try {
     // Clearing Existing Data
-    console.log("Clearing Phase and Notes data...");
+    console.log("Clearing Phase and Notes data...")
 
-    await prisma.webPhase.deleteMany();
-    await prisma.notes.deleteMany();
+    await prisma.webPhase.deleteMany()
+    await prisma.notes.deleteMany()
 
-    console.log("Data cleared successfully.");
+    console.log("Data cleared successfully.")
   } catch (error) {
-    console.error("Error while clearing data:", error);
+    console.error("Error while clearing data:", error)
   }
 
   /* Creating Defualt Phase */
@@ -24,10 +24,10 @@ async function main() {
       data: {
         phase: PHASE.CLOSED,
       },
-    });
-    console.log("Data cleared successfully.");
+    })
+    console.log("Data cleared successfully.")
   } catch (error) {
-    console.error("Error while create phase data:", error);
+    console.error("Error while create phase data:", error)
   }
 
   /* Create mock camper account */
@@ -39,7 +39,7 @@ async function main() {
       { username: "camperNote4", password: "securepassword4", role: "CAMPER" },
     ],
     skipDuplicates: true,
-  });
+  })
 
   /* Create mock Camper */
   await prisma.camper.createMany({
@@ -122,7 +122,7 @@ async function main() {
       },
     ],
     skipDuplicates: true,
-  });
+  })
 
   /* Create mock staff account */
   await prisma.account.createMany({
@@ -134,7 +134,7 @@ async function main() {
       { username: "staffNote9", password: "securepassword9", role: "STAFF" },
     ],
     skipDuplicates: true,
-  });
+  })
   /* Create mock staff with different StaffDepartment */
   await prisma.staff.createMany({
     data: [
@@ -210,9 +210,9 @@ async function main() {
       },
     ],
     skipDuplicates: true,
-  });
+  })
 
-  console.log("Seeding staff completed!");
+  console.log("Seeding staff completed!")
 
   /* Creating Sample Notes */
   await prisma.notes.createMany({
@@ -280,17 +280,17 @@ async function main() {
         type: "HEALTH",
       },
     ],
-  });
+  })
 }
 
-console.log("Seeding notes and phase completed !");
+console.log("Seeding notes and phase completed !")
 
 main()
   .then(async () => {
-    await prisma.$disconnect();
+    await prisma.$disconnect()
   })
   .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })

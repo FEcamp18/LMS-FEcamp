@@ -1,10 +1,10 @@
 // write your code here
-import { getClassroomsByRoomId } from "@/lib/getClassroomsByRoomId";
-import type { MergeClassData } from "@/types/class";
-import { Suspense } from "react";
+import { getClassroomsByRoomId } from "@/lib/getClassroomsByRoomId"
+import type { MergeClassData } from "@/types/class"
+import { Suspense } from "react"
 
 async function ClassroomItems() {
-  const res = await getClassroomsByRoomId({ roomId: "1" });
+  const res = await getClassroomsByRoomId({ roomId: "1" })
 
   return (
     <div className="grid grid-cols-2 gap-4 p-4 lg:grid-cols-4">
@@ -31,7 +31,7 @@ async function ClassroomItems() {
         ))
       )}
     </div>
-  );
+  )
 }
 
 export default async function ClassroomPage() {
@@ -45,6 +45,6 @@ export default async function ClassroomPage() {
     >
       <ClassroomItems />
     </Suspense>
-  );
+  )
 }
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"

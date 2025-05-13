@@ -1,45 +1,44 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import CamperInfoTable from "@/components/info/camperInfoTable";
-import { type Camper } from "@prisma/client";
-import axios from "axios";
+import { useEffect, useState } from "react"
+import CamperInfoTable from "@/components/info/camperInfoTable"
+import { type Camper } from "@prisma/client"
+import axios from "axios"
 
 interface CamperResponseInterface {
-  message: "success" | "failed";
-  data: Camper[];
-  error?: string;
+  message: "success" | "failed"
+  data: Camper[]
+  error?: string
 }
 
 export default function ClassroomPage() {
-  const [campers, setCampers] = useState<Camper[]>([]);
-  const [selectedRoom, setSelectedRoom] = useState(1);
-  const [error, setError] = useState("");
+  const [campers, setCampers] = useState<Camper[]>([])
+  const [selectedRoom, setSelectedRoom] = useState(1)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     const fetchCampers = async () => {
       try {
         const response =
-          await axios.get<CamperResponseInterface>("/api/allcamper");
-        console.log(response);
+          await axios.get<CamperResponseInterface>("/api/allcamper")
 
-        setCampers(response.data.data);
+        setCampers(response.data.data)
       } catch (err) {
-        console.error("Error fetching campers:", err);
-        setError("Failed to get data");
+        console.error("Error fetching campers:", err)
+        setError("Failed to get data")
       }
-    };
+    }
 
-    void fetchCampers();
-  }, []);
+    void fetchCampers()
+  }, [])
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <div className="text-red-500">{error}</div>
   }
 
   const filteredCampers = campers.filter(
     (camper) => camper.room === selectedRoom,
-  );
+  )
 
   return (
     <div className="flex min-h-screen flex-col sm:flex-row">
@@ -69,5 +68,5 @@ export default function ClassroomPage() {
         <CamperInfoTable camper={filteredCampers} />
       </main>
     </div>
-  );
+  )
 }

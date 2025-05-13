@@ -1,26 +1,27 @@
-"use client";
-import { signIn, signOut } from "next-auth/react";
+"use client"
+import { signIn, signOut } from "next-auth/react"
+import toast from "react-hot-toast"
 
 export default function Dev() {
   const handleLogin = ({
     username,
     password,
   }: {
-    username: string;
-    password: string;
+    username: string
+    password: string
   }) => {
     void signIn("credentials", {
       username,
       password,
-    });
-  };
+    })
+  }
   const handleLogout = async () => {
     try {
-      await signOut();
+      await signOut()
     } catch {
-      console.log("signout failed");
+      toast.error("signout failed")
     }
-  };
+  }
   return (
     <div className="flex h-[600px] flex-row items-center justify-center space-x-5">
       <button
@@ -63,5 +64,5 @@ export default function Dev() {
         Logout
       </button>
     </div>
-  );
+  )
 }

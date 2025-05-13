@@ -1,10 +1,10 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"
 
 export async function GET(
   req: Request,
   props: { params: Promise<{ roomid: string }> },
 ) {
-  const { roomid } = await props.params;
+  const { roomid } = await props.params
 
   try {
     const camperByClass = await prisma.camper.findMany({
@@ -18,7 +18,7 @@ export async function GET(
         nickname: true,
         chatbotUserId: true,
       },
-    });
+    })
 
     return new Response(
       JSON.stringify({
@@ -26,7 +26,7 @@ export async function GET(
         data: camperByClass,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -37,6 +37,6 @@ export async function GET(
             : "Failed to fetch staffClass by classId.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }

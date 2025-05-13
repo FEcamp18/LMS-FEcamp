@@ -1,9 +1,9 @@
 // write your code here
-import { getClassrooms } from "@/lib/getClassrooms";
-import type { MergeClassData } from "@/types/class";
+import { getClassrooms } from "@/lib/getClassrooms"
+import type { MergeClassData } from "@/types/class"
 
 export default async function TutorPage() {
-  const res = await getClassrooms();
+  const res = await getClassrooms()
 
   return (
     <div className="grid grid-cols-2 gap-4 p-4 lg:grid-cols-4">
@@ -30,8 +30,8 @@ export default async function TutorPage() {
         ))
       )}
     </div>
-  );
+  )
 }
 
 // fix build error (headers in route)
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"

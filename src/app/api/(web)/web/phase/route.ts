@@ -1,14 +1,14 @@
-import { PHASE } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
+import { PHASE } from "@prisma/client"
+import { prisma } from "@/lib/prisma"
 
 // Define an interface for the request body
 interface PhaseUpdateRequest {
-  phase: PHASE;
+  phase: PHASE
 }
 
 export async function GET() {
   try {
-    const phase = await prisma.webPhase.findFirst();
+    const phase = await prisma.webPhase.findFirst()
 
     if (!phase) {
       // if phase === null value
@@ -20,7 +20,7 @@ export async function GET() {
         {
           status: 404,
         },
-      );
+      )
     }
 
     return Response.json(
@@ -31,7 +31,7 @@ export async function GET() {
       {
         status: 200,
       },
-    );
+    )
   } catch (error) {
     return Response.json(
       {
@@ -41,24 +41,24 @@ export async function GET() {
       {
         status: 500,
       },
-    );
+    )
   }
 }
 
 export async function PATCH(req: Request) {
   try {
     // TODO
-    const userIsAdmin = checkIfAdmin();
+    const userIsAdmin = checkIfAdmin()
     if (!userIsAdmin) {
       return Response.json(
         { message: "error", error: "Access denied." },
         { status: 403 },
-      );
+      )
     }
 
-    const presentstate = await prisma.webPhase.findFirst();
-    const body = (await req.json()) as PhaseUpdateRequest; // Use the interface here
-    const newPhase: PHASE = body.phase;
+    const presentstate = await prisma.webPhase.findFirst()
+    const body = (await req.json()) as PhaseUpdateRequest // Use the interface here
+    const newPhase: PHASE = body.phase
 
     if (!presentstate) {
       // If phase === null value
@@ -70,7 +70,7 @@ export async function PATCH(req: Request) {
         {
           status: 404,
         },
-      );
+      )
     }
 
     // Check if the provided phase is valid
@@ -78,16 +78,16 @@ export async function PATCH(req: Request) {
       return Response.json(
         { message: "failed", error: "Invalid phase provided." },
         { status: 400 },
-      );
+      )
     }
 
-    const current = presentstate.phase;
+    const current = presentstate.phase
     await prisma.webPhase.update({
       where: { phase: current },
       data: { phase: newPhase },
-    });
+    })
 
-    return Response.json({ message: "success" }, { status: 200 });
+    return Response.json({ message: "success" }, { status: 200 })
   } catch (error) {
     return Response.json(
       {
@@ -95,10 +95,10 @@ export async function PATCH(req: Request) {
         error: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
-    );
+    )
   }
 }
 
 function checkIfAdmin() {
-  return true; // Assume user is an admin for now
+  return true // Assume user is an admin for now
 }

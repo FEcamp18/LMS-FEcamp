@@ -1,6 +1,6 @@
 export interface WebphaseAPIResponse {
   data: {
-    message: string;
-    phase: string;
-  };
+    message: string
+    phase: string
+  }
 }

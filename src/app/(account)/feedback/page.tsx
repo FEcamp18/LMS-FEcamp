@@ -1,79 +1,79 @@
-"use client";
-import { useEffect, useState } from "react";
+"use client"
+import { useEffect, useState } from "react"
 
 export default function FeedbackPage() {
   const [feedbackLinks, setFeedbackLinks] = useState<
     { id: number; name: string; topic: string; link: string }[]
-  >([]);
-  const [checkedState, setCheckedState] = useState<number[]>([]);
+  >([])
+  const [checkedState, setCheckedState] = useState<number[]>([])
 
   // Load feedbackLinks from CSV
   useEffect(() => {
     const fetchFeedbackLinks = async () => {
-      const response = await fetch("/data/feedbackLinks.csv");
-      const csvText = await response.text();
+      const response = await fetch("/data/feedbackLinks.csv")
+      const csvText = await response.text()
 
       try {
         // Parse CSV manually
-        const rows = csvText.trim().split("\n");
-        if (!rows || rows.length === 0) return;
-        const firstRow = rows[0];
-        if (!firstRow) return;
-        const headers = firstRow.split(",");
+        const rows = csvText.trim().split("\n")
+        if (!rows || rows.length === 0) return
+        const firstRow = rows[0]
+        if (!firstRow) return
+        const headers = firstRow.split(",")
         const data = rows.slice(1).map((row) => {
-          const values = row.split(",");
-          const feedback: Record<string, string | number> = {};
+          const values = row.split(",")
+          const feedback: Record<string, string | number> = {}
           headers.forEach((header, index) => {
-            const value = values[index] ?? "";
-            feedback[header] = isNaN(Number(value)) ? value : Number(value);
-          });
+            const value = values[index] ?? ""
+            feedback[header] = isNaN(Number(value)) ? value : Number(value)
+          })
           return feedback as {
-            id: number;
-            name: string;
-            topic: string;
-            link: string;
-          };
-        });
+            id: number
+            name: string
+            topic: string
+            link: string
+          }
+        })
 
-        setFeedbackLinks(data);
+        setFeedbackLinks(data)
       } catch {
-        setFeedbackLinks([]);
+        setFeedbackLinks([])
       }
-    };
+    }
 
-    void fetchFeedbackLinks();
-  }, []);
+    void fetchFeedbackLinks()
+  }, [])
 
   // Load state from localStorage on mount
   useEffect(() => {
-    const storedState = localStorage.getItem("feedbackCheckedState");
+    const storedState = localStorage.getItem("feedbackCheckedState")
     if (storedState) {
-      setCheckedState(JSON.parse(storedState) as number[]);
+      setCheckedState(JSON.parse(storedState) as number[])
     } else {
-      setCheckedState(new Array(feedbackLinks.length).fill(0));
+      setCheckedState(new Array(feedbackLinks.length).fill(0))
     }
-  }, [feedbackLinks.length]);
+  }, [feedbackLinks.length])
 
   // Save state to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem("feedbackCheckedState", JSON.stringify(checkedState));
-  }, [checkedState]);
+    localStorage.setItem("feedbackCheckedState", JSON.stringify(checkedState))
+  }, [checkedState])
 
   const handleCheckboxChange = (index: number) => {
-    const updatedState = [...checkedState];
-    updatedState[index] = updatedState[index] === 1 ? 0 : 1;
-    setCheckedState(updatedState);
-  };
+    const updatedState = [...checkedState]
+    updatedState[index] = updatedState[index] === 1 ? 0 : 1
+    setCheckedState(updatedState)
+  }
 
   // Group feedback links by topic
   const groupedFeedback = feedbackLinks.reduce(
     (acc, feedback) => {
-      acc[feedback.topic] ??= [];
-      acc[feedback?.topic ?? "Overall"]?.push(feedback);
-      return acc;
+      acc[feedback.topic] ??= []
+      acc[feedback?.topic ?? "Overall"]?.push(feedback)
+      return acc
     },
     {} as Record<string, typeof feedbackLinks>,
-  );
+  )
 
   return (
     <main className="relative flex w-full flex-col space-y-8 overflow-x-visible p-4">
@@ -121,5 +121,5 @@ export default function FeedbackPage() {
         </div>
       ))}
     </main>
-  );
+  )
 }

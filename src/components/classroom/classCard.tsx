@@ -1,22 +1,22 @@
-import React from "react";
-import Link from "next/link";
+import React from "react"
+import Link from "next/link"
 
 interface ClassCardProps {
   class: {
     data: {
-      classId: string;
-      subjectName: string;
-      subjectTopic: string;
-      description: string;
-      tutor: string[];
-      location: string;
-      time: Date;
-    };
-    icon?: React.ReactElement;
-    bgColor?: string;
-    textColor?: string;
-    descriptionLines?: number;
-  };
+      classId: string
+      subjectName: string
+      subjectTopic: string
+      description: string
+      tutor: string[]
+      location: string
+      time: Date
+    }
+    icon?: React.ReactElement
+    bgColor?: string
+    textColor?: string
+    descriptionLines?: number
+  }
 }
 
 const ClassCard: React.FC<ClassCardProps> = ({
@@ -85,7 +85,7 @@ const ClassCard: React.FC<ClassCardProps> = ({
         </Link>
       ) : null}
     </>
-  );
-};
+  )
+}
 
-export { ClassCard };
+export { ClassCard }

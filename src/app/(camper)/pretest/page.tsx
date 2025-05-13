@@ -1,10 +1,10 @@
-import ExamList from "@/components/pretest/ExamList";
-import { type Metadata } from "next";
+import ExamList from "@/components/pretest/ExamList"
+import { type Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Pretest Room | FE camp",
   description: "Pretest room announcement for 18th FE Camp",
-};
+}
 
 export default function PretestPage() {
   return (
@@ -29,5 +29,5 @@ export default function PretestPage() {
       </div>
       <ExamList />
     </main>
-  );
+  )
 }
