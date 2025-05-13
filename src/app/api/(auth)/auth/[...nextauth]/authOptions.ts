@@ -57,6 +57,7 @@ export const authOptions: NextAuthOptions = {
           // Call login API
           const response = await fetch(`${baseUrl}/api/login`, {
             method: "POST",
+            credentials:"include",
             headers: {
               "Content-Type": "application/json",
             },
@@ -76,6 +77,7 @@ export const authOptions: NextAuthOptions = {
             `${baseUrl}/api/account?username=` + credentials.username,
             {
               method: "GET",
+              credentials:"include",
               headers: {
                 "Content-Type": "application/json",
               },
@@ -106,6 +108,7 @@ export const authOptions: NextAuthOptions = {
                 `${baseUrl}/api/department?username=` + credentials.username,
                 {
                   method: "GET",
+                  credentials:"include",
                   headers: {
                     "Content-Type": "application/json",
                   },

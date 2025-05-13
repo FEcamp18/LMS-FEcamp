@@ -2,8 +2,10 @@ import jwt from "jsonwebtoken";
 import { type NextRequest } from "next/server";
 
 export async function checkAuthToken(req: NextRequest, requiredPriority?: number): Promise<void> {
-  const token = req.cookies.get("token")?.value;
-
+  const token = req.cookies.get("token")?.value;  
+  // HELP : in postman it work fine, but in website this token is undefine
+  // console.log("token",token);
+  
   if (!token) {
     throw new Error("Unauthorized. Please log in.");
   }

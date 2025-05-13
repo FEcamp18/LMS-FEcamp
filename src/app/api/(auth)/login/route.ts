@@ -59,15 +59,18 @@ export async function POST(req: Request) {
       { username: account.username, priority: priority_number, role:account.role },
       process.env.JWT_SECRET ?? "your-secret-key", // Secret key for signing the token
       { expiresIn: "7d" }, // Token expiration time (1 hour)
-    );
+    );    
 
     // sign a cookies
     const response = NextResponse.json({ message: "success" });
-    response.cookies.set("token", token, {
-      httpOnly: true, // Prevent access via JavaScript
-      sameSite: "strict", // Prevent CSRF attacks
-      maxAge: 7 * 24 * 60 * 60, // 7 days
-    });
+    // HELP : I set cookies here
+   response.cookies.set("token", token, {
+    httpOnly: true,
+    sameSite: "lax", // "strict" may prevent it from being sent during navigation/fetches
+    secure: process.env.NODE_ENV === "production", // false for localhost
+    maxAge: 7 * 24 * 60 * 60,
+    path: "/", // important!
+  });
 
     return response;
   } catch {

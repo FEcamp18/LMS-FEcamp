@@ -12,7 +12,6 @@ interface UpdatePasswordRequest {
 
 export async function GET(req: NextRequest) {
   try {
-    await checkAuthToken(req);
     const { searchParams } = new URL(req.url);
     const username = searchParams.get("username");
 
