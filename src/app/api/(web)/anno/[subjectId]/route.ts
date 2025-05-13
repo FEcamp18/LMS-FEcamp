@@ -1,4 +1,6 @@
+import { checkAuthToken } from "@/lib/checkAuthToken";
 import { prisma } from "@/lib/prisma";
+import { type NextRequest } from "next/server";
 
 // Define an interface for the request body
 interface AnnouncementRequest {
@@ -8,11 +10,12 @@ interface AnnouncementRequest {
 }
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   props: { params: Promise<{ subjectId: string }> },
 ) {
   const { subjectId } = await props.params;
   try {
+    await checkAuthToken(req);
     const isSubjectIdExist = await prisma.subject.findUnique({
       where: { subjectId },
     });
@@ -54,8 +57,9 @@ export async function GET(
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    await checkAuthToken(req,1);
     // Parse and validate the request body using the interface
     const body = (await req.json()) as AnnouncementRequest;
 

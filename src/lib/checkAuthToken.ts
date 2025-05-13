@@ -8,6 +8,9 @@ export async function checkAuthToken(req: NextRequest, requiredPriority?: number
     throw new Error("Unauthorized. Please log in.");
   }
 
+  if (!requiredPriority) return;
+
+
   if (!process.env.JWT_SECRET) {
     console.error("JWT_SECRET environment variable is not set");
     throw new Error("Authentication system error. Please contact support.");

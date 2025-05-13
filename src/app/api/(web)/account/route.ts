@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 
 import { prisma } from "@/lib/prisma";
+import { checkAuthToken } from "@/lib/checkAuthToken";
+import { type NextRequest } from "next/server";
 
 interface UpdatePasswordRequest {
   username: string;
@@ -8,8 +10,9 @@ interface UpdatePasswordRequest {
   token: string;
 }
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
+    await checkAuthToken(req);
     const { searchParams } = new URL(req.url);
     const username = searchParams.get("username");
 
@@ -40,9 +43,6 @@ export async function GET(req: Request) {
         },
       );
     }
-
-    console.log("gettttt: ", req);
-
     return Response.json(
       {
         message: "success",

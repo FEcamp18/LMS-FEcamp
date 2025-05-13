@@ -1,13 +1,16 @@
+import { checkAuthToken } from "@/lib/checkAuthToken";
 import { PrismaClient } from "@prisma/client";
+import { type NextRequest } from "next/server";
 
 const prisma = new PrismaClient();
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   props: { params: Promise<{ staffId: string }> },
 ) {
   const { staffId } = await props.params;
   try {
+    await checkAuthToken(req);
     const staffData = await prisma.staff.findUnique({
       where: {
         staffId: staffId,
