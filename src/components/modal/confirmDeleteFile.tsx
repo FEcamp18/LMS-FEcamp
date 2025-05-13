@@ -31,30 +31,30 @@ export default function ConfirmDeleteFile({
           ลบไฟล์
         </button>
       </DialogTrigger>
-      <DialogContent className="h-[228px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.png')] p-0 text-base">
+      <DialogContent className="h-[228px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.webp')] p-0 text-base">
         <Image
-          src="/image/modal/zigzag-top.png"
+          src="/image/modal/zigzag-top.svg"
           alt="top-edge"
           width={312}
           height={6}
           className="absolute -top-[5px] left-0 w-full"
         />
         <Image
-          src={"/image/modal/delete-top.png"}
+          src={"/image/modal/delete-top.webp"}
           alt="upload-top"
           width={312}
           height={100}
           className="absolute -top-12 left-0"
         />
         <Image
-          src="/image/modal/zigzag-cream.png"
+          src="/image/modal/zigzag-cream.svg"
           alt="bottom-edge"
           width={156}
           height={6}
           className="absolute -bottom-[6px] left-0"
         />
         <Image
-          src="/image/modal/zigzag-gray.png"
+          src="/image/modal/zigzag-gray.svg"
           alt="bottom-edge"
           width={156}
           height={6}
