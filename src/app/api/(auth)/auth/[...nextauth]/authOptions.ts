@@ -176,7 +176,7 @@ export const authOptions: NextAuthOptions = {
       }
       // console.log("jwt last token", token);
 
-      return token;
+      return token
     },
     session: async ({ session, token }: { session: Session; token: JWT }) => {
       // console.log("Session callback called with session:", session, "and token:", token);
@@ -189,7 +189,7 @@ export const authOptions: NextAuthOptions = {
 
       // console.log("Final session object:", session);
 
-      return session;
+      return session
     },
   },
-};
+}

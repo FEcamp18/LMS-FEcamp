@@ -1,27 +1,55 @@
 "use server";
 
-import { Resend } from "resend";
+const brevoapi = process.env.BREVO_API_KEY;
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+if (!brevoapi) {
+  throw new Error("BREVO_API_KEY is not defined in the environment variables.");
+}
 
 export const sendResetEmail = async (email: string, link: string) => {
+  const emailContent = `
+    <p>Hello,</p>
+    <p>We received a request to reset your password. Click the link below to set a new password:</p>
+    <p><a href="${link}">Reset Your Password</a></p> 
+    <p>If you didn’t request this, please ignore this email.</p>
+    <p>Thank you,</p>
+    <p>FE18 IT team</p>
+  `;
+
+  const msg = {
+    sender: {
+      name: "FECAMP IT",
+      email: "fecamp18chula@gmail.com",
+    },
+    to: [{ email }],
+    subject: "Reset Password for FEcamp account",
+    htmlContent: emailContent,
+  };
+
   try {
-    const response = await resend.emails.send({
-      to: email,
-      from: "onboarding@resend.dev",
-      subject: "Reset Password",
-      html: `
-            <p>Hello,</p>
-            <p>We received a request to reset your password. Click the link below to set a new password:</p>
-            <p><a href="${link}">Reset Your Password</a></p>
-            <p>If you didn’t request this, please ignore this email.</p>
-            <p>Thank you,</p>
-            <p>FE18 IT team</p>
-            `,
-    });
-    // console.log("Resend API response:", response); // Log the response for debugging
-    // console.log("This is RESEND_API_KEY: ", resend); // Log for debugging
+    console.log(brevoapi);
+    
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': brevoapi,
+      },
+      body: JSON.stringify(msg),
+    }); 
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Brevo failed to send email:', errorText);
+      throw new Error(`Brevo email sending failed: ${errorText}`);
+    }
+
+    return {
+      message: 'Email sent!',
+      status: 200,
+    };
   } catch (error) {
-    console.error("Error sending reset email:", error); // Catch and log errors
+    console.error('Error sending reset email:', error instanceof Error ? error.message : 'Unknown error');
+    throw new Error('Failed to send reset email. Please try again later.');
   }
 };

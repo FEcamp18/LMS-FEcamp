@@ -6,13 +6,13 @@ export async function GET(
   req: NextRequest,
   props: { params: Promise<{ subjectId: string }> },
 ) {
-  const { subjectId } = await props.params;
+  const { subjectId } = await props.params
 
   try {
     await checkAuthToken(req);
     const isSubjectIdExist = await prisma.subject.findUnique({
       where: { subjectId },
-    });
+    })
 
     if (!isSubjectIdExist) {
       return new Response(
@@ -21,12 +21,12 @@ export async function GET(
           error: "SubjectId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
     const filesBySubjectId = await prisma.subjectFiles.findMany({
       where: { subjectId },
-    });
+    })
 
     return new Response(
       JSON.stringify({
@@ -34,7 +34,7 @@ export async function GET(
         files: filesBySubjectId,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -45,6 +45,6 @@ export async function GET(
             : "Failed to fetch files by subjectId.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }

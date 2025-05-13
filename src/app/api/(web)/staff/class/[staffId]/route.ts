@@ -6,7 +6,7 @@ export async function GET(
   req: NextRequest,
   props: { params: Promise<{ staffId: string }> },
 ) {
-  const { staffId } = await props.params;
+  const { staffId } = await props.params
   try {
     await checkAuthToken(req);
     const courses = await prisma.staffClass.findMany({
@@ -20,7 +20,7 @@ export async function GET(
           },
         },
       },
-    });
+    })
 
     if (!courses || courses.length === 0) {
       return Response.json(
@@ -31,13 +31,13 @@ export async function GET(
         {
           status: 404,
         },
-      );
+      )
     }
 
     const staffCourses = courses.map(({ class: { subject, ...course } }) => ({
       ...course,
       description: subject?.subjectDescription,
-    }));
+    }))
 
     return Response.json(
       {
@@ -47,7 +47,7 @@ export async function GET(
       {
         status: 200,
       },
-    );
+    )
   } catch (error) {
     return Response.json(
       {
@@ -57,6 +57,6 @@ export async function GET(
       {
         status: 500,
       },
-    );
+    )
   }
 }

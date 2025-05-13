@@ -1,4 +1,4 @@
-import type { ClassResponse } from "@/types/class";
+import type { ClassResponse } from "@/types/class"
 
 export async function getClassrooms() {
   try {
@@ -11,16 +11,16 @@ export async function getClassrooms() {
           Accept: "application/json",
         },
       },
-    );
+    )
 
     if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
+      throw new Error(`Error: ${response.statusText}`)
     }
 
-    const data = (await response.json()) as ClassResponse;
-    return data;
+    const data = (await response.json()) as ClassResponse
+    return data
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error(error)
+    throw error
   }
 }

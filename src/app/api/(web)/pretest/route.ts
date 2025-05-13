@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"
 
 export async function GET() {
   try {
@@ -13,7 +13,7 @@ export async function GET() {
           },
         },
       },
-    });
+    })
 
     if (!data) {
       return Response.json(
@@ -24,7 +24,7 @@ export async function GET() {
         {
           status: 404,
         },
-      );
+      )
     }
 
     return Response.json(
@@ -35,7 +35,7 @@ export async function GET() {
       {
         status: 200,
       },
-    );
+    )
   } catch (error) {
     return Response.json(
       {
@@ -45,6 +45,6 @@ export async function GET() {
       {
         status: 500,
       },
-    );
+    )
   }
 }

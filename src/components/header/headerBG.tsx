@@ -29,6 +29,6 @@ const HeaderBG = () => {
         filter="url(#shadow)"
       />
     </svg>
-  );
-};
-export default HeaderBG;
+  )
+}
+export default HeaderBG

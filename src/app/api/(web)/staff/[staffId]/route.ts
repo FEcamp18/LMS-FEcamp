@@ -6,14 +6,14 @@ export async function GET(
   req: NextRequest,
   props: { params: Promise<{ staffId: string }> },
 ) {
-  const { staffId } = await props.params;
+  const { staffId } = await props.params
   try {
     await checkAuthToken(req);
     const staffByStaffId = await prisma.staff.findUnique({
       where: {
         staffId: staffId,
       },
-    });
+    })
 
     if (!staffByStaffId) {
       return new Response(
@@ -22,7 +22,7 @@ export async function GET(
           error: "StaffId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
     return new Response(
@@ -31,7 +31,7 @@ export async function GET(
         staff: staffByStaffId,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -42,6 +42,6 @@ export async function GET(
             : "Failed to fetch staff by staffId.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }

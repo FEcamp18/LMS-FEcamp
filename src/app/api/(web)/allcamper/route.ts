@@ -13,7 +13,7 @@ export async function GET(req:NextRequest) {
         nickname: true,
         room: true,
       },
-    });
+    })
 
     return new Response(
       JSON.stringify({
@@ -21,7 +21,7 @@ export async function GET(req:NextRequest) {
         data: camperAll,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -32,6 +32,6 @@ export async function GET(req:NextRequest) {
             : "Failed to fetch staffClass by classId.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }

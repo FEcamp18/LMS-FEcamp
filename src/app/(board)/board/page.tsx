@@ -1,49 +1,49 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { type WebphaseAPIResponse } from "@/types/api/webphase";
-import WebsiteLink from "@/components/board/WebsiteLink";
+"use client"
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import { type WebphaseAPIResponse } from "@/types/api/webphase"
+import WebsiteLink from "@/components/board/WebsiteLink"
 
 export default function BoardPage() {
-  const [webPhase, setWebPhase] = useState("");
-  const [selectPhase, setSelectPhase] = useState<string | null>(null);
+  const [webPhase, setWebPhase] = useState("")
+  const [selectPhase, setSelectPhase] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchWebPhase = async () => {
       try {
-        const response: WebphaseAPIResponse = await axios.get("/api/web/phase");
-        setWebPhase(response.data.phase);
+        const response: WebphaseAPIResponse = await axios.get("/api/web/phase")
+        setWebPhase(response.data.phase)
       } catch (error) {
-        console.error("Error fetching web phase:", error);
+        console.error("Error fetching web phase:", error)
       }
-    };
+    }
 
-    void fetchWebPhase();
-  }, []);
+    void fetchWebPhase()
+  }, [])
 
   const handleSetPhase = async () => {
     if (!selectPhase) {
-      alert("Please select a phase before setting it.");
-      return;
+      alert("Please select a phase before setting it.")
+      return
     }
 
     try {
       const response = await axios.patch<{ error?: string }>("/api/web/phase", {
         phase: selectPhase,
-      });
+      })
       if (response.status === 200) {
-        alert("Web phase updated successfully!");
-        setWebPhase(selectPhase);
+        alert("Web phase updated successfully!")
+        setWebPhase(selectPhase)
       } else {
         alert(
           `Failed to update phase: ${response.data.error ?? "Unknown error"}`,
-        );
+        )
       }
     } catch (error) {
-      console.error("Error updating phase:", error);
-      alert("An error occurred while updating the phase.");
+      console.error("Error updating phase:", error)
+      alert("An error occurred while updating the phase.")
     }
-  };
+  }
 
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-start bg-zinc-900 p-10 text-white">
@@ -79,7 +79,7 @@ export default function BoardPage() {
         Set Web Phase
       </button>
     </main>
-  );
+  )
 }
 
 const PHASE = {
@@ -90,7 +90,7 @@ const PHASE = {
   CERTIFICATE: "Certificate",
   POSTTEST: "Posttest",
   ARCHIVE: "Archive",
-};
+}
 
 const descriptions = {
   CLOSED: "The phase is currently closed.",
@@ -100,4 +100,4 @@ const descriptions = {
   CERTIFICATE: "Certificates are being issued.",
   POSTTEST: "Post-event testing phase.",
   ARCHIVE: "The phase is archived.",
-};
+}

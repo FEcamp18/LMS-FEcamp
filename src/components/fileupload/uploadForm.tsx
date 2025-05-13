@@ -120,28 +120,28 @@ export default function UploadForm({
       </DialogTrigger>
       <DialogContent className="min-h-[396px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.png')] p-0 text-base">
         <Image
-          src="/image/modal/zigzag-top.png"
+          src="/image/modal/zigzag-top.svg"
           alt="top-edge"
           width={312}
           height={6}
           className="absolute -top-[5px] left-0 w-full"
         />
         <Image
-          src={"/image/modal/upload-top.png"}
+          src={"/image/modal/upload-top.webp"}
           alt="upload-top"
           width={312}
           height={100}
           className="absolute -top-12 left-0"
         />
         <Image
-          src="/image/modal/zigzag-cream.png"
+          src="/image/modal/zigzag-cream.svg"
           alt="bottom-edge"
           width={156}
           height={6}
           className="absolute -bottom-[6px] left-0"
         />
         <Image
-          src="/image/modal/zigzag-gray.png"
+          src="/image/modal/zigzag-gray.svg"
           alt="bottom-edge"
           width={156}
           height={6}
@@ -166,7 +166,7 @@ export default function UploadForm({
                     <div className="relative">
                       <Input
                         type="file"
-                        accept="application/pdf"
+                        accept=".pdf,.png,.jpg,.pptx"
                         onChange={(e) => handleFileUploading(e, field)}
                         className={`absolute inset-0 w-full cursor-pointer opacity-0 ${
                           field?.value?.[0]?.name || isFileUploading
@@ -183,14 +183,15 @@ export default function UploadForm({
                             : "bg-dark-gray text-white"
                         }`}
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="grid w-full cursor-pointer grid-cols-5 gap-2 overflow-x-hidden">
                           <Image
+                            className="col-span-1 content-center"
                             src={
                               isFileUploading
-                                ? "/image/modal/clip-icon.png"
+                                ? "/image/modal/clip-icon.svg"
                                 : field?.value?.[0]?.name
-                                  ? "/image/modal/clip-icon.png"
-                                  : "/image/modal/file-icon.png"
+                                  ? "/image/modal/clip-icon.svg"
+                                  : "/image/modal/file-icon.svg"
                             }
                             alt={
                               isFileUploading
@@ -212,19 +213,33 @@ export default function UploadForm({
                           />
                           <label
                             htmlFor="file-upload"
-                            className={
-                              field?.value?.[0]?.name || isFileUploading
-                                ? "cursor-default"
-                                : "cursor-pointer"
-                            }
+                            className="col-span-3 cursor-pointer content-center overflow-hidden"
                           >
                             {isFileUploading
                               ? "อัพโหลดไฟล์..."
                               : (field?.value?.[0]?.name ??
                                 "กดที่นี่เพื่อเพิ่มไฟล์")}
                           </label>
+                          {field?.value?.[0]?.name && !isFileUploading && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                field.onChange(null);
+                              }}
+                              className="col-span-1 flex content-center items-center justify-center hover:opacity-80"
+                              aria-label="clear file selection"
+                            >
+                              <Image
+                                src="/image/modal/cancel-icon.svg"
+                                alt="cancel-icon"
+                                width={24}
+                                height={24}
+                              />
+                            </button>
+                          )}
                         </div>
-                        {field?.value?.[0]?.name && !isFileUploading && (
+                        {field.value?.[0]?.name && !isFileUploading && (
                           <button
                             type="button"
                             onClick={(e) => {
@@ -235,7 +250,7 @@ export default function UploadForm({
                             aria-label="clear file selection"
                           >
                             <Image
-                              src="/image/modal/cancel-icon.png"
+                              src="/image/modal/cancel-icon.svg"
                               alt="cancel-icon"
                               width={24}
                               height={24}
@@ -261,7 +276,7 @@ export default function UploadForm({
                       className="h-[56px] placeholder-dark-gray"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="px-4" />
                 </FormItem>
               )}
             />
@@ -277,7 +292,7 @@ export default function UploadForm({
                       className="h-[104px] rounded-none border-y-[1px] border-dark-brown align-text-top placeholder:bg-dark-gray"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="px-4" />
                 </FormItem>
               )}
             />
@@ -295,7 +310,7 @@ export default function UploadForm({
               </Button>
               <Button
                 type="submit"
-                className="h-[58px] flex-1 rounded-none border bg-dark-gray shadow-none"
+                className="h-[58px] flex-1 rounded-none border bg-dark-gray shadow-none hover:bg-dark-gray/70"
               >
                 เพิ่ม
               </Button>

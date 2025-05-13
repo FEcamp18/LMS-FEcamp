@@ -5,7 +5,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import toast from "react-hot-toast";
 
-const ALLOWED_FILE_TYPES = [".pdf"];
+const ALLOWED_FILE_TYPES = [".pdf", ".png", ".jpg", ".pptx"];
 
 const prisma = new PrismaClient();
 
@@ -30,7 +30,7 @@ export default async function UploadFile({
     if (!ALLOWED_FILE_TYPES.includes(fileExtension)) {
       throw new Error("Invalid file type.");
     }
-    //storage dir
+
     const fileMetadata = await prisma.subjectFiles.create({
       data: {
         subjectId: fileSubject,

@@ -6,14 +6,14 @@ export async function GET(
   req: NextRequest,
   props: { params: Promise<{ classId: string }> },
 ) {
-  const { classId } = await props.params;
+  const { classId } = await props.params
   try {
     await checkAuthToken(req);
     const isClassIdExist = await prisma.class.findUnique({
       where: {
         classId: classId,
       },
-    });
+    })
 
     if (!isClassIdExist) {
       return new Response(
@@ -22,7 +22,7 @@ export async function GET(
           error: "ClassId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
     const staffฺsByClassId = await prisma.staffClass.findMany({
@@ -32,7 +32,7 @@ export async function GET(
       select: {
         staff: true,
       },
-    });
+    })
 
     return new Response(
       JSON.stringify({
@@ -40,7 +40,7 @@ export async function GET(
         staffs: staffฺsByClassId.map((staff) => staff.staff),
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -51,6 +51,6 @@ export async function GET(
             : "Failed to fetch staffClass by classId.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }

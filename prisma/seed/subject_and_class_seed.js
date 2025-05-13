@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client"
+const prisma = new PrismaClient()
 
 async function main() {
-  console.log("Seeding subjects and classes database...");
+  console.log("Seeding subjects and classes database...")
 
   // Create mock subjects
   await prisma.subject.createMany({
@@ -123,10 +123,10 @@ async function main() {
       },
     ],
     skipDuplicates: true,
-  });
+  })
 
-  const subjectsFECamp = await prisma.subject.findMany();
-  const l_subjects = subjectsFECamp.length;
+  const subjectsFECamp = await prisma.subject.findMany()
+  const l_subjects = subjectsFECamp.length
 
   // Conditions:
   // Campers will be separated into 8 rooms.
@@ -135,7 +135,7 @@ async function main() {
   // ----------------------------------------------------------------
   // From above, I decided to make every room has same subject in each time slot
 
-  const camper_rooms = [1, 2, 3, 4, 5, 6, 7, 8];
+  const camper_rooms = [1, 2, 3, 4, 5, 6, 7, 8]
   const day_time = [
     { day: "2025-05-18", slots: ["09:00:00", "13:00:00"] },
     { day: "2025-05-19", slots: ["09:00:00", "13:00:00"] },
@@ -144,27 +144,27 @@ async function main() {
     { day: "2025-05-22", slots: ["09:00:00", "13:00:00"] },
     { day: "2025-05-23", slots: ["09:00:00", "13:00:00"] },
     { day: "2025-05-24", slots: ["09:00:00", "13:00:00"] },
-  ];
-  const totalSlots = day_time.length * 2;
+  ]
+  const totalSlots = day_time.length * 2
 
-  let classes = [];
+  let classes = []
 
   // Create mock classes
   for (let roomIndex = 0; roomIndex < camper_rooms.length; roomIndex++) {
-    const room = camper_rooms[roomIndex];
+    const room = camper_rooms[roomIndex]
 
     for (let subjectIndex = 0; subjectIndex < l_subjects; subjectIndex++) {
-      const study_subject = subjectsFECamp[subjectIndex];
+      const study_subject = subjectsFECamp[subjectIndex]
 
-      const slotIndex = (roomIndex * l_subjects + subjectIndex) % totalSlots;
-      const dayIndex = Math.floor(slotIndex / 2);
-      const slotInDay = slotIndex % 2;
+      const slotIndex = (roomIndex * l_subjects + subjectIndex) % totalSlots
+      const dayIndex = Math.floor(slotIndex / 2)
+      const slotInDay = slotIndex % 2
 
-      if (dayIndex >= day_time.length) continue;
-      const currentDay = day_time[dayIndex];
-      if (!currentDay) continue;
-      const timeSlot = currentDay.slots[slotInDay];
-      const time = new Date(`${currentDay.day}T${timeSlot}+07:00`);
+      if (dayIndex >= day_time.length) continue
+      const currentDay = day_time[dayIndex]
+      if (!currentDay) continue
+      const timeSlot = currentDay.slots[slotInDay]
+      const time = new Date(`${currentDay.day}T${timeSlot}+07:00`)
 
       if (study_subject) {
         classes.push({
@@ -174,7 +174,7 @@ async function main() {
           location: "ตึก 3 ห้อง 315",
           startTime: time,
           endTime: new Date(time.getTime() + 2 * 60 * 60 * 1000),
-        });
+        })
       }
     }
   }
@@ -182,46 +182,46 @@ async function main() {
   await prisma.class.createMany({
     data: classes,
     skipDuplicates: true,
-  });
+  })
 
-  const staffsFECamp = await prisma.staff.findMany();
-  const l_classes = classes.length;
-  const l_staffs = staffsFECamp.length;
+  const staffsFECamp = await prisma.staff.findMany()
+  const l_classes = classes.length
+  const l_staffs = staffsFECamp.length
 
   // Create mock staffClass
-  let staffClasses = [];
+  let staffClasses = []
   for (let i = 0; i < l_classes; i++) {
-    const class_data = classes[i];
-    const staff_1_data = staffsFECamp[i % l_staffs];
+    const class_data = classes[i]
+    const staff_1_data = staffsFECamp[i % l_staffs]
     if (staff_1_data && class_data) {
       if (i % 2 == 1) {
-        const staff_2_data = staffsFECamp[(i + 1) % l_staffs];
+        const staff_2_data = staffsFECamp[(i + 1) % l_staffs]
         if (staff_2_data)
           staffClasses.push({
             staffId: staff_2_data.staffId,
             classId: class_data.classId,
-          });
+          })
       }
       staffClasses.push({
         staffId: staff_1_data.staffId,
         classId: class_data.classId,
-      });
+      })
     }
   }
   await prisma.staffClass.createMany({
     data: staffClasses,
     skipDuplicates: true,
-  });
+  })
 
-  console.log("Seeding subjects and classes completed!");
+  console.log("Seeding subjects and classes completed!")
 }
 
 main()
   .then(async () => {
-    await prisma.$disconnect();
+    await prisma.$disconnect()
   })
   .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })

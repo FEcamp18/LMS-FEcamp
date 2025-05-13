@@ -40,7 +40,7 @@ export default function ResetPasswordNotice() {
         );
       } else {
         setMessage(
-          "กรุณาตรวจสอบอีเมลของคุณ หากยังไม่ได้รับ กรุณาลองใหม่อีกครั้งภายใน 10 นาที",
+          "กรุณาตรวจสอบอีเมลของคุณ รวมถึงในกล่องจดหมายสแปม ขั้นตอนนี้อาจใช้เวลารออีเมลราว 10 นาที  หากยังไม่ได้รับ กรุณาลองใหม่อีกครั้งภายใน 10 นาที",
         );
       }
     } catch (error) {
@@ -103,7 +103,13 @@ export default function ResetPasswordNotice() {
         ของน้อง {username} แล้ว !
       </p>
       <p className="text-center font-bold text-dark-brown">
+        ขั้นตอนส่งอีเมลอาจนานราว 10 นาที
+      </p>
+      <p className="text-center font-bold text-dark-brown">
         กรุณาตรวจสอบกล่องจดหมาย gmail
+      </p>
+      <p className="text-center font-bold text-dark-brown">
+        รวมถึงในกล่องจดหมายขยะ (สแปม)
       </p>
     </div>
   );
