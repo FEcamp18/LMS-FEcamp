@@ -10,6 +10,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import ScoreTable from "@/components/account/ScoreTable";
+import axios from "axios";
+import { type WebphaseAPIResponse } from "@/types/api/webphase";
 
 interface godProps {
   name: string;
@@ -19,6 +21,7 @@ interface godProps {
 export default function AccountPage() {
   const { data: session, status, update } = useSession();
   const [loading, setLoading] = useState(true);
+  const [webPhase, setWebPhase] = useState<string>("");
   const [god, setGod] = useState<{
     name: string;
     path: string;
@@ -31,7 +34,17 @@ export default function AccountPage() {
       const name = (await get_god_name()) ?? "";
       setGod({ name, path });
     };
+    const fetchWebPhase = async () => {
+      try {
+        const response: WebphaseAPIResponse = await axios.get("/api/web/phase");
+        setWebPhase(response.data.phase);
+      } catch (error) {
+        console.error("Error fetching web phase:", error);
+      }
+    };
+
     void handleLoad();
+    void fetchWebPhase();
     setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -114,29 +127,31 @@ export default function AccountPage() {
           <p>-</p>
         </div>
       </section>
-      <section className="flex w-full flex-col content-center items-center justify-center">
-        <ScoreTable score={mockScoreData.score} mean={mockScoreData.mean} />
+      {!loading && webPhase === "CERTIFICATE" && (
+        <section className="flex w-full flex-col content-center items-center justify-center">
+          <ScoreTable score={mockScoreData.score} mean={mockScoreData.mean} />
 
-        <a
-          download
-          className="relative mx-6 mt-4 h-[160px] w-[350px] cursor-pointer content-center lg:h-[155px] lg:w-[800px]"
-        >
-          <Image
-            layout="fill"
-            objectFit="cover"
-            className="hidden lg:block"
-            src="/image/account/CertificateLaptop.webp"
-            alt="background"
-          />
-          <Image
-            layout="fill"
-            objectFit="cover"
-            className="block lg:hidden"
-            src="/image/account/CertificateMobile.webp"
-            alt="background"
-          />
-        </a>
-      </section>
+          <a
+            download
+            className="relative mx-6 mt-4 h-[160px] w-[350px] cursor-pointer content-center lg:h-[155px] lg:w-[800px]"
+          >
+            <Image
+              layout="fill"
+              objectFit="cover"
+              className="hidden lg:block"
+              src="/image/account/CertificateLaptop.webp"
+              alt="background"
+            />
+            <Image
+              layout="fill"
+              objectFit="cover"
+              className="block lg:hidden"
+              src="/image/account/CertificateMobile.webp"
+              alt="background"
+            />
+          </a>
+        </section>
+      )}
       <div className="mx-6 my-8 flex h-[55px] justify-end space-x-4">
         <Link
           href="resetpassnotice"
