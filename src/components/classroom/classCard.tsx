@@ -1,89 +1,63 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
-interface ClassCardProps {
-  class: {
-    data: {
-      classId: string;
-      subjectName: string;
-      subjectTopic: string;
-      description: string;
-      tutor: string[];
-      location: string;
-      time: Date;
-    };
-    icon?: React.ReactElement;
-    bgColor?: string;
-    textColor?: string;
-    descriptionLines?: number;
+import type { MergeClassData } from "@/types/class";
+const ClassCard: React.FC<{ subject: MergeClassData }> = ({ subject }) => {
+  // Map subjectName to corresponding background image
+  const BGimageMap: Record<string, string> = {
+    MATHS: "/image/subject-picture/Math.png",
+    CHEMISTRY: "/image/subject-picture/Chem.png",
+    PHYSICS: "/image/subject-picture/Physic.png",
+    TPAT3: "/image/subject-picture/TPAT.png",
   };
-}
 
-const ClassCard: React.FC<ClassCardProps> = ({
-  class: {
-    data,
-    icon,
-    bgColor = "#FFDDC1",
-    textColor = "#000000",
-    descriptionLines = 2,
-  },
-}) => {
+  const BGimage =
+    BGimageMap[subject.subjectId?.slice(0, -2)] ??
+    "/image/subject-picture/temp-subject-image.jpg";
+
   return (
     <>
-      {data && data != null ? (
-        <Link
-          href={`/classroom/${data.classId}`}
-          className="flex w-full max-w-sm cursor-pointer flex-col rounded-xl bg-transparent hover:shadow-lg"
-        >
-          <div
-            className="relative flex h-40 w-full rounded-t-xl"
-            style={{ backgroundColor: bgColor, color: textColor }}
-          >
-            <div className="flex w-full flex-col justify-between gap-3 p-4">
-              <div className="text-center">
-                <h3 className="text-xl font-bold lg:text-2xl">
-                  {data.subjectName ?? "Unknown Subject"}
-                </h3>
-                <p className="text-base lg:text-lg">{data.subjectTopic}</p>
-              </div>
-              <div className="text-sm lg:text-base">
-                <p>{data.location ?? "Location not specified"}</p>
-                {data.time ? (
-                  <p className="text-sm lg:text-base">
-                    วันที่{" "}
-                    {data.time.toLocaleDateString("en-US", {
-                      dateStyle: "short",
-                    })}{" "}
-                    เวลา{" "}
-                    {data.time.toLocaleTimeString("en-US", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: false,
-                    })}
-                  </p>
-                ) : (
-                  <p className="text-sm lg:text-base">Time not available</p>
-                )}
-              </div>
-            </div>
-            {icon && (
-              <div className="absolute right-0 flex h-full items-end justify-center p-4">
-                {icon}
-              </div>
-            )}
+      <Link
+        href={`/classroom/${subject.subjectId}`}
+        className="flex w-60 cursor-pointer flex-col space-y-0 bg-transparent transition-all hover:scale-105 sm:w-60"
+      >
+        <Image
+          src="/image/subject-picture/SVG-Bottom.svg"
+          alt="zigzag-edge"
+          width={300}
+          height={20}
+          className="w-full rotate-180"
+        />
+
+        {/* Top Section */}
+        <div className="relative flex h-60 w-60 items-end justify-center sm:w-60">
+          <Image
+            src={BGimage}
+            alt={subject.classId}
+            fill
+            className="object-cover"
+          />
+          <div className="absolute bottom-0 z-20 flex h-12 w-full flex-col items-center justify-center bg-white/80 text-center text-xl font-bold text-dark-brown">
+            <p>{subject.topic}</p>
+            <p className="text-xs">{subject.location}</p>
           </div>
-          <div className="flex min-h-24 w-full flex-col justify-between gap-3 rounded-b-xl bg-neutral-200 p-4">
-            <p
-              className={`line-clamp-${descriptionLines} text-sm text-neutral-700 lg:text-base`}
-            >
-              {data.description}
-            </p>
-            <p className="line-clamp-1 text-sm font-medium lg:text-base">
-              by {data.tutor?.join(", ") ?? "Unknown tutor"}
-            </p>
-          </div>
-        </Link>
-      ) : null}
+        </div>
+        {/* Bottom Section */}
+        <div className="flex min-h-24 w-full flex-col justify-between gap-3 bg-dark-brown p-4 text-cream">
+          <p className="text-gray text-center text-xs lg:text-sm">
+            {subject.description}
+          </p>
+        </div>
+
+        <Image
+          src="/image/subject-picture/SVG-Bottom.svg"
+          alt="zigzag-edge"
+          width={2000}
+          height={200}
+          className="w-full"
+        />
+      </Link>
     </>
   );
 };

@@ -68,15 +68,16 @@ export async function GET(req: Request) {
   }
 }
 
-export async function PATCH(req: Request){
+export async function PATCH(req: Request) {
   try {
-    const { username, newPassword, token } = (await req.json()) as UpdatePasswordRequest;
+    const { username, newPassword, token } =
+      (await req.json()) as UpdatePasswordRequest;
 
     // check field
-    if ( !token || !newPassword) {
+    if (!token || !newPassword) {
       return Response.json(
         { message: "failed", error: "Missing token or new password." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -85,16 +86,19 @@ export async function PATCH(req: Request){
       where: { token },
     });
 
-    if (!resetRecord || new Date(resetRecord.expires_at).getTime() < new Date().getTime()) {
+    if (
+      !resetRecord ||
+      new Date(resetRecord.expires_at).getTime() < new Date().getTime()
+    ) {
       return Response.json(
         { message: "failed", error: "Invalid or expired token." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // check if account exits
     const account = await prisma.account.findUnique({
-      where: { username }
+      where: { username },
     });
 
     if (!account) {
@@ -106,7 +110,7 @@ export async function PATCH(req: Request){
         {
           status: 404,
         },
-      )
+      );
     }
     
     // check newPassword requirement
@@ -119,7 +123,7 @@ export async function PATCH(req: Request){
         {
           status: 400,
         },
-      )
+      );
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -130,9 +134,9 @@ export async function PATCH(req: Request){
       data: { password: hashedPassword },
     });
 
-     // Delete the used reset token
-     await prisma.resetPassTable.delete({ where: { token } });
-    
+    // Delete the used reset token
+    await prisma.resetPassTable.delete({ where: { token } });
+
     return Response.json(
       {
         message: "success",
@@ -140,7 +144,7 @@ export async function PATCH(req: Request){
       {
         status: 200,
       },
-    )
+    );
   } catch (error) {
     return Response.json(
       {
@@ -150,6 +154,6 @@ export async function PATCH(req: Request){
       {
         status: 500,
       },
-    )
+    );
   }
 }

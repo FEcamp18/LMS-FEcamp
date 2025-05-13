@@ -8,14 +8,14 @@ type fileCard = {
   fileTitle: string;
   fileLocation: string;
   fileDescription: string;
-  fileUploadTime: string;
+  fileUploadTime: Date;
   isTutor: boolean;
 };
+
 export default function FileCard({
   fileTitle,
   fileLocation,
   fileDescription,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fileUploadTime,
   isTutor,
 }: fileCard) {
@@ -29,7 +29,7 @@ export default function FileCard({
   };
 
   return (
-    <div className="r relative m-3 grid max-h-40 max-w-3xl grid-cols-8 gap-3 bg-[url('/image/subject-picture/bg-card.webp')] bg-cover bg-center p-3 pl-5">
+    <div className="relative m-3 max-h-40 max-w-3xl grid-cols-8 gap-3 bg-[url('/image/subject-picture/bg-card.webp')] bg-cover bg-center p-3 pl-5 max-sm:flex max-sm:flex-row sm:grid">
       <Image
         className="absolute -left-12 -top-16"
         src="/image/subject-picture/deco-1.svg"
@@ -38,50 +38,59 @@ export default function FileCard({
         height={100}
       />
 
-      <div className="flex place-items-center justify-center pr-4">
-        <Folder className="" size={50} strokeWidth={1} />
-      </div>
-      <div className="col-span-4">
-        <h3 className="font-prompt text-2xl font-bold">{fileTitle}</h3>
-        <p className="font-prompt text-xs">{fileDescription}</p>
+      {/* Left Section: Folder Icon and Upload Time */}
+      <div className="flex h-full flex-col place-items-center justify-center space-y-2 pr-4 max-sm:w-[15%]">
+        <Folder
+          className="z-20 h-[40%] max-sm:mt-4 max-sm:w-[30px]"
+          size={50}
+          strokeWidth={2}
+        />
+        <div className="h-[25%] text-center text-xs">
+          {`${fileUploadTime.getDate()}/${
+            fileUploadTime.getMonth() + 1
+          }/${fileUploadTime.getFullYear().toString().substr(-2)}`}{" "}
+          <br /> {`${fileUploadTime.getHours()}:${fileUploadTime.getMinutes()}`}
+        </div>
       </div>
 
-      {isTutor ? (
-        <div className="col-span-2 flex place-items-center justify-end">
-          <Button
-            variant="link"
-            onClick={downloadFile}
-            className='h-12 flex-1 rounded-none bg-[url("/image/subject-picture/bg-download-button.webp")] bg-cover bg-center font-prompt text-lg text-white hover:text-white'
-          >
-            Download
-          </Button>
-        </div>
-      ) : (
-        <div className=""></div>
-      )}
+      {/* Right Section: File Details and Actions */}
+      <div className="col-span-7 h-full w-full flex-col sm:flex-row">
+        <div className="flex w-full justify-between">
+          <div className="mt-2 flex flex-col flex-wrap gap-2">
+            <h3 className="font-prompt text-2xl font-bold max-sm:text-xs">
+              {fileTitle}
+            </h3>
+            <p className="font-prompt text-xs">{fileDescription}</p>
+          </div>
 
-      {isTutor ? (
-        <div className="flex place-items-center justify-end pl-4 pr-4">
-          <Button variant="link" className="flex-1 bg-inherit p-1">
-            <Image
-              src="/image/subject-picture/Trash.svg"
-              alt="Trash Icon"
-              width={30}
-              height={100}
-            />
-          </Button>
+          {/* Actions: Download and Trash */}
+          <div className="mt-2 flex flex-wrap gap-2">
+            <div className="h-auto w-32">
+              <Button
+                variant="link"
+                onClick={downloadFile}
+                className='h-12 w-32 flex-1 rounded-none bg-[url("/image/subject-picture/bg-download-button.webp")] bg-contain bg-center bg-no-repeat font-prompt text-white hover:text-white'
+              >
+                Download
+              </Button>
+            </div>
+
+            {isTutor && (
+              <Button
+                variant="link"
+                className="z-20 cursor-pointer bg-inherit p-1"
+              >
+                <Image
+                  src="/image/subject-picture/Trash.svg"
+                  alt="Trash Icon"
+                  width={30}
+                  height={30}
+                />
+              </Button>
+            )}
+          </div>
         </div>
-      ) : (
-        <div className="col-span-2 flex place-items-center justify-end">
-          <Button
-            variant="link"
-            onClick={downloadFile}
-            className='h-12 flex-1 rounded-none bg-[url("/image/subject-picture/bg-download-button.webp")] bg-cover bg-center font-prompt text-lg text-white hover:text-white'
-          >
-            Download
-          </Button>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import { ClassCard } from "./classCard";
 import {
   AudioLines,
   ChartLine,
@@ -6,15 +5,16 @@ import {
   Biohazard,
   Laptop,
 } from "lucide-react";
+import { ClassCardTutor } from "./classCardTutor";
 
 const ClassContainer: React.FC = () => {
   const mockClasses = [
     {
       data: {
-        classId: "MATH101",
+        subjectId: "MATH101",
         subjectName: "Mathematics",
         subjectTopic: "Linear Algebra",
-        description:
+        subjectDescription:
           "Introduction to vectors, matrices, and linear transformations.",
         tutor: ["Dr. Smith", "Prof. Johnson"],
         location: "Room 205",
@@ -25,10 +25,10 @@ const ClassContainer: React.FC = () => {
     },
     {
       data: {
-        classId: "PHYS202",
+        subjectId: "PHYS202",
         subjectName: "Physics",
         subjectTopic: "Quantum Mechanics",
-        description:
+        subjectDescription:
           "Exploring the fundamentals of quantum theory and its applications.",
         tutor: ["Dr. Brown"],
         location: "Lab 3",
@@ -39,10 +39,10 @@ const ClassContainer: React.FC = () => {
     },
     {
       data: {
-        classId: "CHEM303",
-        subjectName: "Chemistry",
+        subjectId: "CHEM303",
+        subjectName: "CHEMISTRY",
         subjectTopic: "Organic Chemistry",
-        description:
+        subjectDescription:
           "Study of the structure, properties, and reactions of organic compounds.",
         tutor: ["Prof. Davis"],
         location: "Room 101",
@@ -53,10 +53,10 @@ const ClassContainer: React.FC = () => {
     },
     {
       data: {
-        classId: "BIOL404",
+        subjectId: "BIOL404",
         subjectName: "Biology",
         subjectTopic: "Genetics",
-        description:
+        subjectDescription:
           "Understanding the principles of heredity and variation in organisms.",
         tutor: ["Dr. White", "Prof. Green"],
         location: "Room 304",
@@ -67,10 +67,10 @@ const ClassContainer: React.FC = () => {
     },
     {
       data: {
-        classId: "COMP505",
+        subjectId: "COMP505",
         subjectName: "Computer Science",
         subjectTopic: "Machine Learning",
-        description:
+        subjectDescription:
           "Introduction to algorithms and models for machine learning.",
         tutor: ["Prof. Black"],
         location: "Lab 5",
@@ -85,7 +85,7 @@ const ClassContainer: React.FC = () => {
     <div className="grid w-full grid-cols-1 gap-6 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {mockClasses.map((classData, index) => (
         <div key={index} className="flex items-start justify-center">
-          <ClassCard class={classData} />
+          <ClassCardTutor class={classData} />
         </div>
       ))}
     </div>
