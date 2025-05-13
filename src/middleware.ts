@@ -46,8 +46,36 @@ const publicRoutes = [
 
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
-  // console.log("Middleware triggered for path:", pathname);
+
+  // always allow landing page
+  if(pathname === "/")
+    return NextResponse.next();
   
+   // if campe is CLOSED only go to "/"
+  const phaseResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/web/phase`, {
+    method: "GET",
+    credentials:"include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const phaseData = await phaseResponse.json() as { phase: string };  
+  const currentPhase = phaseData?.phase;
+
+  // If the phase is "CLOSED", restrict access for all roles except BOARD
+  if (currentPhase === "CLOSED") {
+    const token = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    if (!token || token.role !== "BOARD") {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+  }
+
+  // normal check
    if (publicRoutes.includes(pathname)) {
     return NextResponse.next();
   }
