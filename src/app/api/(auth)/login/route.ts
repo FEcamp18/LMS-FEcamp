@@ -56,7 +56,7 @@ export async function POST(req: Request) {
 
     // generate token
     const token = jwt.sign(
-      { username: account.username, priority: priority_number },
+      { username: account.username, priority: priority_number, role:account.role },
       process.env.JWT_SECRET ?? "your-secret-key", // Secret key for signing the token
       { expiresIn: "7d" }, // Token expiration time (1 hour)
     );
