@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/router";
 import AnnouncementCard from "@/components/classroom/announcementCard";
 import FileCard from "@/components/classroom/fileCard";
 import {
@@ -12,7 +11,9 @@ import {
 } from "@prisma/client";
 import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import FileTable from "@/components/fileupload/fileTable";
+import FileTable, {
+  type FileTableRef,
+} from "@/components/fileupload/fileTable";
 import UploadForm from "@/components/fileupload/uploadForm";
 import CreateAnnounce from "@/components/modal/createAnnounce";
 
@@ -30,6 +31,9 @@ interface SubjectResponse {
   subject: Subject;
 }
 
+import { useParams } from "next/navigation";
+import { useRef } from "react";
+
 export default function SubjectPage() {
   const router = useRouter();
   const params = useParams<{ subjectName: string }>();
@@ -45,6 +49,7 @@ export default function SubjectPage() {
     subjectDescription: string;
     subjectTopic: string;
   } | null>(null);
+  const tableRef = useRef<FileTableRef>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,10 +159,15 @@ export default function SubjectPage() {
             ))}
           </div>
           <div className="absolute bottom-0 right-3 mt-5 flex h-12 w-40 cursor-pointer items-center justify-center">
-            <UploadForm />
+            <UploadForm
+              uploadSuccess={async () => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+                await tableRef?.current?.fetchFiles();
+              }}
+            />
           </div>
         </div>
-        <FileTable subjectId={subjectId} />
+        <FileTable ref={tableRef} subjectId={subjectId} />
       </div>
     </div>
   );
