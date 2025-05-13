@@ -8,8 +8,8 @@ type announcementCard = {
   annoTitle: string;
   annoText: string;
   isTutor: boolean;
-  subjectId: string;
-  annoId: string;
+  subjectId?: string;
+  annoId?: string;
 };
 
 export default function AnnouncementCard({
@@ -46,8 +46,8 @@ export default function AnnouncementCard({
 
       {isTutor && (
         <ConfirmDeleteAnnounce
-          annoId={annoId}
-          subjectId={subjectId}
+          annoId={annoId ?? ""}
+          subjectId={subjectId ?? ""}
           announceName={annoTitle}
         />
       )}

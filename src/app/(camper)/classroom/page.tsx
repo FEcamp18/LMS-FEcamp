@@ -75,14 +75,14 @@ function ClassroomItems() {
           alt="Helm"
           width={350}
           height={350}
-          className="absolute -top-10 right-5 hidden w-[320px] sm:block"
+          className="absolute -top-10 right-5 hidden w-[320px] lg:block"
         />
         <Image
           src="/image/subject-picture/shieldfx1 1.webp"
           alt="Helm"
           width={350}
           height={350}
-          className="absolute left-10 top-8 hidden w-[250px] sm:block"
+          className="absolute left-10 top-8 hidden w-[250px] lg:block"
         />
       </div>
 
@@ -103,6 +103,7 @@ function ClassroomItems() {
             alt={"schedule"}
             height={300}
             width={2400}
+            className="h-full w-auto"
           />
         )}
       </div>
