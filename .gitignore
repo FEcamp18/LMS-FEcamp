@@ -8,7 +8,7 @@
 .env
 # package files
 package-lock.json
-
+/prisma/csv_data/*.csv
 # dependencies
 /node_modules
 /.pnp
