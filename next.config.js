@@ -16,12 +16,24 @@ const config = {
   experimental: {
     // Modern way to handle dynamic features
     serverActions: {
-      bodySizeLimit: '4mb'
+      bodySizeLimit: '10mb'
     },
   },
   // Add this to disable symlinks
   skipTrailingSlashRedirect: true,
-  skipMiddlewareUrlNormalize: true
+  skipMiddlewareUrlNormalize: true,
+
+  async rewrites() {
+    return [
+      {
+        source: "/api/proxy/send-announcement",
+        destination:
+          "https://us-central1-itfecamp-82c0a.cloudfunctions.net/SendAnnoucemen",
+      },
+    ];
+  },
+  
+  
 };
 
 export default config;

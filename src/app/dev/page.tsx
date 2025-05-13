@@ -1,5 +1,6 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 export default function Dev() {
   const { data: session } = useSession();
@@ -22,7 +23,7 @@ export default function Dev() {
     try {
       await signOut();
     } catch {
-      console.log("signout failed");
+      toast.error("signout failed");
     }
   };
 

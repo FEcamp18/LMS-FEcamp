@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import Image from "next/image";
+import toast, { Toaster } from "react-hot-toast";
 
 const formSchema = z.object({
   announceName: z.string().min(1, "Announcement name is required"),
@@ -29,7 +30,13 @@ const formSchema = z.object({
     .min(1, "Announcement description is required"),
 });
 
-export default function CreateAnnounce() {
+export default function CreateAnnounce({
+  subjectId,
+  subjectTopic,
+}: {
+  subjectId: string;
+  subjectTopic: string;
+}) {
   const [open, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,15 +47,57 @@ export default function CreateAnnounce() {
     },
   });
 
+  type ApiResponse = {
+    message: string;
+    error?: string;
+  };
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    //api handling
-    console.log(values);
-    form.reset();
-    setOpen(false);
+    try {
+      const response = await fetch(`/api/anno/${subjectId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "staff-id": "your-staff-id", // TODO : Replace with the actual staff ID
+        },
+        body: JSON.stringify({
+          subjectId,
+          annoTitle: values.announceName,
+          annoText: values.announceDescription,
+        }),
+      });
+
+      // send chatbot trigger
+      await fetch(`/api/proxy/send-announcement`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: `ประกาศใหม่ถูกเพิ่มในวิชา ${subjectTopic}! หัวข้อ ${values.announceName}`,
+        }),
+      });
+
+      const data = (await response.json()) as ApiResponse;
+
+      if (response.ok && data.message === "success") {
+        console.log("Announcement created successfully:", data);
+        toast.success("ประกาศถูกเพิ่ม! โปรดรีเฟรชหน้าเว็บ");
+        form.reset();
+        setOpen(false);
+      } else {
+        console.error("Failed to create announcement:", data.error);
+        toast.error(data.error ?? "เกิดข้อผิดพลาดในการเพิ่มประกาศ");
+      }
+    } catch (error) {
+      console.error("Error creating announcement:", error);
+      toast.error("เกิดข้อผิดพลาดในการเพิ่มประกาศ");
+    }
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <Toaster />
       <DialogTrigger asChild>
         <button className="h-[40px] w-[158px] bg-light-gray text-white hover:bg-opacity-50">
           เพิ่มประกาศ

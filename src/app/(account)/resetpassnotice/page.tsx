@@ -66,14 +66,16 @@ export default function ResetPasswordNotice() {
             <User size={18} />
           </span>
 
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            className="w-full rounded border bg-cream py-2 pl-10 pr-10 font-sans text-brown placeholder:text-brown"
-          />
+          {username != null && (
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="w-full rounded border bg-cream py-2 pl-10 pr-10 font-sans text-brown placeholder:text-brown"
+            />
+          )}
         </div>
         <button
           type="submit"

@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Folder } from "lucide-react";
 import Image from "next/image";
+import { getFile } from "../fileupload/getFile";
 
 type fileCard = {
   fileTitle: string;
