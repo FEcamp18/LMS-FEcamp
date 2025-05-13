@@ -239,6 +239,24 @@ export default function UploadForm({
                             </button>
                           )}
                         </div>
+                        {field.value?.[0]?.name && !isFileUploading && (
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              field.onChange(null);
+                            }}
+                            className="flex items-center justify-center hover:opacity-80"
+                            aria-label="clear file selection"
+                          >
+                            <Image
+                              src="/image/modal/cancel-icon.svg"
+                              alt="cancel-icon"
+                              width={24}
+                              height={24}
+                            />
+                          </button>
+                        )}
                       </div>
                     </div>
                   </FormControl>
