@@ -52,9 +52,11 @@ export async function POST(req: Request) {
       );
     }
 
+    const priority_number = (account.role === "BOARD" ? 2 : account.role === "STAFF" ? 1 : 0);
+
     // generate token
     const token = jwt.sign(
-      { username: account.username, role: account.role },
+      { username: account.username, priority: priority_number },
       process.env.JWT_SECRET ?? "your-secret-key", // Secret key for signing the token
       { expiresIn: "7d" }, // Token expiration time (1 hour)
     );

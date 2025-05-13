@@ -34,6 +34,7 @@ const accessControl = {
 // Define public routes that don't require authentication
 const publicRoutes = [
   "/",
+  "/pretest",
   "/login",
   "/resetpassnotice",
   "/resetpassword",
@@ -46,11 +47,7 @@ const publicRoutes = [
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   // console.log("Middleware triggered for path:", pathname);
-  // Check if it's a public route first
-  // if (publicRoutes.some((route) => pathname.startsWith(route))) {
-  //   return NextResponse.next();
-  // }
-
+  
    if (publicRoutes.includes(pathname)) {
     return NextResponse.next();
   }
