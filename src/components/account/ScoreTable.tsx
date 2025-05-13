@@ -26,7 +26,7 @@ interface ScoreProps {
 
 const ScoreTable: React.FC<ScoreProps> = ({ score, mean }) => {
   return (
-    <div className="w-full content-center overflow-x-auto px-6">
+    <div className="w-full content-center overflow-x-auto px-6 py-4">
       <div className="relative z-10 mx-auto h-[200px] w-[840px] content-center shadow-md">
         <Table className="pointer-events-none z-30 mx-auto w-auto border-collapse border-spacing-y-2 bg-opacity-80 text-center">
           <TableHeader>

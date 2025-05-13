@@ -114,9 +114,28 @@ export default function AccountPage() {
           <p>-</p>
         </div>
       </section>
-      <section>
-        ,
+      <section className="flex w-full flex-col content-center items-center justify-center">
         <ScoreTable score={mockScoreData.score} mean={mockScoreData.mean} />
+
+        <a
+          download
+          className="relative mx-6 mt-4 h-[160px] w-[350px] cursor-pointer content-center lg:h-[155px] lg:w-[800px]"
+        >
+          <Image
+            layout="fill"
+            objectFit="cover"
+            className="hidden lg:block"
+            src="/image/account/CertificateLaptop.webp"
+            alt="background"
+          />
+          <Image
+            layout="fill"
+            objectFit="cover"
+            className="block lg:hidden"
+            src="/image/account/CertificateMobile.webp"
+            alt="background"
+          />
+        </a>
       </section>
       <div className="mx-6 my-8 flex h-[55px] justify-end space-x-4">
         <Link
