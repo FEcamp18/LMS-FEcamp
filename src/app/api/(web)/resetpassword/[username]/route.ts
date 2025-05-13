@@ -12,8 +12,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ usernam
       where: { username, expires_at: { gt: now } },
     });
 
-    console.log("Existing token:", existingToken);
-
     if (existingToken) {
       return Response.json(
         {
