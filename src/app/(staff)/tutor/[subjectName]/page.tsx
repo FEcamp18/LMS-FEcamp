@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import AnnouncementCard from "@/components/classroom/announcementCard";
 import FileCard from "@/components/classroom/fileCard";
 import {
@@ -31,7 +30,7 @@ interface SubjectResponse {
   subject: Subject;
 }
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useRef } from "react";
 
 export default function SubjectPage() {
