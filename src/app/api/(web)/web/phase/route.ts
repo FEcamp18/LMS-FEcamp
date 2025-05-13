@@ -9,7 +9,7 @@ interface PhaseUpdateRequest {
 
 export async function GET(req: NextRequest) {
   try {    
-    await checkAuthToken(req,2);
+    await checkAuthToken(req);
     const phase = await prisma.webPhase.findFirst();
 
     if (!phase) {

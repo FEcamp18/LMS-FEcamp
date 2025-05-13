@@ -32,7 +32,6 @@ export async function checkAuthToken(req: NextRequest, requiredPriority?: number
     } else if (error instanceof jwt.JsonWebTokenError) {
       throw new Error("Invalid authentication token.");
     } else {
-      console.error(error);
       throw new Error("Authentication error.");
     }
   }
