@@ -1,8 +1,11 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/(auth)/auth/[...nextauth]/authOptions";
+import { type NextRequest } from "next/server";
 
-export async function checkAuthToken(req: Request, requiredPriority?: number): Promise<void> {
+export async function checkAuthToken(req: NextRequest, requiredPriority?: number): Promise<void> {
   const session = await getServerSession(authOptions);
+  console.log(session);
+  
 
   if (!session) {
     throw new Error("Unauthorized: No session found.");
@@ -21,7 +24,7 @@ export async function checkAuthToken(req: Request, requiredPriority?: number): P
 // import { type NextRequest } from "next/server";
 // export async function checkAuthToken(req: NextRequest, requiredPriority?: number): Promise<void> {
 //   const token = req.cookies.get("token")?.value;  
-//   // HELP : in postman it work fine, but in website this token is undefine
+//   // HELP : token auth problem :: in postman it work fine, but in website this token is undefine
 //   console.log("token",token);
   
 //   if (!token) {
