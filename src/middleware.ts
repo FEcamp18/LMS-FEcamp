@@ -72,7 +72,7 @@ export async function middleware(req: NextRequest) {
 
   // Handle invalid roles
   if (!accessControl[role]) {
-    console.error(`Invalid role: ${token.role}`);
+    console.error(`Invalid role: ${role}`);
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
