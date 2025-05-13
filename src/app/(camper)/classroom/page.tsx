@@ -1,6 +1,5 @@
 "use client";
 import { ClassCard } from "@/components/classroom/classCard";
-import ClassroomService from "@/lib/ClassroomService";
 import type { MergeClassData } from "@/types/class";
 import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
@@ -9,8 +8,11 @@ import {
   get_god_schedule_image_path,
 } from "@/components/general/god-by-room";
 import { getClassroomsByRoomId } from "@/lib/getClassroomsByRoomId";
+import { useSession } from "next-auth/react";
 
 function ClassroomItems() {
+  const { data: session } = useSession();
+
   const [subjects, setSubjects] = useState<MergeClassData[] | null>(null);
   const [filterSubject, setFilterSubject] = useState<MergeClassData[] | null>(
     null,
@@ -22,8 +24,12 @@ function ClassroomItems() {
 
   useEffect(() => {
     const fetchData = async () => {
+      const roomNumber = session?.user.roomNumber;
+
       try {
-        const data = await getClassroomsByRoomId({ roomId: "0" });
+        const data = await getClassroomsByRoomId({
+          roomId: roomNumber?.toString() ?? "0",
+        });
         setSubjects(data.courses);
         console.log(data.courses);
 
@@ -31,8 +37,10 @@ function ClassroomItems() {
       } catch (error) {
         console.error("Failed to fetch classrooms:", error);
       }
-      const god_name_res = await get_god_name(0);
-      const god_schedule_image_path_res = await get_god_schedule_image_path(0);
+      const god_name_res = await get_god_name(roomNumber ?? 0);
+      const god_schedule_image_path_res = await get_god_schedule_image_path(
+        roomNumber ?? 0,
+      );
       console.log(god_schedule_image_path_res);
 
       set_god_name(god_name_res ?? "");
@@ -40,7 +48,7 @@ function ClassroomItems() {
     };
 
     void fetchData();
-  }, []);
+  }, [session?.user.roomNumber]);
 
   const handleFilter = (filter: string | null) => {
     setSelectedFilter(filter);
