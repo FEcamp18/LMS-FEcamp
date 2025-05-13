@@ -9,6 +9,7 @@ import {
 } from "@/components/general/god-by-room";
 import Image from "next/image";
 import Link from "next/link";
+import ScoreTable from "@/components/account/ScoreTable";
 
 interface godProps {
   name: string;
@@ -41,11 +42,26 @@ export default function AccountPage() {
     return <div>You are not logged in. Please log in to access this page.</div>;
   }
 
+  const mockScoreData = {
+    score: {
+      maths: "70/100",
+      physics: "80/100",
+      chemistry: "80/100",
+      tpat3: "22.3/50",
+    },
+    mean: {
+      maths: "85",
+      physics: "80",
+      chemistry: "80.13",
+      tpat3: "33.33",
+    },
+  };
+
   return (
     <>
       <Toaster />
       <div className="mx-8 mt-14 flex flex-col justify-between text-brown md:flex-row">
-        <main className="w-full space-y-6">
+        <div className="w-full space-y-6">
           <h1 className="text-3xl font-semibold">
             น้อง {session?.user?.username ?? "Unknown"} (nickname)
           </h1>
@@ -75,7 +91,7 @@ export default function AccountPage() {
               <p>1</p>
             </div>
           </section>
-        </main>
+        </div>
         {god && (
           <div className="flex w-full flex-col items-center justify-center md:max-w-[400px]">
             <Image
@@ -98,7 +114,10 @@ export default function AccountPage() {
           <p>-</p>
         </div>
       </section>
-
+      <section>
+        ,
+        <ScoreTable score={mockScoreData.score} mean={mockScoreData.mean} />
+      </section>
       <div className="mx-6 my-8 flex h-[55px] justify-end space-x-4">
         <Link
           href="resetpassnotice"
