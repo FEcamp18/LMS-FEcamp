@@ -4,7 +4,7 @@ import { getToken } from "next-auth/jwt";
 // Define role-based access control with specific routes
 const accessControl = {
   CAMPER: {
-    allowedPaths: ["/classroom", "/feedback", "/pretest","/account"],
+    allowedPaths: ["/classroom", "/feedback","/account"],
     defaultPath: "/classroom",
   },
   STAFF: {
@@ -13,8 +13,7 @@ const accessControl = {
       "/tutor",
       "/classroom",
       "/feedback",
-      "/pretest"
-      ,"/account"
+      "/account"
     ],
     defaultPath: "/camperinfo",
   },
