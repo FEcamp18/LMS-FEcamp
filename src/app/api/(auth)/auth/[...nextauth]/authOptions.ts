@@ -105,7 +105,7 @@ export const authOptions: NextAuthOptions = {
             default:
               // For other roles, check department
               const getDepartment = await fetch(
-                `${baseUrl}/api/department?username=` + credentials.username,
+                `${baseUrl}/api/staff/getdepartment?staffId=` + credentials.username,
                 {
                   method: "GET",
                   credentials:"include",

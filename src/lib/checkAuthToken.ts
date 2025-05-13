@@ -3,9 +3,7 @@ import { authOptions } from "@/app/api/(auth)/auth/[...nextauth]/authOptions";
 import { type NextRequest } from "next/server";
 
 export async function checkAuthToken(req: NextRequest, requiredPriority?: number): Promise<void> {
-  const session = await getServerSession(authOptions);
-  console.log(session);
-  
+  const session = await getServerSession(authOptions);  
 
   if (!session) {
     throw new Error("Unauthorized: No session found.");

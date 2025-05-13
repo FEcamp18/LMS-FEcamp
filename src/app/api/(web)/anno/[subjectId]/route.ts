@@ -59,7 +59,7 @@ export async function GET(
 
 export async function POST(req: NextRequest) {
   try {
-    await checkAuthToken(req,1);
+    await checkAuthToken(req,2);
     // Parse and validate the request body using the interface
     const body = (await req.json()) as AnnouncementRequest;
 
@@ -83,48 +83,6 @@ export async function POST(req: NextRequest) {
           error: "SubjectId does not exist.",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
-    }
-
-    const staffId = req.headers.get("staff-id");
-    if (!staffId) {
-      return new Response(
-        JSON.stringify({
-          message: "failed",
-          error: "Unauthorized tutor.",
-        }),
-        { status: 403, headers: { "Content-Type": "application/json" } },
-      );
-    }
-
-    const staff = await prisma.staff.findUnique({ where: { staffId } });
-    if (!staff) {
-      return new Response(
-        JSON.stringify({
-          message: "failed",
-          error: "Staff does not exist.",
-        }),
-        { status: 404, headers: { "Content-Type": "application/json" } },
-      );
-    }
-
-    // Check if the tutor is assigned to the class
-    const staffClass = await prisma.staffClass.findFirst({
-      where: {
-        staffId: staffId,
-        class: {
-          subjectId: subjectId,
-        },
-      },
-    });
-
-    if (!staffClass) {
-      return new Response(
-        JSON.stringify({
-          message: "failed",
-          error: "Tutor not assigned to this class.",
-        }),
-        { status: 403, headers: { "Content-Type": "application/json" } },
       );
     }
 

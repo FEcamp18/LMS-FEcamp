@@ -14,7 +14,7 @@ import { type NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    await checkAuthToken(req,2);
+    await checkAuthToken(req,3);
     const { username, role, password, roomId } =
       (await req.json()) as SignupRequest;
 

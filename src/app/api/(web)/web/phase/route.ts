@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    await checkAuthToken(req,2);
+    await checkAuthToken(req,3);
 
 
     const presentstate = await prisma.webPhase.findFirst();
