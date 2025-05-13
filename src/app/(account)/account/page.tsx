@@ -1,27 +1,27 @@
-"use client";
-import Logout from "./Logout";
-import ChangePassForm from "./ChangePass";
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { Toaster } from "react-hot-toast";
+"use client"
+import Logout from "./Logout"
+import ChangePassForm from "./ChangePass"
+import { useSession } from "next-auth/react"
+import { useEffect, useState } from "react"
+import { Toaster } from "react-hot-toast"
 
 export default function AccountPage() {
-  const { data: session, status, update } = useSession();
-  const [loading, setLoading] = useState(true);
+  const { data: session, status, update } = useSession()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const handleLoad = async () => {
-      await update();
-    };
-    void handleLoad();
-    setLoading(false);
+      await update()
+    }
+    void handleLoad()
+    setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>
 
   if (status === "unauthenticated" || session === null) {
-    return <div>You are not logged in. Please log in to access this page.</div>;
+    return <div>You are not logged in. Please log in to access this page.</div>
   }
 
   return (
@@ -65,5 +65,5 @@ export default function AccountPage() {
         <ChangePassForm />
       </div>
     </>
-  );
+  )
 }

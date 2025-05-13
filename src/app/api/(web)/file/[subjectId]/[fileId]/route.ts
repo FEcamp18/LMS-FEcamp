@@ -1,19 +1,19 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client"
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 export async function GET(
   req: Request,
-  props: { params: { subjectId: string; fileId: string } },
+  props: { params: Promise<{ subjectId: string; fileId: string }> },
 ) {
-  const { fileId } = props.params;
+  const { fileId } = await props.params // Await the params object
 
   try {
     const fileByFileId = await prisma.subjectFiles.findFirst({
       where: {
         fileId: parseInt(fileId),
       },
-    });
+    })
 
     if (!fileByFileId) {
       return new Response(
@@ -22,7 +22,7 @@ export async function GET(
           error: "File not found",
         }),
         { status: 404, headers: { "Content-Type": "application/json" } },
-      );
+      )
     }
 
     return new Response(
@@ -31,7 +31,7 @@ export async function GET(
         file: fileByFileId,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -39,8 +39,8 @@ export async function GET(
         error: error instanceof Error ? error.message : "Failed to fetch file",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } finally {
-    await prisma.$disconnect();
+    await prisma.$disconnect()
   }
 }

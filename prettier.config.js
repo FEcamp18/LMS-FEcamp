@@ -3,9 +3,9 @@ export default {
   plugins: ["prettier-plugin-tailwindcss"],
   singleQuote: false,
   jsxSingleQuote: false,
-  semi: true,
+  semi: false,
   endOfLine: "lf",
   trailingComma: "all",
   tabWidth: 2,
   printWidth: 80,
-};
+}

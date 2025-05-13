@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client"
+const prisma = new PrismaClient()
 
 async function main() {
-  console.log("Seeding file and announcement database...");
+  console.log("Seeding file and announcement database...")
   try {
     await prisma.subjectFiles.createMany({
       data: [
@@ -107,7 +107,7 @@ async function main() {
         },
       ],
       skipDuplicates: true,
-    });
+    })
 
     await prisma.subjectAnnouncements.createMany({
       data: [
@@ -190,23 +190,23 @@ async function main() {
         },
       ],
       skipDuplicates: true,
-    });
+    })
   } catch (error) {
     if (error instanceof Error) {
-      console.error("Error inserting records:", error.message);
+      console.error("Error inserting records:", error.message)
     } else {
-      console.error("Unknown error:", error);
+      console.error("Unknown error:", error)
     }
   }
-  console.log("Seeding completed.");
+  console.log("Seeding completed.")
 }
 
 main()
   .then(async () => {
-    await prisma.$disconnect();
+    await prisma.$disconnect()
   })
   .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })

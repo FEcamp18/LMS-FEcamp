@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,20 +9,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { signOut } from "next-auth/react";
-import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
+} from "@/components/ui/alert-dialog"
+import { signOut } from "next-auth/react"
+import { Button } from "@/components/ui/button"
+import toast from "react-hot-toast"
 
 export default function Logout() {
   const handleLogout = async () => {
     try {
-      await signOut();
+      await signOut()
     } catch {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      toast.success("signout failed");
+      toast.success("signout failed")
     }
-  };
+  }
   return (
     <>
       <AlertDialog>
@@ -43,5 +43,5 @@ export default function Logout() {
         </AlertDialogContent>
       </AlertDialog>
     </>
-  );
+  )
 }

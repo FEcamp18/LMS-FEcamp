@@ -2,10 +2,13 @@ import { randomUUID } from "crypto";
 import { sendResetEmail } from "@/lib/resend";
 
 import { prisma } from "@/lib/prisma";
-export async function POST(req: Request, { params }: { params: Promise<{ username: string }> }) {
-    try {
-        const { username } = await params;
-        const now = new Date();
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ username: string }> },
+) {
+  try {
+    const { username } = await params;
+    const now = new Date();
 
     // Check if a valid reset token already
     const existingToken = await prisma.resetPassTable.findFirst({

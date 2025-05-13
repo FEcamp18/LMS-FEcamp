@@ -1,12 +1,12 @@
-import * as React from "react";
+import * as React from "react"
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 interface InputProps extends React.ComponentProps<"input"> {
-  className?: string;
-  type?: string;
-  iconFront?: React.ReactNode;
-  iconBack?: React.ReactNode;
+  className?: string
+  type?: string
+  iconFront?: React.ReactNode
+  iconBack?: React.ReactNode
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -27,9 +27,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         />
         {iconBack}
       </div>
-    );
+    )
   },
-);
-Input.displayName = "Input";
+)
+Input.displayName = "Input"
 
-export { Input };
+export { Input }

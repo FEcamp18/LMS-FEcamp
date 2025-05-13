@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client"
+const prisma = new PrismaClient()
 
 async function main() {
-  console.log("Seeding camper database...");
+  console.log("Seeding camper database...")
 
   try {
     await prisma.account.createMany({
@@ -17,7 +17,7 @@ async function main() {
         },
       ],
       skipDuplicates: true,
-    });
+    })
 
     await prisma.camper.createMany({
       data: [
@@ -102,22 +102,22 @@ async function main() {
         },
       ],
       skipDuplicates: true,
-    });
+    })
 
-    console.log("Seeding completed.");
+    console.log("Seeding completed.")
   } catch (error) {
-    console.error("Error inserting records:", error);
+    console.error("Error inserting records:", error)
   } finally {
-    await prisma.$disconnect();
+    await prisma.$disconnect()
   }
 }
 
 main()
   .then(async () => {
-    await prisma.$disconnect();
+    await prisma.$disconnect()
   })
   .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })

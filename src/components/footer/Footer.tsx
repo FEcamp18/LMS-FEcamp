@@ -1,11 +1,11 @@
-import Image from "next/image";
+import Image from "next/image"
 
 const Footer = () => {
   const Bsponsors = [
     { name: "Dr.mooyang", path: "/sponsor/B_DR.mooyang.webp" },
     { name: "Kohkae", path: "/sponsor/B_Kohkae.webp" },
     { name: "UsefulFood", path: "/sponsor/B_usefulFood.webp" },
-  ];
+  ]
 
   return (
     <footer className="relative flex w-full flex-col">
@@ -52,7 +52,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

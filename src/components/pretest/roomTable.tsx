@@ -1,9 +1,9 @@
-import React from "react";
-import { type ExamDataInterface } from "./fetchPretestRoom";
+import React from "react"
+import { type ExamDataInterface } from "./fetchPretestRoom"
 
 interface RoomTableProps {
-  location: string;
-  campers: ExamDataInterface[];
+  location: string
+  campers: ExamDataInterface[]
 }
 
 const RoomTable: React.FC<RoomTableProps> = ({ location, campers }) => {
@@ -37,7 +37,7 @@ const RoomTable: React.FC<RoomTableProps> = ({ location, campers }) => {
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RoomTable;
+export default RoomTable

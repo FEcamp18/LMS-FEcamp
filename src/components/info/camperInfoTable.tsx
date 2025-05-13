@@ -1,5 +1,5 @@
-import * as React from "react";
-import { type Camper } from "@prisma/client";
+import * as React from "react"
+import { type Camper } from "@prisma/client"
 
 import {
   Table,
@@ -9,16 +9,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useState } from "react";
-import CamperInfoPopup from "./ui/camperInfoPopup";
+} from "@/components/ui/table"
+import { useState } from "react"
+import CamperInfoPopup from "./ui/camperInfoPopup"
 
 type CamperInfoTableProps = {
-  camper: Camper[];
-};
+  camper: Camper[]
+}
 
 export default function CamperInfoTable({ camper }: CamperInfoTableProps) {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null)
 
   return (
     <>
@@ -61,5 +61,5 @@ export default function CamperInfoTable({ camper }: CamperInfoTableProps) {
         />
       )}
     </>
-  );
+  )
 }

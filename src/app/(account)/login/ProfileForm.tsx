@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import Link from "next/link";
-import Image from "next/image";
-import { User, Lock, Eye, EyeOff } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import Link from "next/link"
+import Image from "next/image"
+import { User, Lock, Eye, EyeOff } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -15,19 +15,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 
 const formSchema = z.object({
   username: z.string().email({ message: "Username Not Found" }),
   password: z.string().min(6, {
     message: "Incorrect Password",
   }),
-});
+})
 
 export default function ProfileForm() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,10 +35,10 @@ export default function ProfileForm() {
       username: "",
       password: "",
     },
-  });
+  })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    console.log(values)
   }
 
   return (
@@ -149,5 +149,5 @@ export default function ProfileForm() {
         </div>
       </div>
     </main>
-  );
+  )
 }

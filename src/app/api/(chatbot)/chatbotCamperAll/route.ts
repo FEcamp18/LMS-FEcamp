@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"
 
 export async function GET() {
   try {
@@ -11,7 +11,7 @@ export async function GET() {
         chatbotUserId: true,
         room: true,
       },
-    });
+    })
 
     return new Response(
       JSON.stringify({
@@ -19,7 +19,7 @@ export async function GET() {
         data: camperByClass,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    )
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -30,6 +30,6 @@ export async function GET() {
             : "Failed to fetch staffClass by classId.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    )
   }
 }

@@ -1,13 +1,13 @@
 export interface File {
-  fileId: string;
-  subjectId: string;
-  fileTitle: string;
-  fileLocation: string;
-  fileDescription: string;
-  fileUploadTime: Date;
+  fileId: string
+  subjectId: string
+  fileTitle: string
+  fileLocation: string
+  fileDescription: string
+  fileUploadTime: Date
 }
 
 export interface FileBySubjectIdResponse {
-  message: string;
-  files: File[];
+  message: string
+  files: File[]
 }

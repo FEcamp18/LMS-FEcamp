@@ -23,15 +23,27 @@ import {
 } from "@/components/ui/dialog";
 import { useState } from "react";
 import Image from "next/image";
+import toast, { Toaster } from "react-hot-toast";
 
 const formSchema = z.object({
-  file: z.any(),
+  file: z
+    .custom<FileList | null>(
+      (value) => value === null || value instanceof FileList,
+      {
+        message: "Invalid file input",
+      },
+    )
+    .nullable(),
   fileName: z.string().min(1, "File name is required"),
   fileDescription: z.string().min(1, "File description is required"),
   fileSubject: z.string(),
 });
 
-export default function UploadForm() {
+export default function UploadForm({
+  uploadSuccess,
+}: {
+  uploadSuccess: () => Promise<void>;
+}) {
   const [open, setOpen] = useState(false);
   const params = useParams();
   const slug = params.subjectName as string;
@@ -40,7 +52,7 @@ export default function UploadForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      file: undefined,
+      file: null,
       fileName: "",
       fileDescription: "",
       fileSubject: slug,
@@ -49,8 +61,9 @@ export default function UploadForm() {
 
   const handleFileUploading = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: any,
+    field: { onChange: (value: FileList | null) => void },
   ) => {
+    if (!e.target.files) return;
     const files = e.target.files;
     if (files?.length) {
       setIsFileUploading(true);
@@ -65,10 +78,18 @@ export default function UploadForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const file = values.file[0];
+      const file = values.file?.[0];
       if (!file) {
-        console.error("No file uploaded");
+        toast.error("No file uploaded");
         return;
+      }
+
+      // Check file size
+      const MAX_FILE_SIZE_MB = 10;
+      const fileSizeMB = file.size / (1024 * 1024); // Convert bytes to MB
+      if (fileSizeMB > MAX_FILE_SIZE_MB) {
+        toast.error(`File size exceeds ${MAX_FILE_SIZE_MB} MB.`);
+        throw new Error(`File size exceeds ${MAX_FILE_SIZE_MB} MB.`);
       }
 
       const result = await UploadFile({
@@ -79,23 +100,25 @@ export default function UploadForm() {
       });
 
       if (result.success) {
-        console.log("File uploaded successfully:", result.fileInfo);
+        toast.success("Uploaded successfully");
         form.reset();
         setOpen(false);
+        if (uploadSuccess) await uploadSuccess();
       }
-    } catch (error) {
-      console.error("Upload failed:", error);
+    } catch {
+      toast.error("Upload failed");
     }
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <Toaster />
       <DialogTrigger asChild>
         <button className="h-[40px] w-[158px] bg-light-gray text-white hover:bg-opacity-50">
           เพิ่มไฟล์
         </button>
       </DialogTrigger>
-      <DialogContent className="h-[396px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.webp')] p-0 text-base">
+      <DialogContent className="min-h-[396px] w-[312px] rounded-none border-none bg-[url('/image/modal/background.webp')] p-0 text-base">
         <Image
           src="/image/modal/zigzag-top.svg"
           alt="top-edge"
@@ -143,7 +166,7 @@ export default function UploadForm() {
                     <div className="relative">
                       <Input
                         type="file"
-                        accept="application/pdf"
+                        accept=".pdf,.png,.jpg,.pptx"
                         onChange={(e) => handleFileUploading(e, field)}
                         className={`absolute inset-0 w-full cursor-pointer opacity-0 ${
                           field?.value?.[0]?.name || isFileUploading
@@ -151,7 +174,7 @@ export default function UploadForm() {
                             : ""
                         }`}
                         id="file-upload"
-                        disabled={field?.value?.[0]?.name || isFileUploading}
+                        disabled={!!field?.value?.[0]?.name || isFileUploading}
                       />
                       <div
                         className={`flex h-[56px] items-center justify-between gap-2 rounded-none border border-dark-brown px-4 ${
@@ -160,8 +183,9 @@ export default function UploadForm() {
                             : "bg-dark-gray text-white"
                         }`}
                       >
-                        <div className="flex items-center gap-2">
+                        <div className="grid w-full cursor-pointer grid-cols-5 gap-2 overflow-x-hidden">
                           <Image
+                            className="col-span-1 content-center"
                             src={
                               isFileUploading
                                 ? "/image/modal/clip-icon.svg"
@@ -189,18 +213,31 @@ export default function UploadForm() {
                           />
                           <label
                             htmlFor="file-upload"
-                            className={
-                              field?.value?.[0]?.name || isFileUploading
-                                ? "cursor-default"
-                                : "cursor-pointer"
-                            }
+                            className="col-span-3 cursor-pointer content-center overflow-hidden"
                           >
                             {isFileUploading
                               ? "อัพโหลดไฟล์..."
-                              : field.value?.[0]?.name
-                                ? field.value[0].name
-                                : "กดที่นี่เพื่อเพิ่มไฟล์"}
+                              : (field?.value?.[0]?.name ??
+                                "กดที่นี่เพื่อเพิ่มไฟล์")}
                           </label>
+                          {field?.value?.[0]?.name && !isFileUploading && (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                field.onChange(null);
+                              }}
+                              className="col-span-1 flex content-center items-center justify-center hover:opacity-80"
+                              aria-label="clear file selection"
+                            >
+                              <Image
+                                src="/image/modal/cancel-icon.svg"
+                                alt="cancel-icon"
+                                width={24}
+                                height={24}
+                              />
+                            </button>
+                          )}
                         </div>
                         {field.value?.[0]?.name && !isFileUploading && (
                           <button
@@ -223,7 +260,7 @@ export default function UploadForm() {
                       </div>
                     </div>
                   </FormControl>
-                  <FormMessage />
+                  {/* <FormMessage /> */}
                 </FormItem>
               )}
             />
@@ -239,7 +276,7 @@ export default function UploadForm() {
                       className="h-[56px] placeholder-dark-gray"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="px-4" />
                 </FormItem>
               )}
             />
@@ -255,7 +292,7 @@ export default function UploadForm() {
                       className="h-[104px] rounded-none border-y-[1px] border-dark-brown align-text-top placeholder:bg-dark-gray"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="px-4" />
                 </FormItem>
               )}
             />
@@ -273,7 +310,7 @@ export default function UploadForm() {
               </Button>
               <Button
                 type="submit"
-                className="h-[58px] flex-1 rounded-none border bg-dark-gray shadow-none"
+                className="h-[58px] flex-1 rounded-none border bg-dark-gray shadow-none hover:bg-dark-gray/70"
               >
                 เพิ่ม
               </Button>

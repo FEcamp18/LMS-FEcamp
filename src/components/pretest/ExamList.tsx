@@ -1,32 +1,28 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import RoomTable from "./roomTable";
-import { type ExamDataInterface } from "./fetchPretestRoom";
-import cleanPretestRoom from "./fetchPretestRoom";
-import axios from "axios";
+"use client"
+import React, { useEffect, useState } from "react"
+import RoomTable from "./roomTable"
+import { type ExamDataInterface } from "./fetchPretestRoom"
+import cleanPretestRoom from "./fetchPretestRoom"
+import axios from "axios"
 
 const ExamList: React.FC = () => {
   const [groupedData, setGroupedData] = useState<
     Record<string, ExamDataInterface[]>
-  >({});
+  >({})
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get<{ data: ExamDataInterface[] }>(
-        "/api/pretest",
-      );
-      const uncleanData = res.data.data;
-      console.log(uncleanData);
+      const res = await axios.get<{ data: ExamDataInterface[] }>("/api/pretest")
+      const uncleanData = res.data.data
 
-      if (!uncleanData) return;
-      const examData = cleanPretestRoom(uncleanData);
-      console.log(examData);
+      if (!uncleanData) return
+      const examData = cleanPretestRoom(uncleanData)
 
-      if (!examData) return;
-      setGroupedData(examData);
-    };
-    void fetchData();
-  }, []);
+      if (!examData) return
+      setGroupedData(examData)
+    }
+    void fetchData()
+  }, [])
 
   return (
     <div className="m-2">
@@ -35,7 +31,7 @@ const ExamList: React.FC = () => {
           <RoomTable key={location} location={location} campers={campers} />
         ))}
     </div>
-  );
-};
+  )
+}
 
-export default ExamList;
+export default ExamList

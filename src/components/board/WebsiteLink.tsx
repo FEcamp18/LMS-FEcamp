@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link"
 
 export default function WebsiteLink() {
   return (
@@ -18,7 +18,7 @@ export default function WebsiteLink() {
         ))}
       </div>
     </>
-  );
+  )
 }
 
 const LINKS = {
@@ -27,4 +27,4 @@ const LINKS = {
   pretest: "/pretest",
   camperinfo: "/camperinfo",
   tutor: "/tutor",
-};
+}
