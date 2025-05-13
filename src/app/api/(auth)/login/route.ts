@@ -63,14 +63,14 @@ export async function POST(req: Request) {
 
     // sign a cookies
     const response = NextResponse.json({ message: "success" });
-    // HELP : I set cookies here
-   response.cookies.set("token", token, {
-    httpOnly: true,
-    sameSite: "lax", // "strict" may prevent it from being sent during navigation/fetches
-    secure: process.env.NODE_ENV === "production", // false for localhost
-    maxAge: 7 * 24 * 60 * 60,
-    path: "/", // important!
-  });
+    // HELP : I set cookies here but it not work
+    response.cookies.set("token", token, {
+        httpOnly: true,
+        sameSite: "lax", // "strict" may prevent it from being sent during navigation/fetches
+        secure: false,
+        maxAge: 7 * 24 * 60 * 60,
+        path: "/", // important!
+      });
 
     return response;
   } catch {

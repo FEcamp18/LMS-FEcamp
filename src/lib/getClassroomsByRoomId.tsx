@@ -6,7 +6,7 @@ export async function getClassroomsByRoomId({ roomId }: { roomId: string }) {
       `${process.env.NEXT_PUBLIC_API_URL}/api/classroom/${roomId}`,
       {
         method: "GET",
-        credentials: "include", // Ensure cookies are included
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
