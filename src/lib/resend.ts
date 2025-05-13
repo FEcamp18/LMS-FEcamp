@@ -27,6 +27,8 @@ export const sendResetEmail = async (email: string, link: string) => {
   };
 
   try {
+    console.log(brevoapi);
+    
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
@@ -34,7 +36,7 @@ export const sendResetEmail = async (email: string, link: string) => {
         'api-key': brevoapi,
       },
       body: JSON.stringify(msg),
-    });
+    }); 
 
     if (!response.ok) {
       const errorText = await response.text();
