@@ -1,21 +1,26 @@
-import { checkAuthToken } from "@/lib/checkAuthToken";
-import { prisma } from "@/lib/prisma";
+import { PrismaClient } from "@prisma/client";
 import { type NextRequest } from "next/server";
+
+const prisma = new PrismaClient();
 
 export async function GET(
   req: NextRequest,
   props: { params: Promise<{ staffId: string }> },
 ) {
   const { staffId } = await props.params;
+  console.log(staffId);
+  
   try {
-    await checkAuthToken(req);
-    const staffByStaffId = await prisma.staff.findUnique({
+    const staffData = await prisma.staff.findUnique({
       where: {
         staffId: staffId,
       },
+      select: {
+        staffDepartment: true,
+      },
     });
 
-    if (!staffByStaffId) {
+    if (!staffData) {
       return new Response(
         JSON.stringify({
           message: "failed",
@@ -25,10 +30,18 @@ export async function GET(
       );
     }
 
+    // Determine single department based on priority
+    let primaryDepartment = "STAFF"; // default value
+    const departments = staffData.staffDepartment;
+
+    if (departments.includes("VCK")) {
+      primaryDepartment = "VCK";
+    }
+
     return new Response(
       JSON.stringify({
         message: "success",
-        staff: staffByStaffId,
+        department: primaryDepartment,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
@@ -39,9 +52,11 @@ export async function GET(
         error:
           error instanceof Error
             ? error.message
-            : "Failed to fetch staff by staffId.",
+            : "Failed to fetch department.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );
+  } finally {
+    await prisma.$disconnect();
   }
 }

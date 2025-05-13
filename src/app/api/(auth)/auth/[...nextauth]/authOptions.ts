@@ -2,12 +2,14 @@ import { type NextAuthOptions } from "next-auth";
 import type { DefaultSession, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { JWT } from "next-auth/jwt";
-import { ROLE } from "@prisma/client";
+import { type ROLE } from "@prisma/client";
+
 declare module "next-auth" {
   interface User {
     id: string | undefined;
     username: string;
     role?: ROLE;
+    priority?: number; //isstaff 1 ->istutor 2 ->isboard 3
   }
 
   interface Session extends DefaultSession {
@@ -15,8 +17,23 @@ declare module "next-auth" {
       id: string | undefined;
       username: string;
       role: ROLE;
+      priority?: number;
     } & DefaultSession["user"];
   }
+}
+
+interface AccountResponse {
+  message: "success" | "failed";
+  data?: {
+    name: string;
+    role: ROLE;
+  };
+  error?: string;
+}
+interface DepartmentResponse {
+  message: "success" | "failed";
+  department: string;
+  error?: string;
 }
 
 export const authOptions: NextAuthOptions = {
@@ -27,23 +44,98 @@ export const authOptions: NextAuthOptions = {
         username: { label: "Username", type: "string" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(_credentials, _req) {
-        // Mock user for demonstration purposes
-        const mockUser = {
-          id: "camper1",
-          username: "temp-auth-user",
-          password: "temp-auth-pass",
-          role: ROLE.STAFF,
-        };
-
-        if (mockUser) {
-          return {
-            id: mockUser.id,
-            username: mockUser.username,
-            role: mockUser.role,
-          };
+      async authorize(credentials, _req): Promise<User | null> {
+        if (!credentials?.username || !credentials?.password) {
+          throw new Error("Missing credentials");
         }
-        throw new Error("Invalid username or password");
+
+        const baseUrl =
+          process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3000";
+        try {
+          // Call login API
+          const response = await fetch(`${baseUrl}/api/login`, {
+            method: "POST",
+            credentials:"include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: credentials.username,
+              password: credentials.password,
+            }),
+          });
+
+          const data = (await response.json()) as { error?: string };
+
+          if (!response.ok) {
+            throw new Error(data.error ?? "Login failed");
+          }
+
+          const getdetail = await fetch(
+            `${baseUrl}/api/account?username=` + credentials.username,
+            {
+              method: "GET",
+              credentials:"include",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            },
+          );
+          if (!getdetail.ok) {
+            throw new Error(data.error ?? "User Not found");
+          }
+
+          const userDetails = (await getdetail.json()) as AccountResponse;
+
+          if (!userDetails.data) {
+            throw new Error("user data is not define");
+          }
+
+          let prio = 0;
+          // First check role
+          switch (userDetails.data.role) {
+            case "CAMPER":
+              prio = 0;
+              break;
+            case "BOARD":
+              prio = 3;
+              break;
+            default:
+              // For other roles, check department
+              const getDepartment = await fetch(
+                `${baseUrl}/api/staff/getdepartment/` + credentials.username,
+                {
+                  method: "GET",
+                  credentials:"include",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                },
+              );
+              
+              
+              if (!getDepartment.ok) {
+                throw new Error(data.error ?? "Department Not found");
+              }
+              const departmentDetails =
+                (await getDepartment.json()) as DepartmentResponse;
+              if (!departmentDetails) {
+                throw new Error("Department is not define");
+              }
+              // Set priority based on department for non-BOARD roles
+              prio = departmentDetails.department === "VCK" ? 2 : 1;
+          }
+
+          // Return user object with all required fields
+          return {
+            id: credentials.username,
+            username: credentials.username,
+            role: userDetails.data.role,
+            priority: prio,
+          };
+        } catch {
+          throw new Error("Invalid username or password");
+        }
       },
     }),
   ],
@@ -52,22 +144,27 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     jwt: async ({ token, user }: { token: JWT; user?: User }) => {
+      // console.log("JWT callback called with token:", token, "and user:", user);
+
       if (user) {
+        token.id = user.id;
         token.username = user.username;
         token.role = user.role;
+        token.priority = user.priority;
       }
+      // console.log("jwt last token", token);
 
       return token;
     },
     session: async ({ session, token }: { session: Session; token: JWT }) => {
-      session.user.id = typeof token.id === "string" ? token.id : "1";
-      session.user.username =
-        typeof token.username === "string" ? token.username : "";
-      session.user.role =
-        typeof token.role === "string" &&
-        Object.values(ROLE).includes(token.role as ROLE)
-          ? (token.role as ROLE)
-          : ROLE.CAMPER;
+      // console.log("Session callback called with session:", session, "and token:", token);
+
+      session.user.id = token.id as string;
+      session.user.username = token.username as string;
+      session.user.role = token.role as ROLE;
+      session.user.priority = token.priority as number;
+
+      // console.log("Final session object:", session);
 
       return session;
     },

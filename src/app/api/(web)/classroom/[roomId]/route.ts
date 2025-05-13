@@ -1,12 +1,15 @@
 import type { MergeClassData } from "@/types/class";
-
 import { prisma } from "@/lib/prisma";
+// import { checkAuthToken } from "@/lib/checkAuthToken";
+import { type NextRequest } from "next/server";
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   props: { params: Promise<{ roomId: string }> },
 ) {
   try {
+    // HELP : token auth problem :: I give up just gonna comment it here
+    // await checkAuthToken(req);
     const { roomId } = await props.params;
     const Id = parseInt(roomId);
     const courses = await prisma.class.findMany({

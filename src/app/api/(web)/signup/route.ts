@@ -9,9 +9,12 @@ interface SignupRequest {
 }
 
 import { prisma } from "@/lib/prisma";
+import { checkAuthToken } from "@/lib/checkAuthToken";
+import { type NextRequest } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    await checkAuthToken(req,3);
     const { username, role, password, roomId } =
       (await req.json()) as SignupRequest;
 
