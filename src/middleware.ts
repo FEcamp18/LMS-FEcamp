@@ -50,6 +50,13 @@ export async function middleware(req: NextRequest) {
   if(pathname === "/")
     return NextResponse.next();
   
+  // TODO : Get token and handle authentication
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+
+
    // if campe is CLOSED only go to "/"
   const phaseResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/web/phase`, {
     method: "GET",
@@ -64,33 +71,30 @@ export async function middleware(req: NextRequest) {
 
   // If the phase is "CLOSED", restrict access for all roles except BOARD
   if (currentPhase === "CLOSED") {
-    const token = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
-
-    if (!token || token.role !== "BOARD") {
+   if (!token || token.role !== "BOARD") {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
 
-  // normal check
+  // who already login, shouldn't go to login
+  if (token && pathname.includes("/login")) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  // publicRoutes check
    if (publicRoutes.includes(pathname)) {
     return NextResponse.next();
   }
 
-  // TODO : Get token and handle authentication
-  const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  });
-
+  // who not login
   if (!token) {
     // Redirect to login for unauthenticated users
     const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(loginUrl);
   }
+  
+  // check path by role
   const role = token.role as keyof typeof accessControl;
 
   // Handle invalid roles
