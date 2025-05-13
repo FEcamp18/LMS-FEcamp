@@ -17,6 +17,9 @@ import toast from "react-hot-toast";
 export default function Logout() {
   const handleLogout = async () => {
     try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+      });
       await signOut();
 
       toast.success("signout success");
