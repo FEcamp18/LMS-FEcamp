@@ -8,6 +8,8 @@ export async function GET(
   props: { params: Promise<{ staffId: string }> },
 ) {
   const { staffId } = await props.params;
+  console.log(staffId);
+  
   try {
     const staffData = await prisma.staff.findUnique({
       where: {

@@ -32,9 +32,7 @@ interface AccountResponse {
 }
 interface DepartmentResponse {
   message: "success" | "failed";
-  data?: {
-    department: string;
-  };
+  department: string;
   error?: string;
 }
 
@@ -105,7 +103,7 @@ export const authOptions: NextAuthOptions = {
             default:
               // For other roles, check department
               const getDepartment = await fetch(
-                `${baseUrl}/api/staff/getdepartment?staffId=` + credentials.username,
+                `${baseUrl}/api/staff/getdepartment/` + credentials.username,
                 {
                   method: "GET",
                   credentials:"include",
@@ -114,17 +112,18 @@ export const authOptions: NextAuthOptions = {
                   },
                 },
               );
+              
+              
               if (!getDepartment.ok) {
                 throw new Error(data.error ?? "Department Not found");
               }
               const departmentDetails =
                 (await getDepartment.json()) as DepartmentResponse;
-
-              if (!departmentDetails.data) {
+              if (!departmentDetails) {
                 throw new Error("Department is not define");
               }
               // Set priority based on department for non-BOARD roles
-              prio = departmentDetails.data.department === "VCK" ? 2 : 1;
+              prio = departmentDetails.department === "VCK" ? 2 : 1;
           }
 
           // Return user object with all required fields
