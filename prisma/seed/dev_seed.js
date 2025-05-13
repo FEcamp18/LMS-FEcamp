@@ -1,7 +1,7 @@
-import { hash } from "bcryptjs"
+import { hash } from "bcryptjs";
 
-import { PrismaClient } from "@prisma/client"
-const prisma = new PrismaClient()
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 const seedData = async () => {
   try {
@@ -10,25 +10,25 @@ const seedData = async () => {
       name: "camper_dev",
       password: "dev-password-camper",
       role: "camper",
-    }
+    };
 
     // Staff data
     const staff = {
       name: "staff_dev",
       password: "dev-password-staff",
       role: "tutor",
-    }
+    };
 
     // Board data
     const board = {
       name: "board_dev",
       password: "dev-password-board",
       role: "board",
-    }
+    };
 
-    const camper_hashedPassword = await hash(String(camper.password), 10)
-    const staff_hashedPassword = await hash(String(staff.password), 10)
-    const board_hashedPassword = await hash(String(board.password), 10)
+    const camper_hashedPassword = await hash(String(camper.password), 10);
+    const staff_hashedPassword = await hash(String(staff.password), 10);
+    const board_hashedPassword = await hash(String(board.password), 10);
 
     await prisma.account.createMany({
       data: [
@@ -48,7 +48,7 @@ const seedData = async () => {
           role: "BOARD",
         },
       ],
-    })
+    });
 
     // Create camper
     await prisma.camper.create({
@@ -72,7 +72,7 @@ const seedData = async () => {
         certificate: "FE Certificate",
         scorePostTest: [95.0, 88.5, 92.0, 89.5],
       },
-    })
+    });
 
     // Create staff
     await prisma.staff.createMany({
@@ -105,20 +105,20 @@ const seedData = async () => {
           roomNumber: 0,
         },
       ],
-    })
+    });
   } catch (error) {
-    console.error("Error inserting records:", error)
+    console.error("Error inserting records:", error);
   }
-}
+};
 
 const main = async () => {
   try {
-    await seedData()
+    await seedData();
   } catch (error) {
-    console.error("Error in main:", error)
-    process.exit(1)
+    console.error("Error in main:", error);
+    process.exit(1);
   } finally {
-    await prisma.$disconnect()
+    await prisma.$disconnect();
   }
-}
-void main()
+};
+void main();

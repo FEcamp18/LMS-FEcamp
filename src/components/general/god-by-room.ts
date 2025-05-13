@@ -1,11 +1,10 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/(auth)/auth/[...nextauth]/authOptions";
 
-
-interface SessionGodInterface  {
+interface SessionGodInterface {
   user: {
-    roomNumber : number
-  } 
+    roomNumber: number;
+  };
 }
 
 const godMapping: Record<number, string> = {
@@ -25,7 +24,7 @@ export async function get_god_name() {
     // TODO : implement session here
     // const session = ((await getServerSession(authOptions));
     // const roomNumber = session?.user?.roomNumber ?? 0;
-    const roomNumber = 0; 
+    const roomNumber = 0;
     return godMapping[roomNumber];
   } catch (error) {
     console.error("Failed to get god name:", error);

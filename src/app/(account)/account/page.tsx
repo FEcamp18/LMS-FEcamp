@@ -1,69 +1,51 @@
-"use client"
-import Logout from "./Logout"
-import ChangePassForm from "./ChangePass"
-import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react"
-import { Toaster } from "react-hot-toast"
+"use client";
+import Logout from "./Logout";
+import { useSession } from "next-auth/react";
+import { Toaster } from "react-hot-toast";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import CamperAccount from "@/components/account/CamperAccount";
+import StaffAccount from "@/components/account/StaffAccount";
 
 export default function AccountPage() {
-  const { data: session, status, update } = useSession()
-  const [loading, setLoading] = useState(true)
-
+  const { data: session, status, update } = useSession();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const handleLoad = async () => {
-      await update()
-    }
-    void handleLoad()
-    setLoading(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+      await update();
+    };
 
-  if (loading) return <div>Loading...</div>
+    void handleLoad();
+
+    setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
 
   if (status === "unauthenticated" || session === null) {
-    return <div>You are not logged in. Please log in to access this page.</div>
+    return <div>You are not logged in. Please log in to access this page.</div>;
   }
 
   return (
     <>
       <Toaster />
-      <h1 className="mx-8 mt-20 text-4xl">
-        นี่ชื่อน้องค่าย นี่นามสกุล ({session?.user?.username ?? "Unknown"})
-      </h1>
-
-      <main className="mx-9 mt-5 grid-cols-6 gap-8 md:grid">
-        <section className="col-span-2 text-xl">
-          <h1 className="mb-1 font-semibold">ข้อมูลส่วนตัว</h1>
-          <ul>
-            <li> &#8226; ContactTel</li>
-            <li> &#8226; ContactEmail</li>
-            <li> &#8226; FEyear</li>
-            <li> &#8226; parentTel (ParentRalationship)</li>
-            <li> &#8226; Section</li>
-          </ul>
-        </section>
-
-        <section className="col-span-3 text-xl">
-          <div>
-            <h2 className="ml-10 font-semibold">HealthInfo</h2>
-            <p className="ml-10 mt-4 bg-slate-200 py-10 text-center">
-              textarea ยาวๆ
-            </p>
-          </div>
-
-          <div className="mt-5">
-            <h2 className="ml-10 font-semibold">FoodInfo</h2>
-            <p className="ml-10 mt-4 bg-slate-200 py-10 text-center">
-              textarea ยาวๆ
-            </p>
-          </div>
-        </section>
-      </main>
-
-      <div className="mx-9 mt-8">
+      {!loading &&
+        (session?.user?.role === "CAMPER" ? (
+          <CamperAccount />
+        ) : (
+          <StaffAccount />
+        ))}
+      <div className="mx-6 my-8 flex h-[55px] justify-end space-x-4">
+        <Link
+          href="resetpassnotice"
+          className="w-full max-w-[190px] content-center border-[0.5px] border-black bg-cream py-[8px] text-center text-xl font-normal text-dark-gray hover:bg-light-gray hover:text-cream active:bg-dark-gray active:text-cream md:text-2xl"
+        >
+          เปลี่ยนรหัส
+        </Link>
         <Logout />
-        <ChangePassForm />
       </div>
     </>
-  )
+  );
 }
