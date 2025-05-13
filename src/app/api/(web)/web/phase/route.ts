@@ -1,13 +1,15 @@
 import { PHASE } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-
+import { checkAuthToken } from "@/lib/checkAuthToken";
+import { type NextRequest } from "next/server";
 // Define an interface for the request body
 interface PhaseUpdateRequest {
   phase: PHASE;
 }
 
-export async function GET() {
-  try {
+export async function GET(req: NextRequest) {
+  try {    
+    await checkAuthToken(req);
     const phase = await prisma.webPhase.findFirst();
 
     if (!phase) {

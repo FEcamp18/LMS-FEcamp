@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 interface LoginRequest {
   username: string;
@@ -58,16 +59,15 @@ export async function POST(req: Request) {
       { expiresIn: "7d" }, // Token expiration time (1 hour)
     );
 
-    // if successful
-    return Response.json(
-      {
-        message: "success",
-        token: token,
-      },
-      {
-        status: 200, // OK
-      },
-    );
+    // sign a cookies
+    const response = NextResponse.json({ message: "success" });
+    response.cookies.set("token", token, {
+      httpOnly: true, // Prevent access via JavaScript
+      sameSite: "strict", // Prevent CSRF attacks
+      maxAge: 7 * 24 * 60 * 60, // 7 days
+    });
+
+    return response;
   } catch {
     return Response.json(
       {

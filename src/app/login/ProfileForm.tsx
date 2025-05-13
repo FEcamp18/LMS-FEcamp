@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -32,7 +31,6 @@ const formSchema = z.object({
 
 export default function ProfileForm() {
   const router = useRouter();
-  const { data: session } = useSession();
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -56,14 +54,13 @@ export default function ProfileForm() {
         toast.error(result.error || "Login failed");
         return;
       }
-      
+
       // Show success message
       toast.success("เข้าสู่ระบบสำเร็จ");
       // Add a small delay to ensure toast is visible
       await new Promise((resolve) => setTimeout(resolve, 300));
-      
+
       router.push("/board");
-    
     } catch (error) {
       console.error("Login error:", error);
       toast.error("An error occurred during login");

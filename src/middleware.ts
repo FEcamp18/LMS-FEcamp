@@ -55,8 +55,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Get token and handle authentication
-  
+  // TODO : Get token and handle authentication
   const token = await getToken({
     req,
     secret: process.env.NEXTAUTH_SECRET,
