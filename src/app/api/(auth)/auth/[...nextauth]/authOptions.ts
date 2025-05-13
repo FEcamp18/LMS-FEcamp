@@ -113,10 +113,9 @@ export const authOptions: NextAuthOptions = {
                 throw new Error("Failed to fetch room number for camper.");
               }
 
-              const camperData = await getRoomNumber.json() as { camper: { roomNumber: number } };
-              console.log(camperData);
+              const camperData = await getRoomNumber.json() as { camper: { room: number } };
               
-              roomNumber = camperData?.camper?.roomNumber ?? 0; // Extract roomNumber or default to 0
+              roomNumber = camperData?.camper?.room ?? 0; // Extract roomNumber or default to 0
               break;
             case "BOARD":
               prio = 3;
