@@ -44,7 +44,7 @@ const publicRoutes = [
 
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
-  // console.log("Middleware triggered for path:", pathname);
+  console.log("Middleware triggered for path:", pathname);
   // Check if it's a public route first
   if (publicRoutes.some((route) => pathname.startsWith(route))) {
     return NextResponse.next();
@@ -67,7 +67,7 @@ export async function middleware(req: NextRequest) {
 
   // Handle invalid roles
   if (!accessControl[role]) {
-    console.error(`Invalid role: ${token.role}`);
+    console.error(`Invalid role: ${role}`);
     return NextResponse.redirect(new URL("/login", req.url));
   }
 

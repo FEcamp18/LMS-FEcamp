@@ -21,7 +21,7 @@ const Header = () => {
     };
     void handleLoad();
   }, []);
- // Get priority from session with fallback to 0
+  // Get priority from session with fallback to 0
   const priority = session?.user?.priority ?? 0;
   return (
     <header className="fixed bottom-0 left-0 right-0 top-auto z-50 md:relative md:top-0">
@@ -70,7 +70,7 @@ const Header = () => {
               )}
             </>
           )}
-          {priority <1 && (
+          {priority < 1 && (
             <>
               <Link
                 href="/classroom"

@@ -24,7 +24,6 @@ function ClassroomItems() {
       try {
         const data = await ClassroomService.getClassroomsByRoomId("1");
         setSubjects(data.courses);
-        console.log(data.courses);
 
         setFilterSubject(data.courses); // Initially show all subjects
       } catch (error) {
@@ -32,7 +31,6 @@ function ClassroomItems() {
       }
       const god_name_res = await get_god_name();
       const god_schedule_image_path_res = await get_god_schedule_image_path();
-      console.log(god_schedule_image_path_res);
 
       set_god_name(god_name_res ?? "");
       set_god_schedule_image_path(god_schedule_image_path_res);
