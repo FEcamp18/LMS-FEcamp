@@ -1,8 +1,8 @@
-"use server"
+"use server";
 
-import { Resend } from "resend"
+import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendResetEmail = async (email: string, link: string) => {
   try {
@@ -18,9 +18,10 @@ export const sendResetEmail = async (email: string, link: string) => {
             <p>Thank you,</p>
             <p>FE18 IT team</p>
             `,
-    })
-    if (response.error) throw new Error("error during send email")
+    });
+    // console.log("Resend API response:", response); // Log the response for debugging
+    // console.log("This is RESEND_API_KEY: ", resend); // Log for debugging
   } catch (error) {
-    console.error("Error sending reset email:", error) // Catch and log errors
+    console.error("Error sending reset email:", error); // Catch and log errors
   }
-}
+};

@@ -1,33 +1,43 @@
-"use client"
+"use client";
 
-import { Suspense } from "react"
-import { useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Lock, Eye, EyeOff } from "lucide-react";
 
 interface ResetPasswordResponse {
-  message: string
-  error?: string
+  message: string;
+  error?: string;
 }
 
 // Separate client component for the form
 function ResetPasswordForm() {
-  const searchParams = useSearchParams()
-  const token = searchParams.get("token")
-  const username = searchParams.get("username")
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const username = searchParams.get("username");
 
-  const [newPassword, setNewPassword] = useState("")
-  const [message, setMessage] = useState<string | null>(null)
+  const [newPassword, setNewPassword] = useState("");
+  const [message, setMessage] = useState<string | null>(null);
+
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
+    event.preventDefault();
 
     if (!token) {
-      setMessage("Invalid token.")
-      return
+      setMessage("ลิงก์ผิดพลาด token นี้ไม่ถูกต้อง");
+      return;
     }
     if (!username) {
-      setMessage("Username not found.")
-      return
+      setMessage("ลิงก์ผิดพลาด ไม่พบ username");
+      return;
+    }
+    if (!(newPassword.length >= 8)) {
+      setMessage("รหัสผ่านต้องยาวมากกว่า 8 ตัวอักษร");
+      return;
     }
 
     try {
@@ -41,42 +51,128 @@ function ResetPasswordForm() {
           newPassword,
           token,
         }),
-      })
+      });
 
-      const resetData = (await resetResponse.json()) as ResetPasswordResponse
+      const resetData = (await resetResponse.json()) as ResetPasswordResponse;
 
       if (resetData.message === "success") {
-        setMessage("Your password has been successfully reset.")
+        setMessage("กำหนดรหัสผ่านใหม่สำเร็จ");
       } else {
-        setMessage("Failed to reset password. Please try again.")
+        setMessage("เกิดข้อผิดพลาดระหว่างกำหนดรหัสผ่าน กรุณาติดต่อฝ่ายไอที");
       }
     } catch (error) {
-      console.error("Error resetting password:", error)
-      setMessage("Error resetting password. Please try again.")
+      console.error("Error fetching username:", error);
+      setMessage("Error fetching username. Please try again.");
     }
-  }
+  };
 
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          type="password"
-          placeholder="Enter new password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-          className="rounded border p-2"
-        />
+  const handleRedirect = () => {
+    router.push("/account"); // change to your desired path
+  };
+
+  const defaultView = (
+    <div className="flex w-full flex-col items-center justify-center gap-y-6 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8 md:py-10">
+      <Image src="Logo.svg" alt="Logo" width={100} height={100} />
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center gap-4"
+      >
+        <p className="pb-4 text-3xl">กำหนดรหัสผ่านใหม่</p>
+
+        {/* Password Input with Eye Toggle */}
+        <div className="relative w-full">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-brown">
+            <Lock size={18} />
+          </span>
+
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+            className="w-full rounded border bg-cream py-2 pl-10 pr-10 font-sans text-brown placeholder:text-brown"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 font-inknut text-brown"
+            tabIndex={-1}
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        </div>
+
         <button
           type="submit"
-          className="rounded bg-blue-500 p-2 text-white hover:bg-blue-600"
+          className="w-full rounded bg-dark-gray px-2 py-2 text-white"
         >
-          Reset Password
+          ยืนยัน
         </button>
       </form>
-      {message && <p className="mt-4 text-center">{message}</p>}
+
+      {message && message != "กำหนดรหัสผ่านใหม่สำเร็จ" && (
+        <p className="text-m mt-2 text-center text-light-brown">{message}</p>
+      )}
+    </div>
+  );
+
+  const successView = (
+    <div className="flex w-full flex-col items-center justify-center gap-y-3 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8">
+      <Image src="Logo.svg" alt="Logo" width={100} height={100} />
+      <p className="pb-8 text-center text-xl text-dark-brown sm:text-2xl md:text-3xl">
+        กำหนดรหัสผ่านใหม่สำเร็จ
+      </p>
+      <button
+        type="button"
+        onClick={handleRedirect}
+        className="w-full rounded bg-dark-gray px-2 py-2 text-white"
+      >
+        ไปหน้าบัญชี
+      </button>
+    </div>
+  );
+
+  return (
+    <main className="flex min-h-screen w-screen flex-col items-center justify-center bg-[url('public/image/background/resetpassword-background.webp')] bg-cover bg-center p-6">
+      <div className="relative h-auto max-h-[698px] w-full max-w-[884px] bg-cream p-4 shadow-lg sm:h-[80vh] sm:w-[90%] sm:p-8">
+        {/* Decorative Images */}
+        <Image
+          src="/image/subject-picture/helmfx1 1.webp"
+          alt="Helm"
+          width={100}
+          height={100}
+          className="absolute bottom-[30px] left-[12px] hidden w-[150px] sm:block sm:w-[150px] md:bottom-[20px]"
+        />
+        <Image
+          src="/image/subject-picture/crownfx1 1.webp"
+          alt="Crown"
+          width={100}
+          height={100}
+          className="absolute left-[12px] top-[140px] hidden sm:block sm:w-[150px] md:top-[20px]"
+        />
+        <Image
+          src="/image/subject-picture/shieldfx1 1.webp"
+          alt="Shield"
+          width={100}
+          height={100}
+          className="absolute right-[12px] top-[180px] hidden w-[70px] sm:block sm:w-[150px] md:top-[10px]"
+        />
+        <Image
+          src="/image/subject-picture/swordfx1 1.webp"
+          alt="Sword"
+          width={100}
+          height={100}
+          className="absolute bottom-[70px] right-[30px] hidden w-[70px] sm:block sm:w-[150px] md:bottom-[20px]"
+        />
+
+        {/* Main content centered */}
+        <div className="flex h-full w-full items-center justify-center p-2">
+          {message === "กำหนดรหัสผ่านใหม่สำเร็จ" ? successView : defaultView}
+        </div>
+      </div>
     </main>
-  )
+  );
 }
 
 // Main page component
@@ -91,5 +187,5 @@ export default function ResetPasswordPage() {
     >
       <ResetPasswordForm />
     </Suspense>
-  )
+  );
 }
