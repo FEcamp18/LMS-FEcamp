@@ -17,6 +17,7 @@ export async function checkAuthToken(req: NextRequest, requiredPriority?: number
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET) as {
       username: string;
       priority: number;
+      role: string;
     };
 
     // const tokenUsername = decodedToken.username;

@@ -47,16 +47,10 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function PATCH(req: Request) {
+export async function PATCH(req: NextRequest) {
   try {
-    // TODO
-    const userIsAdmin = checkIfAdmin();
-    if (!userIsAdmin) {
-      return Response.json(
-        { message: "error", error: "Access denied." },
-        { status: 403 },
-      );
-    }
+    await checkAuthToken(req,2);
+
 
     const presentstate = await prisma.webPhase.findFirst();
     const body = (await req.json()) as PhaseUpdateRequest; // Use the interface here
@@ -99,8 +93,4 @@ export async function PATCH(req: Request) {
       { status: 500 },
     );
   }
-}
-
-function checkIfAdmin() {
-  return true; // Assume user is an admin for now
 }
