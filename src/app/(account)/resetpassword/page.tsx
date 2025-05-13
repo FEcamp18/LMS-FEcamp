@@ -58,11 +58,14 @@ function ResetPasswordForm() {
       if (resetData.message === "success") {
         setMessage("กำหนดรหัสผ่านใหม่สำเร็จ");
       } else {
-        setMessage("เกิดข้อผิดพลาดระหว่างกำหนดรหัสผ่าน กรุณาติดต่อฝ่ายไอที");
+        throw new Error(resetData.error);
       }
     } catch (error) {
-      console.error("Error fetching username:", error);
-      setMessage("Error fetching username. Please try again.");
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "เกิดข้อผิดพลาดระหว่างกำหนดรหัสผ่าน กรุณาติดต่อฝ่ายไอที",
+      );
     }
   };
 
