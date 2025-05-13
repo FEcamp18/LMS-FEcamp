@@ -30,7 +30,13 @@ const formSchema = z.object({
     .min(1, "Announcement description is required"),
 });
 
-export default function CreateAnnounce({ subjectId }: { subjectId: string }) {
+export default function CreateAnnounce({
+  subjectId,
+  subjectTopic,
+}: {
+  subjectId: string;
+  subjectTopic: string;
+}) {
   const [open, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,12 +58,23 @@ export default function CreateAnnounce({ subjectId }: { subjectId: string }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "staff-id": "your-staff-id", // Replace with the actual staff ID
+          "staff-id": "your-staff-id", // TODO : Replace with the actual staff ID
         },
         body: JSON.stringify({
           subjectId,
           annoTitle: values.announceName,
           annoText: values.announceDescription,
+        }),
+      });
+
+      // send chatbot trigger
+      await fetch(`/api/proxy/send-announcement`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: `ประกาศใหม่ถูกเพิ่มในวิชา ${subjectTopic}! หัวข้อ ${values.announceName}`,
         }),
       });
 

@@ -129,7 +129,10 @@ export default function SubjectPage() {
             ))}
           </div>
           <div className="absolute bottom-0 right-3 flex h-12 w-40 cursor-pointer items-center justify-center">
-            <CreateAnnounce subjectId={subjectId} />
+            <CreateAnnounce
+              subjectId={subjectId}
+              subjectTopic={subjectDetails.subjectTopic}
+            />
           </div>
         </div>
 
