@@ -11,6 +11,8 @@ declare module "next-auth" {
     role?: ROLE;
     roomNumber: number;
     priority?: number; //isstaff 1 ->istutor 2 ->isboard 3
+    boardcastPrio: boolean;
+    infoPrio: boolean;
   }
 
   interface Session extends DefaultSession {
@@ -20,6 +22,8 @@ declare module "next-auth" {
       role: ROLE;
       priority?: number;
       roomNumber: number;
+      boardcastPrio: boolean;
+     infoPrio: boolean;
     } & DefaultSession["user"];
   }
 }
@@ -94,6 +98,8 @@ export const authOptions: NextAuthOptions = {
 
           let roomNumber = 0;
           let prio = 0;
+          let boardcastPrio = false;
+          let infoPrio = false;
           // First check role
           switch (userDetails.data.role) {
             case "CAMPER":
@@ -144,6 +150,15 @@ export const authOptions: NextAuthOptions = {
               }
               // Set priority based on department for non-BOARD roles
               prio = departmentDetails.department === "VCK" ? 2 : 1;
+               // Set priority based on department for non-BOARD roles
+              if (["VCK", "BOARD", "CENTRAL"].includes(departmentDetails.department)) {
+                boardcastPrio = true;
+              }
+
+              if (["BOARD", "REGISTER", "IT", "ROOMSTAFF", "NURSE"].includes(departmentDetails.department)) {
+                infoPrio = true;
+              }
+
           }
 
           // Return user object with all required fields
@@ -153,6 +168,8 @@ export const authOptions: NextAuthOptions = {
             role: userDetails.data.role,
             priority: prio,
             roomNumber: roomNumber,
+            boardcastPrio: boardcastPrio,
+            infoPrio: infoPrio,
           };
         } catch {
           throw new Error("Invalid username or password");
@@ -173,22 +190,19 @@ export const authOptions: NextAuthOptions = {
         token.role = user.role;
         token.priority = user.priority;
         token.roomNumber = user.roomNumber;
+        token.boardcastPrio = user.boardcastPrio;
+        token.infoPrio = user.infoPrio;
       }
-      // console.log("jwt last token", token);
-
       return token
     },
     session: async ({ session, token }: { session: Session; token: JWT }) => {
-      // console.log("Session callback called with session:", session, "and token:", token);
-
       session.user.id = token.id as string;
       session.user.username = token.username as string;
       session.user.role = token.role as ROLE;
       session.user.priority = token.priority as number;
       session.user.roomNumber = token.roomNumber as number;
-
-      // console.log("Final session object:", session);
-
+      session.user.boardcastPrio = token.boardcastPrio as boolean;
+      session.user.infoPrio = token.boardcastPrio as boolean;
       return session
     },
   },
