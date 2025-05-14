@@ -1,4 +1,3 @@
-import { checkAuthToken } from "@/lib/checkAuthToken";
 import { prisma } from "@/lib/prisma";
 import { type NextRequest } from "next/server";
 
@@ -7,8 +6,7 @@ export async function GET(
   props: { params: Promise<{ staffId: string }> },
 ) {
   const { staffId } = await props.params
-  try {
-    await checkAuthToken(req);
+  try {   
     const staffByStaffId = await prisma.staff.findUnique({
       where: {
         staffId: staffId,

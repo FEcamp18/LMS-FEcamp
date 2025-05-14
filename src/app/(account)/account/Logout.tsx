@@ -32,7 +32,9 @@ export default function Logout() {
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button className="my-3 rounded-xl px-24 py-3">log out</Button>
+          <Button className="h-full rounded-none bg-light-gray px-7 text-xl font-normal text-white hover:bg-dark-gray active:bg-dark-brown md:text-2xl">
+            ออกจากระบบ
+          </Button>
         </AlertDialogTrigger>
 
         <AlertDialogContent>
