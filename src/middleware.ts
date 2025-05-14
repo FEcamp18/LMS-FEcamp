@@ -13,7 +13,8 @@ const accessControl = {
       "/tutor",
       "/classroom",
       "/feedback",
-      "/account"
+      "/account",
+      "/boardcast"
     ],
     defaultPath: "/camperinfo",
   },

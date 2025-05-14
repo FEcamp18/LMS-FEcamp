@@ -1,28 +1,30 @@
-"use client";
-import Link from "next/link";
+"use client"
+import Link from "next/link"
 import {
   FaAddressBook,
   FaBook,
   FaChalkboardTeacher,
   FaCog,
+  FaCommentAlt,
   FaCommentDots,
   FaUserCircle,
-} from "react-icons/fa";
-import Image from "next/image";
-import HeaderBG from "./headerBG";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+} from "react-icons/fa"
+import Image from "next/image"
+import HeaderBG from "./headerBG"
+import { useSession } from "next-auth/react"
+import { useEffect } from "react"
 const Header = () => {
-  const { data: session, update } = useSession();
+  const { data: session, update } = useSession()
 
   useEffect(() => {
     const handleLoad = async () => {
-      await update();
-    };
-    void handleLoad();
-  }, []);
+      await update()
+    }
+    void handleLoad()
+  }, [])
   // Get priority from session with fallback to 0
-  const priority = session?.user?.priority ?? 0;
+  const priority = session?.user?.priority ?? 0
+  const boardcasePrio = session?.user?.boardcastPrio ?? false
   return (
     <header className="fixed bottom-0 left-0 right-0 top-auto z-50 md:relative md:top-0">
       <HeaderBG />
@@ -88,6 +90,17 @@ const Header = () => {
               </Link>
             </>
           )}
+          {boardcasePrio && (
+            <>
+              <Link
+                href="/boardcast"
+                className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:gap-2 md:text-base md:hover:-translate-y-1"
+              >
+                <FaCommentAlt className="mb-1 text-lg md:mb-0" />
+                <span className="whitespace-nowrap">ประกาศ</span>
+              </Link>
+            </>
+          )}
           <Link
             href="/account"
             className="flex flex-col items-center text-xs text-dark-brown transition-all hover:text-light-brown md:flex-row md:gap-2 md:text-base md:hover:-translate-y-1"
@@ -98,7 +111,7 @@ const Header = () => {
         </nav>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

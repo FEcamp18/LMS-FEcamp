@@ -10,7 +10,7 @@ const godMapping: Record<number, string> = {
   8: "Zeus",
 };
 
-export async function get_god_name(roomNumber:number) {
+export function get_god_name(roomNumber:number) {
   try {
     return godMapping[roomNumber] ?? godMapping[0]  ;
   } catch (error) {
@@ -21,7 +21,7 @@ export async function get_god_name(roomNumber:number) {
 
 export async function get_god_statue_image_path(roomNumber:number) {
   try {
-    const godName = await get_god_name(roomNumber);
+    const godName =  get_god_name(roomNumber);
     return `/image/god-room/statue/${godName?.toLowerCase()}_statue.webp`;
   } catch (error) {
     console.error("Failed to get god statue image path:", error);
@@ -31,7 +31,7 @@ export async function get_god_statue_image_path(roomNumber:number) {
 
 export async function get_god_schedule_image_path(roomNumber:number) {
   try {
-    const godName = await get_god_name(roomNumber);
+    const godName =  get_god_name(roomNumber);
     return `/image/god-room/schedule/${godName?.toLowerCase()}.webp`;
   } catch (error) {
     console.error("Failed to get god schedule image path:", error);
