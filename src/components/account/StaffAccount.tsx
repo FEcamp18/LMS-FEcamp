@@ -1,35 +1,40 @@
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import type { Staff } from "@/types/staff";
-import axios from "axios";
+import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
+import type { Staff } from "@/types/staff"
+import axios from "axios"
 
 export default function StaffAccount() {
-  const { data: session, status, update } = useSession();
-  const [loading, setLoading] = useState(true);
-  const [staff, setStaff] = useState<Staff | null>(null);
+  const { update } = useSession()
+  const [loading, setLoading] = useState(true)
+  const [staff, setStaff] = useState<Staff | null>(null)
 
   useEffect(() => {
     const handleLoad = async () => {
-      await update();
-      await fetchStaffInfo();
-    };
+      await update()
+      await fetchStaffInfo()
+    }
 
     const fetchStaffInfo = async () => {
       try {
-        const response = await axios.get(`/api/staff/${"staff1"}`);
+        const response = await axios.get(`/api/staff/${"dev-staff"}`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-        setStaff(response.data.staff);
+        setStaff(response.data.staff)
       } catch (error) {
-        console.error("Error fetching staff info:", error);
+        console.error("Error fetching staff info:", error)
       }
-    };
+    }
 
-    void handleLoad();
-    setLoading(false);
+    void handleLoad()
+    setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="w-full pt-10 text-3xl font-bold text-dark-brown">
+        Loading...
+      </div>
+    )
   return (
     <>
       <div className="mx-8 mt-14 flex flex-col justify-between text-brown md:flex-row">
@@ -56,7 +61,7 @@ export default function StaffAccount() {
             </div>
             <div className="flex flex-col gap-1">
               <h2 className="font-semibold">ฝ่าย</h2>
-              <p>{staff?.staffDepartment}</p>
+              <p>{staff?.staffDepartment.join(", ")}</p>
             </div>
             <div className="flex flex-col gap-1">
               <h2 className="font-semibold">Room Number</h2>
@@ -76,5 +81,5 @@ export default function StaffAccount() {
         </div>
       </section>
     </>
-  );
+  )
 }

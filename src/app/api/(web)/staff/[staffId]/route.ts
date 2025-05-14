@@ -5,7 +5,7 @@ export async function GET(
   props: { params: Promise<{ staffId: string }> },
 ) {
   const { staffId } = await props.params
-  try {
+  try {   
     const staffByStaffId = await prisma.staff.findUnique({
       where: {
         staffId: staffId,

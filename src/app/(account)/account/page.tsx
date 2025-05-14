@@ -1,31 +1,36 @@
-"use client";
-import Logout from "./Logout";
-import { useSession } from "next-auth/react";
-import { Toaster } from "react-hot-toast";
+"use client"
+import Logout from "./Logout"
+import { useSession } from "next-auth/react"
+import { Toaster } from "react-hot-toast"
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import CamperAccount from "@/components/account/CamperAccount";
-import StaffAccount from "@/components/account/StaffAccount";
+import Link from "next/link"
+import { useEffect, useState } from "react"
+import CamperAccount from "@/components/account/CamperAccount"
+import StaffAccount from "@/components/account/StaffAccount"
 
 export default function AccountPage() {
-  const { data: session, status, update } = useSession();
-  const [loading, setLoading] = useState(true);
+  const { data: session, status, update } = useSession()
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     const handleLoad = async () => {
-      await update();
-    };
+      await update()
+    }
 
-    void handleLoad();
+    void handleLoad()
 
-    setLoading(false);
+    setLoading(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="w-full pt-10 text-3xl font-bold text-dark-brown">
+        Loading...
+      </div>
+    )
 
   if (status === "unauthenticated" || session === null) {
-    return <div>You are not logged in. Please log in to access this page.</div>;
+    return <div>You are not logged in. Please log in to access this page.</div>
   }
 
   return (
@@ -47,5 +52,5 @@ export default function AccountPage() {
         <Logout />
       </div>
     </>
-  );
+  )
 }

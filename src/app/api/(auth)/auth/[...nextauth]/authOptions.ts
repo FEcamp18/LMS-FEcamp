@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(_credentials, _req) {
         // Mock user for demonstration purposes
         const mockUser = {
-          id: "camper1",
+          id: "dev-staff",
           username: "temp-auth-user",
           password: "temp-auth-pass",
           role: ROLE.STAFF,
