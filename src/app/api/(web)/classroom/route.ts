@@ -40,11 +40,10 @@ export async function GET() {
     const classMap = new Map<string, MergeClassData>();
 
     for (const course of courses) {
-      const tutors = course.StaffClass.map((sc) => sc.staff.nickname);
-
+      // const tutors = course.StaffClass.map((sc) => sc.staff.nickname);
+      // remove tutors : tutors here
       classMap.set(course.classId, {
         classId: course.classId,
-        tutors: tutors,
         roomId: course.room,
         subjectId: course.subjectId,
         startTime: course.startTime,

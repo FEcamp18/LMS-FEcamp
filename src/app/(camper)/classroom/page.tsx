@@ -1,67 +1,67 @@
-"use client";
-import { ClassCard } from "@/components/classroom/classCard";
-import type { MergeClassData } from "@/types/class";
-import { Suspense, useEffect, useState } from "react";
-import Image from "next/image";
+"use client"
+import { ClassCard } from "@/components/classroom/classCard"
+import type { MergeClassData } from "@/types/class"
+import { Suspense, useEffect, useState } from "react"
+import Image from "next/image"
 import {
   get_god_name,
   get_god_schedule_image_path,
-} from "@/components/general/god-by-room";
-import { getClassroomsByRoomId } from "@/lib/getClassroomsByRoomId";
-import { useSession } from "next-auth/react";
+} from "@/components/general/god-by-room"
+import { getClassroomsByRoomId } from "@/lib/getClassroomsByRoomId"
+import { useSession } from "next-auth/react"
 
 function ClassroomItems() {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
-  const [subjects, setSubjects] = useState<MergeClassData[] | null>(null);
+  const [subjects, setSubjects] = useState<MergeClassData[] | null>(null)
   const [filterSubject, setFilterSubject] = useState<MergeClassData[] | null>(
     null,
-  );
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
-  const [god_name, set_god_name] = useState<string>("");
+  )
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null)
+  const [god_name, set_god_name] = useState<string>("")
   const [god_schedule_image_path, set_god_schedule_image_path] =
-    useState<string>("");
+    useState<string>("")
 
   useEffect(() => {
     const fetchData = async () => {
-      const roomNumber = session?.user.roomNumber;
+      const roomNumber = session?.user.roomNumber
 
       try {
         const data = await getClassroomsByRoomId({
           roomId: roomNumber?.toString() ?? "0",
-        });
-        setSubjects(data.courses);
-        console.log(data.courses);
+        })
+        setSubjects(data.courses)
+        console.log(data.courses)
 
-        setFilterSubject(data.courses);
+        setFilterSubject(data.courses)
       } catch (error) {
-        console.error("Failed to fetch classrooms:", error);
+        console.error("Failed to fetch classrooms:", error)
       }
-      const god_name_res = await get_god_name(roomNumber ?? 0);
+      const god_name_res = get_god_name(roomNumber ?? 0)
       const god_schedule_image_path_res = await get_god_schedule_image_path(
         roomNumber ?? 0,
-      );
-      console.log(god_schedule_image_path_res);
+      )
+      console.log(god_schedule_image_path_res)
 
-      set_god_name(god_name_res ?? "");
-      set_god_schedule_image_path(god_schedule_image_path_res);
-    };
+      set_god_name(god_name_res ?? "")
+      set_god_schedule_image_path(god_schedule_image_path_res)
+    }
 
-    void fetchData();
-  }, [session?.user.roomNumber]);
+    void fetchData()
+  }, [session?.user.roomNumber])
 
   const handleFilter = (filter: string | null) => {
-    setSelectedFilter(filter);
+    setSelectedFilter(filter)
     if (!filter) {
-      setFilterSubject(subjects);
+      setFilterSubject(subjects)
     } else {
       setFilterSubject(
         subjects?.filter(
           (subject) => subject.subjectId.slice(0, -2) === filter,
         ) ?? null,
-      );
+      )
     }
-  };
+  }
 
   return (
     <div className="w-full flex-col space-y-6 p-4 lg:grid-cols-4">
@@ -159,7 +159,7 @@ function ClassroomItems() {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 export default function ClassroomPage() {
@@ -173,6 +173,6 @@ export default function ClassroomPage() {
     >
       <ClassroomItems />
     </Suspense>
-  );
+  )
 }
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"

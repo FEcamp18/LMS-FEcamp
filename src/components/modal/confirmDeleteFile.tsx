@@ -1,28 +1,28 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { useState } from "react";
-import Image from "next/image";
+} from "@/components/ui/dialog"
+import { useState } from "react"
+import Image from "next/image"
 
 interface ConfirmDeleteFielProps {
-  fileName: string;
+  fileName: string
 }
 
 export default function ConfirmDeleteFile({
   fileName,
 }: ConfirmDeleteFielProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   function handleDelete() {
     //write function here
-    setOpen(false);
+    setOpen(false)
   }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -67,7 +67,7 @@ export default function ConfirmDeleteFile({
         </DialogHeader>
         <div className="-mt-4 flex flex-col items-center text-center">
           <span>คุณต้องการลบไฟล์</span>
-          <span>"{fileName}" ใช่หรือไม่</span>
+          <span>{fileName} ใช่หรือไม่</span>
         </div>
         <div className="mt-auto flex w-full p-0">
           <Button
@@ -80,7 +80,7 @@ export default function ConfirmDeleteFile({
           </Button>
           <Button
             onClick={() => {
-              handleDelete();
+              handleDelete()
             }}
             className="h-[58px] flex-1 rounded-none border-0 border-t border-dark-brown bg-dark-gray shadow-none"
           >
@@ -89,5 +89,5 @@ export default function ConfirmDeleteFile({
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

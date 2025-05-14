@@ -1,26 +1,26 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { User } from "lucide-react";
+import { useState, useEffect } from "react"
+import Image from "next/image"
+import { User } from "lucide-react"
 
 type ResetResponse = {
-  message: string;
-  error?: string;
-};
+  message: string
+  error?: string
+}
 
 export default function ResetPasswordNotice() {
-  const [username, setUsername] = useState("");
-  const [message, setMessage] = useState<string | null>(null);
-  const [isSending, setIsSending] = useState(false);
+  const [username, setUsername] = useState("")
+  const [message, setMessage] = useState<string | null>(null)
+  const [isSending, setIsSending] = useState(false)
 
   useEffect(() => {
-    setUsername("");
-  }, []);
+    setUsername("")
+  }, [])
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setIsSending(true);
-    setMessage(null);
+    event.preventDefault()
+    setIsSending(true)
+    setMessage(null)
 
     try {
       const response = await fetch(`/api/resetpassword/${username}`, {
@@ -28,28 +28,26 @@ export default function ResetPasswordNotice() {
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      })
 
-      const data = (await response.json()) as ResetResponse;
+      const data = (await response.json()) as ResetResponse
 
       if (data.message === "success") {
-        setMessage(`success`);
+        setMessage(`success`)
       } else if (data.error === "Username not found.") {
-        setMessage(
-          "ไม่พบชื่อผู้ใช้ กรุณาตรวจสอบความถูกต้อง หรือติดต่อฝ่ายไอที",
-        );
+        setMessage("ไม่พบชื่อผู้ใช้ กรุณาตรวจสอบความถูกต้อง หรือติดต่อฝ่ายไอที")
       } else {
         setMessage(
           "กรุณาตรวจสอบอีเมลของคุณ รวมถึงในกล่องจดหมายสแปม ขั้นตอนนี้อาจใช้เวลารออีเมลราว 10 นาที  หากยังไม่ได้รับ กรุณาลองใหม่อีกครั้งภายใน 10 นาที",
-        );
+        )
       }
     } catch (error) {
-      console.error("Error sending email:", error);
-      setMessage("การส่งอีเมลล้มเหลว กรุณาลองอีกครั้ง");
+      console.error("Error sending email:", error)
+      setMessage("การส่งอีเมลล้มเหลว กรุณาลองอีกครั้ง")
     } finally {
-      setIsSending(false);
+      setIsSending(false)
     }
-  };
+  }
 
   const defaultView = (
     <div className="flex w-full flex-col items-center justify-center gap-y-6 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8 md:py-10">
@@ -90,7 +88,7 @@ export default function ResetPasswordNotice() {
         <p className="text-m mt-2 text-center text-light-brown">{message}</p>
       )}
     </div>
-  );
+  )
 
   const successView = (
     <div className="flex w-full flex-col items-center justify-center gap-y-3 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8">
@@ -112,7 +110,7 @@ export default function ResetPasswordNotice() {
         รวมถึงในกล่องจดหมายขยะ (สแปม)
       </p>
     </div>
-  );
+  )
 
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center bg-[url('/image/background/resetpassword-background.webp')] bg-cover bg-center p-4 sm:p-6">
@@ -153,5 +151,5 @@ export default function ResetPasswordNotice() {
         </div>
       </div>
     </main>
-  );
+  )
 }

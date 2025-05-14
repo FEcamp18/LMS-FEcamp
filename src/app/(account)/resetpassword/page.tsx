@@ -1,47 +1,47 @@
-"use client";
+"use client"
 
-import { Suspense, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Lock, Eye, EyeOff } from "lucide-react";
+import { Suspense, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
+import { useState } from "react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { Lock, Eye, EyeOff } from "lucide-react"
 
 interface ResetPasswordResponse {
-  message: string;
-  error?: string;
+  message: string
+  error?: string
 }
 
 // Separate client component for the form
 function ResetPasswordForm() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const username = searchParams.get("username");
+  const searchParams = useSearchParams()
+  const token = searchParams.get("token")
+  const username = searchParams.get("username")
 
-  const [newPassword, setNewPassword] = useState("");
-  const [message, setMessage] = useState<string | null>(null);
+  const [newPassword, setNewPassword] = useState("")
+  const [message, setMessage] = useState<string | null>(null)
 
-  const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false)
 
   useEffect(() => {
-    setNewPassword("");
-  }, []);
+    setNewPassword("")
+  }, [])
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (!token) {
-      setMessage("ลิงก์ผิดพลาด token นี้ไม่ถูกต้อง");
-      return;
+      setMessage("ลิงก์ผิดพลาด token นี้ไม่ถูกต้อง")
+      return
     }
     if (!username) {
-      setMessage("ลิงก์ผิดพลาด ไม่พบ username");
-      return;
+      setMessage("ลิงก์ผิดพลาด ไม่พบ username")
+      return
     }
     if (!(newPassword.length >= 8)) {
-      setMessage("รหัสผ่านต้องยาวมากกว่า 8 ตัวอักษร");
-      return;
+      setMessage("รหัสผ่านต้องยาวมากกว่า 8 ตัวอักษร")
+      return
     }
 
     try {
@@ -55,27 +55,27 @@ function ResetPasswordForm() {
           newPassword,
           token,
         }),
-      });
+      })
 
-      const resetData = (await resetResponse.json()) as ResetPasswordResponse;
+      const resetData = (await resetResponse.json()) as ResetPasswordResponse
 
       if (resetData.message === "success") {
-        setMessage("กำหนดรหัสผ่านใหม่สำเร็จ");
+        setMessage("กำหนดรหัสผ่านใหม่สำเร็จ")
       } else {
-        throw new Error(resetData.error);
+        throw new Error(resetData.error)
       }
     } catch (error) {
       setMessage(
         error instanceof Error
           ? error.message
           : "เกิดข้อผิดพลาดระหว่างกำหนดรหัสผ่าน กรุณาติดต่อฝ่ายไอที",
-      );
+      )
     }
-  };
+  }
 
   const handleRedirect = () => {
-    router.push("/account"); // change to your desired path
-  };
+    router.push("/account") // change to your desired path
+  }
 
   const defaultView = (
     <div className="flex w-full flex-col items-center justify-center gap-y-6 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8 md:py-10">
@@ -122,7 +122,7 @@ function ResetPasswordForm() {
         <p className="text-m mt-2 text-center text-light-brown">{message}</p>
       )}
     </div>
-  );
+  )
 
   const successView = (
     <div className="flex w-full flex-col items-center justify-center gap-y-3 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8">
@@ -138,10 +138,10 @@ function ResetPasswordForm() {
         ไปหน้าบัญชี
       </button>
     </div>
-  );
+  )
 
   return (
-    <main className="flex min-h-screen w-screen flex-col items-center justify-center bg-[url('public/image/background/resetpassword-background.webp')] bg-cover bg-center p-6">
+    <main className="flex min-h-screen w-screen flex-col items-center justify-center bg-[url('/image/background/resetpassword-background.webp')] bg-cover bg-center p-6">
       <div className="relative h-auto max-h-[698px] w-full max-w-[884px] bg-cream p-4 shadow-lg sm:h-[80vh] sm:w-[90%] sm:p-8">
         {/* Decorative Images */}
         <Image
@@ -179,7 +179,7 @@ function ResetPasswordForm() {
         </div>
       </div>
     </main>
-  );
+  )
 }
 
 // Main page component
@@ -194,5 +194,5 @@ export default function ResetPasswordPage() {
     >
       <ResetPasswordForm />
     </Suspense>
-  );
+  )
 }

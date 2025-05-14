@@ -13,7 +13,7 @@ type fileCard = {
   fileUploadTime: Date
   fileId: number
   isTutor: boolean
-  fetchFiles: () => Promise<void>
+  fetchFiles?: () => Promise<void>
 }
 
 export default function FileCard({
@@ -32,7 +32,7 @@ export default function FileCard({
     const success = await disableFile(fileId)
     if (success) {
       toast.success("Successfully deleted file")
-      await fetchFiles()
+      if (fetchFiles) await fetchFiles()
     } else {
       toast.error("Failed to delete file")
     }

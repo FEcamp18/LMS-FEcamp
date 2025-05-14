@@ -29,7 +29,7 @@ export default function CamperAccount() {
       const path = await get_god_statue_image_path(
         session?.user.roomNumber ?? 0,
       )
-      const name = (await get_god_name(session?.user.roomNumber ?? 0)) ?? ""
+      const name = get_god_name(session?.user.roomNumber ?? 0) ?? ""
       setGod({ name, path })
       await fetchWebPhase()
       setLoading(false)

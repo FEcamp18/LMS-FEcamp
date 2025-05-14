@@ -1,90 +1,88 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
-import AnnouncementCard from "@/components/classroom/announcementCard";
-import FileCard from "@/components/classroom/fileCard";
+import { useEffect, useState } from "react"
+import { useRouter, useParams } from "next/navigation"
+import AnnouncementCard from "@/components/classroom/announcementCard"
+import FileCard from "@/components/classroom/fileCard"
 import {
   type Subject,
   type SubjectAnnouncements,
   type SubjectFiles,
-} from "@prisma/client";
-import React from "react";
-import { FaArrowLeft } from "react-icons/fa";
+} from "@prisma/client"
+import React from "react"
+import { FaArrowLeft } from "react-icons/fa"
 
 interface AnnouncementResponse {
-  message: string;
-  announcements: SubjectAnnouncements[];
+  message: string
+  announcements: SubjectAnnouncements[]
 }
 interface FileResponse {
-  message: string;
-  files: SubjectFiles[];
+  message: string
+  files: SubjectFiles[]
 }
 
 interface SubjectResponse {
-  message: string;
-  subject: Subject;
+  message: string
+  subject: Subject
 }
 
 export default function SubjectPage() {
-  const router = useRouter();
-  const params = useParams<{ classname: string }>();
+  const router = useRouter()
+  const params = useParams<{ classname: string }>()
 
-  const [announcements, setAnnouncements] = useState<SubjectAnnouncements[]>(
-    [],
-  );
-  const [files, setFiles] = useState<SubjectFiles[]>([]);
+  const [announcements, setAnnouncements] = useState<SubjectAnnouncements[]>([])
+  const [files, setFiles] = useState<SubjectFiles[]>([])
   const [subjectDetails, setSubjectDetails] = useState<{
-    subjectId: string;
-    subjectName: string;
-    subjectDescription: string;
-    subjectTopic: string;
-  } | null>(null);
+    subjectId: string
+    subjectName: string
+    subjectDescription: string
+    subjectTopic: string
+  } | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const subjectName = params.classname;
+        const subjectName = params.classname
 
-        const annoResponse = await fetch(`/api/anno/${subjectName}`);
-        const annoData = (await annoResponse.json()) as AnnouncementResponse;
+        const annoResponse = await fetch(`/api/anno/${subjectName}`)
+        const annoData = (await annoResponse.json()) as AnnouncementResponse
         if (annoData.message === "success") {
-          setAnnouncements(annoData.announcements);
+          setAnnouncements(annoData.announcements)
         }
 
-        const fileResponse = await fetch(`/api/file/${subjectName}`);
-        const fileData = (await fileResponse.json()) as FileResponse;
+        const fileResponse = await fetch(`/api/file/${subjectName}`)
+        const fileData = (await fileResponse.json()) as FileResponse
         if (fileData.message === "success") {
           if (fileData.message === "success") {
-            setFiles(fileData.files);
+            setFiles(fileData.files)
           }
         }
 
         // Fetch subject details
-        const subjectResponse = await fetch(`/api/subject/${subjectName}`);
-        const subjectData = (await subjectResponse.json()) as SubjectResponse;
+        const subjectResponse = await fetch(`/api/subject/${subjectName}`)
+        const subjectData = (await subjectResponse.json()) as SubjectResponse
         if (subjectData.message == "success" && subjectData.subject) {
           setSubjectDetails({
             subjectId: subjectData.subject.subjectId,
             subjectName: subjectData.subject.subjectName,
             subjectDescription: subjectData.subject.subjectDescription,
             subjectTopic: subjectData.subject.subjectTopic,
-          });
+          })
         }
       } catch (error) {
-        console.error("Failed to fetch data:", error);
+        console.error("Failed to fetch data:", error)
       }
-    };
+    }
 
-    void fetchData();
-  }, [params.classname]);
+    void fetchData()
+  }, [params.classname])
 
   if (!subjectDetails) {
     return (
       <p className="h-full w-full py-5 text-center text-xl font-bold text-dark-brown">
         Loading...
       </p>
-    );
+    )
   }
 
   return (
@@ -131,16 +129,16 @@ export default function SubjectPage() {
             {files.map((file, index) => (
               <FileCard
                 key={index}
+                fileId={file.fileId}
                 fileTitle={file.fileTitle}
-                fileLocation={file.fileLocation}
                 fileDescription={file.fileDescription}
                 fileUploadTime={new Date(file.fileUpLoadTime)}
-                isTutor={false}
+                isTutor={true}
               />
             ))}
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

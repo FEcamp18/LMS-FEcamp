@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const mimeTypes: { [key: string]: string } = {
+const mimeTypes: Record<string, string> = {
   ".pdf": "application/pdf",
   ".png": "image/png",
   ".jpg": "image/jpeg",
@@ -15,10 +15,10 @@ const mimeTypes: { [key: string]: string } = {
 
 export async function GET(
   request: Request,
-  { params }: { params: { fileId: string } },
+  context: { params: Promise<{ fileId: string }> },
 ) {
   try {
-    const { fileId } = await params;
+    const { fileId } = await context.params; // Await the params object
     const fileIdNum = parseInt(fileId);
     if (isNaN(fileIdNum)) {
       return NextResponse.json({ error: "Invalid file ID" }, { status: 400 });
@@ -30,13 +30,12 @@ export async function GET(
       },
     });
 
-    if (!fileData || !fileData.fileLocation) {
+    if (!fileData?.fileLocation) {
       return NextResponse.json({ error: "File not found" }, { status: 404 });
     }
     try {
       await fs.access(fileData.fileLocation);
-    } catch (error) {
-      console.error(`File not found at location: ${fileData.fileLocation}`);
+    } catch  {
       return NextResponse.json(
         { error: "File not found in storage" },
         { status: 404 },
@@ -44,11 +43,11 @@ export async function GET(
     }
 
     const fileExtension = path.extname(fileData.fileLocation).toLowerCase();
-    const contentType = mimeTypes[fileExtension] || "application/octet-stream";
+    const contentType = mimeTypes[fileExtension] ?? "application/octet-stream";
 
     const fileBuffer = await fs.readFile(fileData.fileLocation);
 
-    return new Response(fileBuffer, {
+    return new Response(new Uint8Array(fileBuffer), {
       headers: {
         "Content-Type": contentType,
         "Content-Disposition": `attachment; filename=${fileData.fileTitle}${fileExtension}`,
