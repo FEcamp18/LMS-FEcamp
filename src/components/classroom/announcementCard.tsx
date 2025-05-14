@@ -1,16 +1,16 @@
-import React from "react";
-import Image from "next/image";
-import { FaRegFile } from "react-icons/fa";
-import ConfirmDeleteAnnounce from "../modal/confirmDeleteAnnounce";
+import React from "react"
+import Image from "next/image"
+import { FaRegBell } from "react-icons/fa"
+import ConfirmDeleteAnnounce from "../modal/confirmDeleteAnnounce"
 
 type announcementCard = {
-  annoTime: Date;
-  annoTitle: string;
-  annoText: string;
-  isTutor: boolean;
-  subjectId?: string;
-  annoId?: string;
-};
+  annoTime: Date
+  annoTitle: string
+  annoText: string
+  isTutor: boolean
+  subjectId?: string
+  annoId?: string
+}
 
 export default function AnnouncementCard({
   annoTime,
@@ -30,7 +30,7 @@ export default function AnnouncementCard({
         height={100}
       />
       <div className="flex h-full flex-col items-center justify-center">
-        <FaRegFile className="z-20 h-[25%]" size={50} strokeWidth={1} />
+        <FaRegBell className="z-20 h-[25%]" size={50} strokeWidth={1} />
 
         <p className="p-2 text-center align-middle text-xs font-medium text-gray-600">
           {`${annoTime.getDate()}/${annoTime.getMonth() + 1}/${annoTime.getFullYear().toString().substr(-2)}`}{" "}
@@ -41,7 +41,7 @@ export default function AnnouncementCard({
         <h3 className="font-prompt text-2xl font-bold max-sm:text-sm">
           {annoTitle}
         </h3>
-        <p className="font-prompt text-xs">{annoText}</p>
+        <p className="font-prompt">{annoText}</p>
       </div>
 
       {isTutor && (
@@ -59,5 +59,5 @@ export default function AnnouncementCard({
         height={120}
       />
     </div>
-  );
+  )
 }

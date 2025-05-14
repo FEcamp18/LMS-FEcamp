@@ -1,17 +1,17 @@
-"use client";
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Folder } from "lucide-react";
-import Image from "next/image";
-import { getFile } from "../fileupload/getFile";
+"use client"
+import React from "react"
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import { getFile } from "../fileupload/getFile"
+import { FaRegFile } from "react-icons/fa"
 
 type fileCard = {
-  fileTitle: string;
-  fileLocation: string;
-  fileDescription: string;
-  fileUploadTime: Date;
-  isTutor: boolean;
-};
+  fileTitle: string
+  fileLocation: string
+  fileDescription: string
+  fileUploadTime: Date
+  isTutor: boolean
+}
 
 export default function FileCard({
   fileTitle,
@@ -21,13 +21,13 @@ export default function FileCard({
   isTutor,
 }: fileCard) {
   const downloadFile = () => {
-    const aTag = document.createElement("a");
-    aTag.href = fileLocation;
-    aTag.setAttribute("download", fileTitle);
-    document.body.appendChild(aTag);
-    aTag.click();
-    aTag.remove();
-  };
+    const aTag = document.createElement("a")
+    aTag.href = fileLocation
+    aTag.setAttribute("download", fileTitle)
+    document.body.appendChild(aTag)
+    aTag.click()
+    aTag.remove()
+  }
 
   return (
     <div className="relative m-3 max-h-40 max-w-3xl grid-cols-8 gap-3 bg-[url('/image/subject-picture/bg-card.webp')] bg-cover bg-center p-3 pl-5 max-sm:flex max-sm:flex-row sm:grid">
@@ -41,10 +41,10 @@ export default function FileCard({
 
       {/* Left Section: Folder Icon and Upload Time */}
       <div className="flex h-full flex-col place-items-center justify-center space-y-2 pr-4 max-sm:w-[15%]">
-        <Folder
+        <FaRegFile
           className="z-20 h-[40%] max-sm:mt-4 max-sm:w-[30px]"
-          size={50}
-          strokeWidth={2}
+          size={15}
+          strokeWidth={1}
         />
         <div className="h-[25%] text-center text-xs">
           {`${fileUploadTime.getDate()}/${
@@ -57,15 +57,17 @@ export default function FileCard({
       {/* Right Section: File Details and Actions */}
       <div className="col-span-7 h-full w-full flex-col sm:flex-row">
         <div className="flex w-full justify-between">
-          <div className="mt-2 flex flex-col flex-wrap gap-2">
+          <div className="sn:max-w-[80%] mt-2 flex flex-col flex-wrap gap-2">
             <h3 className="font-prompt text-2xl font-bold max-sm:text-xs">
               {fileTitle}
             </h3>
-            <p className="font-prompt text-xs">{fileDescription}</p>
+            <p className="no-scrollbar max-h-14 overflow-y-scroll font-prompt max-md:text-xs">
+              {fileDescription}
+            </p>
           </div>
 
           {/* Actions: Download and Trash */}
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div className="mt-2 flex flex-wrap">
             <div className="h-auto w-32">
               <Button
                 variant="link"
@@ -93,5 +95,5 @@ export default function FileCard({
         </div>
       </div>
     </div>
-  );
+  )
 }
