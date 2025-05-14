@@ -16,7 +16,7 @@ interface godProps {
 }
 
 export default function CamperAccount() {
-  const { update } = useSession()
+  const { data: session, update } = useSession()
   const [loading, setLoading] = useState(true)
   const [webPhase, setWebPhase] = useState<string>("")
   const [god, setGod] = useState<godProps | null>(null)
@@ -26,8 +26,10 @@ export default function CamperAccount() {
     const handleLoad = async () => {
       await update()
       await fetchCamperInfo()
-      const path = (await get_god_statue_image_path()) ?? ""
-      const name = (await get_god_name()) ?? ""
+      const path = await get_god_statue_image_path(
+        session?.user.roomNumber ?? 0,
+      )
+      const name = (await get_god_name(session?.user.roomNumber ?? 0)) ?? ""
       setGod({ name, path })
       await fetchWebPhase()
       setLoading(false)
@@ -146,7 +148,7 @@ export default function CamperAccount() {
             <Image
               layout="fill"
               objectFit="cover"
-              className="hidden lg:block"
+              className="hidden transition-all hover:scale-110 lg:block"
               src="/image/account/CertificateLaptop.webp"
               alt="background"
             />

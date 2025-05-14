@@ -1,77 +1,75 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import AnnouncementCard from "@/components/classroom/announcementCard";
-import FileCard from "@/components/classroom/fileCard";
+import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
+import AnnouncementCard from "@/components/classroom/announcementCard"
+import FileCard from "@/components/classroom/fileCard"
 import {
   type Subject,
   type SubjectAnnouncements,
   type SubjectFiles,
-} from "@prisma/client";
-import React from "react";
-import { FaArrowLeft } from "react-icons/fa";
-import FileTable, {
-  type FileTableRef,
-} from "@/components/fileupload/fileTable";
-import UploadForm from "@/components/fileupload/uploadForm";
-import CreateAnnounce from "@/components/modal/createAnnounce";
+} from "@prisma/client"
+import React from "react"
+import { FaArrowLeft } from "react-icons/fa"
+import FileTable, { type FileTableRef } from "@/components/fileupload/fileTable"
+import UploadForm from "@/components/fileupload/uploadForm"
+import CreateAnnounce from "@/components/modal/createAnnounce"
 
 interface AnnouncementResponse {
-  message: string;
-  announcements: SubjectAnnouncements[];
+  message: string
+  announcements: SubjectAnnouncements[]
 }
 interface FileResponse {
-  message: string;
-  files: SubjectFiles[];
+  message: string
+  files: SubjectFiles[]
 }
 
 interface SubjectResponse {
-  message: string;
-  subject: Subject;
+  message: string
+  subject: Subject
 }
 
-import { useParams, useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useParams, useRouter } from "next/navigation"
+import { useRef } from "react"
 
 export default function SubjectPage() {
-  const router = useRouter();
-  const params = useParams<{ subjectName: string }>();
-  const subjectId = params.subjectName;
+  const router = useRouter()
+  const params = useParams<{ subjectName: string }>()
+  const subjectId = params.subjectName
+  const { data: session } = useSession()
 
-  const [announcements, setAnnouncements] = useState<SubjectAnnouncements[]>(
-    [],
-  );
-  const [files, setFiles] = useState<SubjectFiles[]>([]);
+  const [announcements, setAnnouncements] = useState<SubjectAnnouncements[]>([])
+  const [files, setFiles] = useState<SubjectFiles[]>([])
   const [subjectDetails, setSubjectDetails] = useState<{
-    subjectId: string;
-    subjectName: string;
-    subjectDescription: string;
-    subjectTopic: string;
-  } | null>(null);
-  const tableRef = useRef<FileTableRef>(null);
+    subjectId: string
+    subjectName: string
+    subjectDescription: string
+    subjectTopic: string
+  } | null>(null)
+  const tableRef = useRef<FileTableRef>(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const subjectName = params.subjectName;
+        const subjectName = params.subjectName
 
-        const annoResponse = await fetch(`/api/anno/${subjectName}`);
-        const annoData = (await annoResponse.json()) as AnnouncementResponse;
+        const annoResponse = await fetch(`/api/anno/${subjectName}`)
+        const annoData = (await annoResponse.json()) as AnnouncementResponse
         if (annoData.message === "success") {
-          setAnnouncements(annoData.announcements);
+          setAnnouncements(annoData.announcements)
         }
 
-        const fileResponse = await fetch(`/api/file/${subjectName}`);
-        const fileData = (await fileResponse.json()) as FileResponse;
+        const fileResponse = await fetch(`/api/file/${subjectName}`)
+        const fileData = (await fileResponse.json()) as FileResponse
         if (fileData.message === "success") {
           if (fileData.message === "success") {
-            setFiles(fileData.files);
+            setFiles(fileData.files)
           }
         }
 
         // Fetch subject details
-        const subjectResponse = await fetch(`/api/subject/${subjectName}`);
-        const subjectData = (await subjectResponse.json()) as SubjectResponse;
+        const subjectResponse = await fetch(`/api/subject/${subjectName}`)
+        const subjectData = (await subjectResponse.json()) as SubjectResponse
 
         if (subjectData.message == "success" && subjectData.subject) {
           setSubjectDetails({
@@ -79,22 +77,22 @@ export default function SubjectPage() {
             subjectName: subjectData.subject.subjectName,
             subjectDescription: subjectData.subject.subjectDescription,
             subjectTopic: subjectData.subject.subjectTopic,
-          });
+          })
         }
       } catch (error) {
-        console.error("Failed to fetch data:", error);
+        console.error("Failed to fetch data:", error)
       }
-    };
+    }
 
-    void fetchData();
-  }, [params.subjectName]);
+    void fetchData()
+  }, [params.subjectName])
 
   if (!subjectDetails) {
     return (
       <p className="h-full w-full py-5 text-center text-xl font-bold text-dark-brown">
         Loading...
       </p>
-    );
+    )
   }
 
   return (
@@ -136,6 +134,7 @@ export default function SubjectPage() {
             <CreateAnnounce
               subjectId={subjectId}
               subjectTopic={subjectDetails.subjectTopic}
+              staffId={session?.user.id ?? "0"}
             />
           </div>
         </div>
@@ -161,7 +160,7 @@ export default function SubjectPage() {
             <UploadForm
               uploadSuccess={async () => {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-                await tableRef?.current?.fetchFiles();
+                await tableRef?.current?.fetchFiles()
               }}
             />
           </div>
@@ -169,5 +168,5 @@ export default function SubjectPage() {
         <FileTable ref={tableRef} subjectId={subjectId} />
       </div>
     </div>
-  );
+  )
 }

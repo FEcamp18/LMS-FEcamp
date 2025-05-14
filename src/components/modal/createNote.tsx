@@ -1,40 +1,40 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import Image from "next/image";
-import toast, { Toaster } from "react-hot-toast";
+} from "@/components/ui/form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { useState } from "react"
+import Image from "next/image"
+import toast, { Toaster } from "react-hot-toast"
 
 const formSchema = z.object({
   noteDescription: z.string().min(1, "Description is required"),
-});
+})
 
 export default function CreateNote({
   camperId,
   staffId,
 }: {
-  camperId: string;
-  staffId: string;
+  camperId: string
+  staffId: string
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -49,23 +49,23 @@ export default function CreateNote({
           content: values.noteDescription,
           type: "NORMAL",
         }),
-      });
+      })
 
       const data = (await response.json()) as {
-        message: string;
-        error?: string;
-      };
+        message: string
+        error?: string
+      }
 
       if (response.ok && data.message === "success") {
-        toast.success("หมายเหตุเพิ่มสำเร็จ! กรุณารีเฟรชหน้าจอ");
-        form.reset();
-        setOpen(false);
+        toast.success("หมายเหตุเพิ่มสำเร็จ! กรุณารีเฟรชหน้าจอ")
+        form.reset()
+        setOpen(false)
       } else {
-        toast.error(data.error ?? "เกิดข้อผิดพลาดในการเพิ่มหมายเหตุ");
+        toast.error(data.error ?? "เกิดข้อผิดพลาดในการเพิ่มหมายเหตุ")
       }
     } catch (error) {
-      console.error("Error creating note:", error);
-      toast.error("เกิดข้อผิดพลาดในการเพิ่มหมายเหตุ");
+      console.error("Error creating note:", error)
+      toast.error("เกิดข้อผิดพลาดในการเพิ่มหมายเหตุ")
     }
   }
 
@@ -74,7 +74,7 @@ export default function CreateNote({
     defaultValues: {
       noteDescription: "",
     },
-  });
+  })
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -185,5 +185,5 @@ export default function CreateNote({
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }
