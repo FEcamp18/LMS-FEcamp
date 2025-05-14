@@ -70,9 +70,17 @@ export async function POST(
     });
 
     // Send the reset email
-    const BASE_URL = process.env.BASE_URL;
-    const resetLink = `${BASE_URL}/resetpassword?token=${token}&username=${username}`;
-    await sendResetEmail(email, resetLink); // sendResetEmail will be used to send the email
+    try {
+      const BASE_URL = process.env.BASE_URL;
+      const resetLink = `${BASE_URL}/resetpassword?token=${token}&username=${username}`;
+      await sendResetEmail(email, resetLink);
+    } catch (error) {
+      console.error("Error sending reset email:", error);
+      return Response.json(
+        { message: "failed", error: "Failed to send reset email. Please try again later." },
+        { status: 500 },
+      );
+    }
 
     // Return the UUID token
     return Response.json(

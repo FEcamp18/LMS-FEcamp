@@ -26,9 +26,7 @@ export const sendResetEmail = async (email: string, link: string) => {
     htmlContent: emailContent,
   };
 
-  try {
-    console.log(brevoapi);
-    
+  try {    
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
@@ -40,7 +38,7 @@ export const sendResetEmail = async (email: string, link: string) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Brevo failed to send email:', errorText);
+      console.error('Brevo failed to send email:', link);
       throw new Error(`Brevo email sending failed: ${errorText}`);
     }
 
