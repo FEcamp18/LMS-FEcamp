@@ -55,7 +55,7 @@ export default function CamperInfoTable({
                     ดู
                   </button>
                 ) : (
-                  <div className="w-16 rounded-lg bg-light-gray text-white hover:cursor-not-allowed hover:bg-dark-brown">
+                  <div className="w-16 rounded-lg bg-light-gray text-center text-white hover:cursor-not-allowed">
                     -
                   </div>
                 )}

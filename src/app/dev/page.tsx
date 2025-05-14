@@ -1,31 +1,31 @@
-"use client";
-import { signIn, signOut, useSession } from "next-auth/react";
-import toast from "react-hot-toast";
+"use client"
+import { signIn, signOut, useSession } from "next-auth/react"
+import toast from "react-hot-toast"
 
 export default function Dev() {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   const handleLogin = ({
     username,
     password,
   }: {
-    username: string;
-    password: string;
+    username: string
+    password: string
   }) => {
     void signIn("credentials", {
       username,
       password,
       redirect: false,
-    });
-  };
+    })
+  }
 
   const handleLogout = async () => {
     try {
-      await signOut();
+      await signOut()
     } catch {
-      toast.error("signout failed");
+      toast.error("signout failed")
     }
-  };
+  }
 
   return (
     <div className="flex flex-col items-center justify-center space-y-5">
@@ -33,7 +33,7 @@ export default function Dev() {
       <div className="mt-5 text-center">
         <button
           onClick={() => {
-            console.log(session);
+            console.log(session)
           }}
         >
           click
@@ -57,8 +57,8 @@ export default function Dev() {
         <button
           onClick={() =>
             handleLogin({
-              username: "camper1",
-              password: "securepassword3",
+              username: "dev-camper",
+              password: "dev-password-camper",
             })
           }
           className="rounded-xl bg-gray-600 px-5 py-2 text-white"
@@ -68,8 +68,8 @@ export default function Dev() {
         <button
           onClick={() =>
             handleLogin({
-              username: "staff1",
-              password: "securepassword1",
+              username: "dev-staff",
+              password: "dev-password-staff",
             })
           }
           className="rounded-xl bg-gray-600 px-5 py-2 text-white"
@@ -79,8 +79,8 @@ export default function Dev() {
         <button
           onClick={() =>
             handleLogin({
-              username: "admin",
-              password: "securepassword1",
+              username: "board_dev",
+              password: "dev-password-board",
             })
           }
           className="rounded-xl bg-gray-600 px-5 py-2 text-white"
@@ -95,5 +95,5 @@ export default function Dev() {
         </button>
       </div>
     </div>
-  );
+  )
 }

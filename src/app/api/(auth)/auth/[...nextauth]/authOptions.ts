@@ -104,6 +104,8 @@ export const authOptions: NextAuthOptions = {
           switch (userDetails.data.role) {
             case "CAMPER":
               prio = 0;
+              boardcastPrio = false;
+              infoPrio = false;
               const getRoomNumber = await fetch(
                 `${baseUrl}/api/camper/` + credentials.username,
                 {
@@ -125,6 +127,8 @@ export const authOptions: NextAuthOptions = {
               break;
             case "BOARD":
               prio = 3;
+              boardcastPrio = true;
+              infoPrio = true;
               break;
             default:
               // For other roles, check department
@@ -147,18 +151,29 @@ export const authOptions: NextAuthOptions = {
                 (await getDepartment.json()) as DepartmentResponse;
               if (!departmentDetails) {
                 throw new Error("Department is not define");
-              }
+              }              
               // Set priority based on department for non-BOARD roles
-              prio = departmentDetails.department === "VCK" ? 2 : 1;
-               // Set priority based on department for non-BOARD roles
-              if (["VCK", "BOARD", "CENTRAL"].includes(departmentDetails.department)) {
+              if (["VCK"].some((dept) => departmentDetails.department.includes(dept))) {
+                prio = 2;
+              } else {
+                prio = 1;
+              }
+
+              if (["VCK", "BOARD", "CENTRAL"].some((dept) => departmentDetails.department.includes(dept))) {
                 boardcastPrio = true;
+              }else {
+                boardcastPrio = false; 
               }
 
-              if (["BOARD", "REGISTER", "IT", "ROOMSTAFF", "NURSE"].includes(departmentDetails.department)) {
+              if (
+                ["BOARD", "REGISTER", "IT", "ROOMSTAFF", "NURSE"].some(
+                  (dept) => departmentDetails.department.includes(dept)
+                )
+              ) {
                 infoPrio = true;
+              } else {
+                infoPrio = false; 
               }
-
           }
 
           // Return user object with all required fields
@@ -202,7 +217,7 @@ export const authOptions: NextAuthOptions = {
       session.user.priority = token.priority as number;
       session.user.roomNumber = token.roomNumber as number;
       session.user.boardcastPrio = token.boardcastPrio as boolean;
-      session.user.infoPrio = token.boardcastPrio as boolean;
+      session.user.infoPrio = token.infoPrio as boolean;
       return session
     },
   },

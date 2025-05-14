@@ -1,9 +1,11 @@
 "use client"
 
 import { useState } from "react"
+import { useSession } from "next-auth/react"
 import { get_god_name } from "@/components/general/god-by-room"
 
 export default function BroadcastForm() {
+  const { data: session } = useSession()
   const [announceName, setAnnounceName] = useState("")
   const [roomNumber, setRoomNumber] = useState("all camper")
   const [error, setError] = useState("")
@@ -47,6 +49,13 @@ export default function BroadcastForm() {
       alert("An error occurred. Please try again.")
     }
   }
+
+  if (!session?.user.boardcastPrio)
+    return (
+      <div className="font-2xl w-full pt-10 text-center">
+        คุณไม่สามารถ boardcast ได้
+      </div>
+    )
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">

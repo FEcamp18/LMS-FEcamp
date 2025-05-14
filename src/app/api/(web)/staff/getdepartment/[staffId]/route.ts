@@ -8,7 +8,6 @@ export async function GET(
   props: { params: Promise<{ staffId: string }> },
 ) {
   const { staffId } = await props.params;
-  console.log(staffId);
   
   try {
     const staffData = await prisma.staff.findUnique({
@@ -31,17 +30,17 @@ export async function GET(
     }
 
     // Determine single department based on priority
-    let primaryDepartment = "STAFF"; // default value
-    const departments = staffData.staffDepartment;
+    // let primaryDepartment = "STAFF"; // default value
+    // const departments = staffData.staffDepartment;
 
-    if (departments.includes("VCK")) {
-      primaryDepartment = "VCK";
-    }
+    // if (departments.includes("VCK")) {
+    //   primaryDepartment = "VCK";
+    // }
 
     return new Response(
       JSON.stringify({
         message: "success",
-        department: primaryDepartment,
+        department: staffData.staffDepartment,
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
