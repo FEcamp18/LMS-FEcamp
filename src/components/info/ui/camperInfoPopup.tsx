@@ -1,59 +1,62 @@
-"use client"
-import React, { useState, useEffect } from "react"
-import Image from "next/image"
-import axios from "axios"
-import { type Camper, type Notes } from "@prisma/client"
-import { Button } from "@/components/ui/button"
+"use client";
+import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import axios from "axios";
+import { type Camper, type Notes } from "@prisma/client";
+import { Button } from "@/components/ui/button";
+import CreateNote from "@/components/modal/createNote";
 
 interface CamperResponseInterface {
-  message: "success" | "failed"
-  camper: Camper
-  error?: string
+  message: "success" | "failed";
+  camper: Camper;
+  error?: string;
 }
 
 interface NotesResponseInterface {
-  message: "success" | "failed"
-  notes?: Notes[]
-  error?: string
+  message: "success" | "failed";
+  notes?: Notes[];
+  error?: string;
 }
 
 interface CamperInfoPopupProps {
-  camperId: string
-  onClose: () => void // Callback to close the popup
+  camperId: string;
+  onClose: () => void; // Callback to close the popup
 }
 
 export default function CamperInfoPopup({
   camperId,
   onClose,
 }: CamperInfoPopupProps) {
-  const [camperInfo, setCamperInfo] = useState<Camper | null>(null)
-  const [camperNotes, setCamperNotes] = useState<Notes[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState("")
+  const [camperInfo, setCamperInfo] = useState<Camper | null>(null);
+  const [camperNotes, setCamperNotes] = useState<Notes[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchCamperData = async () => {
       try {
         const camperResponse = await axios.get<CamperResponseInterface>(
           `/api/camper/${camperId}`,
-        )
-        setCamperInfo(camperResponse.data.camper)
+        );
+        setCamperInfo(camperResponse.data.camper);
 
         const notesResponse = await axios.get<NotesResponseInterface>(
           `/api/note/${camperId}`,
-        )
-        setCamperNotes(notesResponse.data.notes ?? [])
+        );
+        setCamperNotes(notesResponse.data.notes ?? []);
 
-        setLoading(false)
+        setLoading(false);
       } catch (err) {
-        console.error("Error fetching camper data:", err)
-        setError("Failed to fetch camper data.")
-        setLoading(false)
+        console.error("Error fetching camper data:", err);
+        setError("Failed to fetch camper data.");
+        setLoading(false);
       }
-    }
+    };
 
-    void fetchCamperData()
-  }, [camperId])
+    void fetchCamperData();
+  }, [camperId]);
 
   if (loading || !camperInfo) {
     return (
@@ -68,7 +71,7 @@ export default function CamperInfoPopup({
           </Button>
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -76,7 +79,7 @@ export default function CamperInfoPopup({
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div className="text-red-500">{error}</div>
       </div>
-    )
+    );
   }
 
   return (
@@ -95,7 +98,7 @@ export default function CamperInfoPopup({
             className="h-auto w-full"
           />
         </div>
-        <div className="no-scrollbar h-[80vh] w-full overflow-scroll rounded border bg-white shadow">
+        <div className="no-scrollbar h-[80vh] w-full overflow-scroll rounded border bg-cream shadow">
           {/* Close Button */}
           <Button
             onClick={onClose}
@@ -117,9 +120,13 @@ export default function CamperInfoPopup({
               </div>
               <div
                 className="hover: mb-4 cursor-pointer pr-4 text-right font-[Prompt] text-2xl font-medium text-amber-900"
-                onClick={() => alert("เพิ่มหมายเหตุ")}
+                // onClick={() => alert("เพิ่มหมายเหตุ")}
               >
-                + เพิ่ม
+                {/* + เพิ่ม */}
+                <CreateNote
+                  camperId={camperInfo.camperId}
+                  staffId={session?.user.id ?? ""}
+                />
               </div>
             </div>
             <div className="no-scrollbar m-2 flex max-h-[200px] w-full items-start justify-start overflow-y-auto rounded-xl border-2 border-dark-brown p-3">
@@ -213,5 +220,5 @@ export default function CamperInfoPopup({
         </div>
       </div>
     </div>
-  )
+  );
 }

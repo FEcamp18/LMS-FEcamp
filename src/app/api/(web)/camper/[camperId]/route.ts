@@ -1,11 +1,14 @@
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/prisma";
+import { type NextRequest } from "next/server";
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   props: { params: Promise<{ camperId: string }> },
 ) {
   const { camperId } = await props.params
   try {
+    // HELP : gave up here too
+    // await checkAuthToken(req);
     const camperBycamperId = await prisma.camper.findUnique({
       where: {
         camperId: camperId,

@@ -1,37 +1,117 @@
-// write your code here
-import { getClassrooms } from "@/lib/getClassrooms"
-import type { MergeClassData } from "@/types/class"
+"use client";
+import { type Subject } from "@prisma/client";
+import { useState, useEffect } from "react";
+import { ClassCardTutor } from "@/components/classroom/classCardTutor";
+import Image from "next/image";
 
-export default async function TutorPage() {
-  const res = await getClassrooms()
+interface SubjectResponse {
+  message: string;
+  subjects: Subject[];
+}
+
+export default function TutorPage() {
+  const [subjects, setSubjects] = useState<Subject[] | null>(null);
+  const [filterSubject, setFilterSubject] = useState<Subject[] | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/subject`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        },
+      );
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const data = (await response.json()) as SubjectResponse;
+      setSubjects(data.subjects);
+      setFilterSubject(data.subjects); // Initially show all subjects
+    };
+    void fetchData();
+  }, []);
+
+  const handleFilter = (filter: string | null) => {
+    setSelectedFilter(filter);
+    if (!filter) {
+      setFilterSubject(subjects); // Show all subjects if no filter is selected
+    } else {
+      setFilterSubject(
+        subjects?.filter((subject) => subject.subjectName === filter) ?? null,
+      );
+    }
+  };
+
+  if (!subjects)
+    return (
+      <p className="h-full w-full py-5 text-center text-xl font-bold text-dark-brown">
+        Loading...
+      </p>
+    );
 
   return (
-    <div className="grid grid-cols-2 gap-4 p-4 lg:grid-cols-4">
-      <p className="col-span-2 text-center lg:col-span-4">
-        Count: {res?.courses.length}
-      </p>
-      {res?.courses.length === 0 ? (
-        <p>No classes found.</p>
-      ) : (
-        res?.courses.map((course: MergeClassData) => (
-          <div
-            key={course.classId}
-            className="rounded-lg p-4 text-sm shadow-md"
+    <div className="w-full flex-col p-4 lg:grid-cols-4">
+      {/* Title */}
+      <div className="relative flex w-full items-center justify-center">
+        <Image
+          src="/image/subject-picture/CourseTitle.svg"
+          width={300}
+          height={20}
+          className="w-52"
+          alt="Course Title"
+        />
+        <Image
+          src="/image/subject-picture/helmfx1 1.webp"
+          alt="Helm"
+          width={200}
+          height={200}
+          className="absolute -top-5 right-5 hidden w-[150px] sm:block"
+        />
+        <Image
+          src="/image/subject-picture/shieldfx1 1.webp"
+          alt="Helm"
+          width={200}
+          height={200}
+          className="absolute left-10 top-2 hidden w-[150px] sm:block"
+        />
+      </div>
+
+      {/* Filter Buttons */}
+      <div className="flex flex-col justify-center gap-4 py-4 sm:flex-row">
+        {["MATHS", "PHYSICS", "CHEMISTRY", "TPAT3"].map((filter) => (
+          <button
+            key={filter}
+            onClick={() =>
+              handleFilter(filter === selectedFilter ? null : filter)
+            }
+            className={`border-2 border-dark-brown px-4 py-2 text-sm font-bold ${
+              selectedFilter === filter
+                ? "bg-dark-brown text-cream"
+                : "bg-transparent text-dark-brown"
+            }`}
           >
-            <h2>{course.subjectId}</h2>
-            <p>
-              {new Date(course.startTime).toLocaleTimeString()} -{" "}
-              {new Date(course.endTime).toLocaleTimeString()}
-            </p>
-            <p>Room: {course.roomId}</p>
-            <p>Location: {course.location}</p>
-            <p>Tutors: {course.tutors.join(", ")}</p>
+            {filter}
+          </button>
+        ))}
+      </div>
+
+      {/* Subject Cards */}
+      <div className="grid w-full grid-cols-1 gap-6 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {filterSubject?.map((classData, index) => (
+          <div key={index} className="flex items-start justify-center">
+            <ClassCardTutor subject={classData} />
           </div>
-        ))
-      )}
+        ))}
+      </div>
     </div>
-  )
+  );
 }
 
 // fix build error (headers in route)
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";

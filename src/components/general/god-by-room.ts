@@ -1,12 +1,3 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/(auth)/auth/[...nextauth]/authOptions";
-
-interface SessionGodInterface {
-  user: {
-    roomNumber: number;
-  };
-}
-
 const godMapping: Record<number, string> = {
   0: "Olympus",
   1: "Athena",
@@ -19,22 +10,18 @@ const godMapping: Record<number, string> = {
   8: "Zeus",
 };
 
-export async function get_god_name() {
+export function get_god_name(roomNumber:number) {
   try {
-    // TODO : implement session here
-    // const session = ((await getServerSession(authOptions));
-    // const roomNumber = session?.user?.roomNumber ?? 0;
-    const roomNumber = 0;
-    return godMapping[roomNumber];
+    return godMapping[roomNumber] ?? godMapping[0]  ;
   } catch (error) {
     console.error("Failed to get god name:", error);
     return "Athena"; // Default to Athena in case of error
   }
 }
 
-export async function get_god_statue_image_path() {
+export async function get_god_statue_image_path(roomNumber:number) {
   try {
-    const godName = await get_god_name();
+    const godName =  get_god_name(roomNumber);
     return `/image/god-room/statue/${godName?.toLowerCase()}_statue.webp`;
   } catch (error) {
     console.error("Failed to get god statue image path:", error);
@@ -42,9 +29,9 @@ export async function get_god_statue_image_path() {
   }
 }
 
-export async function get_god_schedule_image_path() {
+export async function get_god_schedule_image_path(roomNumber:number) {
   try {
-    const godName = await get_god_name();
+    const godName =  get_god_name(roomNumber);
     return `/image/god-room/schedule/${godName?.toLowerCase()}.webp`;
   } catch (error) {
     console.error("Failed to get god schedule image path:", error);

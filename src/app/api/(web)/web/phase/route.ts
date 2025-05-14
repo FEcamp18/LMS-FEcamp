@@ -1,14 +1,16 @@
-import { PHASE } from "@prisma/client"
-import { prisma } from "@/lib/prisma"
-
+import { PHASE } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import { checkAuthToken } from "@/lib/checkAuthToken";
+import { type NextRequest } from "next/server";
 // Define an interface for the request body
 interface PhaseUpdateRequest {
   phase: PHASE
 }
 
 export async function GET() {
-  try {
-    const phase = await prisma.webPhase.findFirst()
+  try {    
+    // await checkAuthToken(req);
+    const phase = await prisma.webPhase.findFirst();
 
     if (!phase) {
       // if phase === null value
@@ -45,16 +47,10 @@ export async function GET() {
   }
 }
 
-export async function PATCH(req: Request) {
+export async function PATCH(req: NextRequest) {
   try {
-    // TODO
-    const userIsAdmin = checkIfAdmin()
-    if (!userIsAdmin) {
-      return Response.json(
-        { message: "error", error: "Access denied." },
-        { status: 403 },
-      )
-    }
+    await checkAuthToken(req,3);
+
 
     const presentstate = await prisma.webPhase.findFirst()
     const body = (await req.json()) as PhaseUpdateRequest // Use the interface here
@@ -97,8 +93,4 @@ export async function PATCH(req: Request) {
       { status: 500 },
     )
   }
-}
-
-function checkIfAdmin() {
-  return true // Assume user is an admin for now
 }

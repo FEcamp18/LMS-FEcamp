@@ -1,4 +1,6 @@
-import { prisma } from "@/lib/prisma"
+import { checkAuthToken } from "@/lib/checkAuthToken";
+import { prisma } from "@/lib/prisma";
+import { type NextRequest } from "next/server";
 
 // Define an interface for the request body
 interface NoteRequest {
@@ -7,8 +9,9 @@ interface NoteRequest {
   type: "HEALTH" | "NORMAL" // Restrict type to valid values
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    await checkAuthToken(req);
     // Parse and validate the request body using the interface
     const body = (await req.json()) as NoteRequest
 

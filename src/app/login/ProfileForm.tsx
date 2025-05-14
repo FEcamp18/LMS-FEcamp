@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import Link from "next/link"
-import Image from "next/image"
-import { User, Lock, Eye, EyeOff } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import Link from "next/link";
+import Image from "next/image";
+import { User, Lock, Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,19 +15,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
-  username: z.string().email({ message: "Username Not Found" }),
+  username: z.string(),
   password: z.string().min(6, {
-    message: "Incorrect Password",
+    message: "Password Must be longer than 6 characters",
   }),
-})
+});
 
 export default function ProfileForm() {
-  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,10 +39,32 @@ export default function ProfileForm() {
       username: "",
       password: "",
     },
-  })
+  });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const result = await signIn("credentials", {
+        username: values.username,
+        password: values.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        console.error("Login error:", result.error);
+        toast.error(result.error || "Login failed");
+        return;
+      }
+
+      // Show success message
+      toast.success("เข้าสู่ระบบสำเร็จ");
+      // Add a small delay to ensure toast is visible
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      router.push("/board");
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred during login");
+    }
   }
 
   return (
@@ -140,7 +166,7 @@ export default function ProfileForm() {
               </div>
               <Button
                 type="submit"
-                className="w-full bg-gray-500 hover:bg-gray-600"
+                className="w-full bg-gray-500 py-3 hover:bg-gray-600"
               >
                 Sign In
               </Button>
@@ -149,5 +175,5 @@ export default function ProfileForm() {
         </div>
       </div>
     </main>
-  )
+  );
 }

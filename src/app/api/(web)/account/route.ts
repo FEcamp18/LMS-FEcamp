@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 
 import { prisma } from "@/lib/prisma";
+import { checkAuthToken } from "@/lib/checkAuthToken";
+import { type NextRequest } from "next/server";
 
 interface UpdatePasswordRequest {
   username: string;
@@ -8,7 +10,7 @@ interface UpdatePasswordRequest {
   token: string;
 }
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const username = searchParams.get("username");
@@ -40,7 +42,6 @@ export async function GET(req: Request) {
         },
       );
     }
-
     return Response.json(
       {
         message: "success",
@@ -110,7 +111,7 @@ export async function PATCH(req: Request) {
         },
       );
     }
-
+    
     // check newPassword requirement
     if (newPassword.length < 8) {
       return Response.json(

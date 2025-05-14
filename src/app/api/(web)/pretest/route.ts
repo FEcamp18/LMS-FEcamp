@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma"
 
 export async function GET() {
   try {
+
     const data = await prisma.preTestRoom.findMany({
       include: {
         camper: {

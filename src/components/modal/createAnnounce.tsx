@@ -1,36 +1,45 @@
-"use client";
+"use client"
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { useState } from "react";
-import Image from "next/image";
+} from "@/components/ui/dialog"
+import { useState } from "react"
+import Image from "next/image"
+import toast, { Toaster } from "react-hot-toast"
 
 const formSchema = z.object({
   announceName: z.string().min(1, "Announcement name is required"),
   announceDescription: z
     .string()
     .min(1, "Announcement description is required"),
-});
+})
 
-export default function CreateAnnounce() {
-  const [open, setOpen] = useState(false);
+export default function CreateAnnounce({
+  subjectId,
+  subjectTopic,
+  staffId,
+}: {
+  subjectId: string
+  subjectTopic: string
+  staffId: string
+}) {
+  const [open, setOpen] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,17 +47,59 @@ export default function CreateAnnounce() {
       announceName: "",
       announceDescription: "",
     },
-  });
+  })
+
+  type ApiResponse = {
+    message: string
+    error?: string
+  }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    //api handling
-    console.log(values);
-    form.reset();
-    setOpen(false);
+    try {
+      const response = await fetch(`/api/anno/${subjectId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "staff-id": staffId, // TODO : Replace with the actual staff ID
+        },
+        body: JSON.stringify({
+          subjectId,
+          annoTitle: values.announceName,
+          annoText: values.announceDescription,
+        }),
+      })
+
+      // send chatbot trigger
+      await fetch(`/api/proxy/send-announcement`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: `ประกาศใหม่ถูกเพิ่มในวิชา ${subjectTopic}! หัวข้อ ${values.announceName}`,
+        }),
+      })
+
+      const data = (await response.json()) as ApiResponse
+
+      if (response.ok && data.message === "success") {
+        console.log("Announcement created successfully:", data)
+        toast.success("ประกาศถูกเพิ่ม! โปรดรีเฟรชหน้าเว็บ")
+        form.reset()
+        setOpen(false)
+      } else {
+        console.error("Failed to create announcement:", data.error)
+        toast.error(data.error ?? "เกิดข้อผิดพลาดในการเพิ่มประกาศ")
+      }
+    } catch (error) {
+      console.error("Error creating announcement:", error)
+      toast.error("เกิดข้อผิดพลาดในการเพิ่มประกาศ")
+    }
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
+      <Toaster />
       <DialogTrigger asChild>
         <button className="h-[40px] w-[158px] bg-light-gray text-white hover:bg-opacity-50">
           เพิ่มประกาศ
@@ -134,8 +185,8 @@ export default function CreateAnnounce() {
                 type="button"
                 variant="outline"
                 onClick={() => {
-                  form.reset();
-                  setOpen(false);
+                  form.reset()
+                  setOpen(false)
                 }}
                 className="h-[58px] flex-1 rounded-none border-0 border-t border-dark-brown bg-transparent"
               >
@@ -152,5 +203,5 @@ export default function CreateAnnounce() {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

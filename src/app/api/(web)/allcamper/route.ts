@@ -1,7 +1,10 @@
-import { prisma } from "@/lib/prisma"
+import { checkAuthToken } from "@/lib/checkAuthToken";
+import { prisma } from "@/lib/prisma";
+import { type NextRequest } from "next/server";
 
-export async function GET() {
+export async function GET(req:NextRequest) {
   try {
+    await checkAuthToken(req,1);
     const camperAll = await prisma.camper.findMany({
       select: {
         camperId: true,

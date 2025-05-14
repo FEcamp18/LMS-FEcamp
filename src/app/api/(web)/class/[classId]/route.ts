@@ -9,14 +9,17 @@ import type {
 } from "@/types/announcement"
 import type { Staff, StaffsByClassIdResponse } from "@/types/staff"
 
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/lib/prisma";
+import { type NextRequest } from "next/server";
+import { checkAuthToken } from "@/lib/checkAuthToken";
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   props: { params: Promise<{ classId: string }> },
 ) {
   const { classId } = await props.params
   try {
+    await checkAuthToken(req);
     const classData = await prisma.class.findUnique({
       where: { classId: classId },
       include: {

@@ -51,14 +51,14 @@ model Subject {
 }
 
 model Class {
-  classId     String        @id @unique @default("class-id")
-  subjectId   String
-  subject     Subject       @relation(fields: [subjectId], references: [subjectId])
-  room        Int           @default(0)
-  startTime   DateTime      @default(now())
-  endTime     DateTime      @default(now())
-  location    String        @default("not assign")
-  StaffClass  StaffClass[]
+  classId    String       @id @unique @default("class-id")
+  subjectId  String
+  subject    Subject      @relation(fields: [subjectId], references: [subjectId])
+  room       Int          @default(0)
+  startTime  DateTime     @default(now())
+  endTime    DateTime     @default(now())
+  location   String       @default("not assign")
+  StaffClass StaffClass[]
 }
 
 model StaffClass {
@@ -97,7 +97,7 @@ model Camper {
 }
 
 model SubjectFiles {
-  fileId          Int   @id @unique @default(autoincrement())
+  fileId          Int      @id @unique @default(autoincrement())
   subjectId       String
   fileTitle       String   @default("file-title")
   fileLocation    String   @default("file-location")
@@ -109,7 +109,7 @@ model SubjectFiles {
 }
 
 model SubjectAnnouncements {
-  annoId    Int   @id @unique @default(autoincrement())
+  annoId    Int      @id @unique @default(autoincrement())
   subjectId String
   annoTitle String   @default("anno-title")
   annoText  String   @default("anno-text")
@@ -140,11 +140,11 @@ model PreTestRoom {
 }
 
 model ResetPassTable {
-  id         Int      @id @default(autoincrement()) 
-  username   String                         
-  token      String   @unique                   
-  created_at DateTime @default(now())           
-  expires_at DateTime 
+  id         Int      @id @default(autoincrement())
+  username   String
+  token      String   @unique
+  created_at DateTime @default(now())
+  expires_at DateTime
 
   account Account @relation(fields: [username], references: [username], onDelete: Cascade)
 }
@@ -168,7 +168,7 @@ enum NOTETYPE {
 
 // WebPhase
 model WebPhase {
-  phase PHASE  @id @default(CLOSED)
+  phase PHASE @id @default(CLOSED)
 }
 
 // type ENUM
@@ -220,4 +220,6 @@ enum STAFFDEPARTMENT {
   WELFARE
   CENTRAL
   BOARD
+  IT
+  PLAN
 }

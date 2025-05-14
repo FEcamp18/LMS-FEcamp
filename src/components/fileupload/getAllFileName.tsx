@@ -22,12 +22,7 @@ export async function getAllFileName(subjectId: string): Promise<FileInfo[]> {
     )
 
     if (response.data.message === "success") {
-      const files = response.data.files
-        .filter((file) => !file.isDisable)
-        .map((file) => ({
-          fileId: file.fileId,
-          fileTitle: file.fileTitle,
-        }))
+      const files = response.data.files.filter((file) => !file.isDisable)
 
       return files
     }

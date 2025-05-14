@@ -1,9 +1,11 @@
 import type { MergeClassData } from "@/types/class";
-
 import { prisma } from "@/lib/prisma";
+
 
 export async function GET() {
   try {
+    // HELP : I gave up here
+    // await checkAuthToken(req);
     const courses = await prisma.class.findMany({
       select: {
         classId: true,

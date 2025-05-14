@@ -15,9 +15,13 @@ import CamperInfoPopup from "./ui/camperInfoPopup"
 
 type CamperInfoTableProps = {
   camper: Camper[]
+  infoPrio: boolean
 }
 
-export default function CamperInfoTable({ camper }: CamperInfoTableProps) {
+export default function CamperInfoTable({
+  camper,
+  infoPrio,
+}: CamperInfoTableProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
   return (
@@ -43,12 +47,18 @@ export default function CamperInfoTable({ camper }: CamperInfoTableProps) {
               <TableCell>{camper.nickname}</TableCell>
               <TableCell>{camper.room}</TableCell>
               <TableCell>
-                <button
-                  onClick={() => setSelectedId(camper.camperId)}
-                  className="w-16 rounded-lg bg-light-gray text-white hover:bg-dark-brown"
-                >
-                  ดู
-                </button>
+                {infoPrio ? (
+                  <button
+                    onClick={() => setSelectedId(camper.camperId)}
+                    className="w-16 rounded-lg bg-light-gray text-white hover:bg-dark-brown"
+                  >
+                    ดู
+                  </button>
+                ) : (
+                  <div className="w-16 rounded-lg bg-light-gray text-center text-white hover:cursor-not-allowed">
+                    -
+                  </div>
+                )}
               </TableCell>
             </TableRow>
           ))}

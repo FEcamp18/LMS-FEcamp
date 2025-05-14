@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
 import CamperInfoTable from "@/components/info/camperInfoTable"
 import { type Camper } from "@prisma/client"
 import axios from "axios"
@@ -12,6 +13,7 @@ interface CamperResponseInterface {
 }
 
 export default function ClassroomPage() {
+  const { data: session } = useSession()
   const [campers, setCampers] = useState<Camper[]>([])
   const [selectedRoom, setSelectedRoom] = useState(1)
   const [error, setError] = useState("")
@@ -65,7 +67,10 @@ export default function ClassroomPage() {
       {/* Main Content */}
       <main className="w-full p-4">
         <h1 className="mb-4 text-2xl font-bold">Camper Information</h1>
-        <CamperInfoTable camper={filteredCampers} />
+        <CamperInfoTable
+          camper={filteredCampers}
+          infoPrio={session?.user.infoPrio ?? false}
+        />
       </main>
     </div>
   )

@@ -5,7 +5,7 @@ const HeaderBG = () => {
       height="100%"
       viewBox="0 0 884 90"
       fill="none"
-      className="absolute inset-0 h-full w-full overflow-visible"
+      className="absolute inset-0 h-full w-full overflow-visible max-sm:rotate-180"
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="none"
     >

@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 interface LoginRequest {
   username: string;
@@ -51,23 +52,26 @@ export async function POST(req: Request) {
       );
     }
 
-    // generate token
-    const token = jwt.sign(
-      { username: account.username, role: account.role },
-      process.env.JWT_SECRET ?? "your-secret-key", // Secret key for signing the token
-      { expiresIn: "7d" }, // Token expiration time (1 hour)
-    );
 
-    // if successful
-    return Response.json(
-      {
-        message: "success",
-        token: token,
-      },
-      {
-        status: 200, // OK
-      },
-    );
+    // HELP : token auth problem :: I set cookies here but change to session in stead
+    // const priority_number = (account.role === "BOARD" ? 2 : account.role === "STAFF" ? 1 : 0);
+    // generate token
+    // const token = jwt.sign(
+    //   { username: account.username, priority: priority_number, role:account.role },
+    //   process.env.JWT_SECRET ?? "your-secret-key", // Secret key for signing the token
+    //   { expiresIn: "7d" }, // Token expiration time (1 hour)
+    // );    
+    // sign a cookies
+    const response = NextResponse.json({ message: "success" });
+    // response.cookies.set("token", token, {
+    //     httpOnly: true,
+    //     sameSite: "lax", // "strict" may prevent it from being sent during navigation/fetches
+    //     secure: false,
+    //     maxAge: 7 * 24 * 60 * 60,
+    //     path: "/", // important!
+    //   });
+
+    return response;
   } catch {
     return Response.json(
       {
