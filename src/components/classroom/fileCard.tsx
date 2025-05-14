@@ -67,7 +67,8 @@ export default function FileCard({
         <div className="flex w-full justify-between">
           <div className="sn:max-w-[80%] mt-2 flex flex-col flex-wrap gap-2">
             <h3 className="font-prompt text-2xl font-bold max-sm:text-xs">
-              {fileTitle}
+              {(fileTitle ?? "0-0-untitled-0").split("-")[2]?.trim() ??
+                "untitled"}
             </h3>
             <p className="no-scrollbar max-h-14 overflow-y-scroll font-prompt max-md:text-xs">
               {fileDescription}
