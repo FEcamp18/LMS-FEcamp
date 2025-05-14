@@ -39,7 +39,6 @@ export default function SubjectPage() {
   const { data: session } = useSession()
 
   const [announcements, setAnnouncements] = useState<SubjectAnnouncements[]>([])
-  const [files, setFiles] = useState<SubjectFiles[]>([])
   const [subjectDetails, setSubjectDetails] = useState<{
     subjectId: string
     subjectName: string
@@ -57,14 +56,6 @@ export default function SubjectPage() {
         const annoData = (await annoResponse.json()) as AnnouncementResponse
         if (annoData.message === "success") {
           setAnnouncements(annoData.announcements)
-        }
-
-        const fileResponse = await fetch(`/api/file/${subjectName}`)
-        const fileData = (await fileResponse.json()) as FileResponse
-        if (fileData.message === "success") {
-          if (fileData.message === "success") {
-            setFiles(fileData.files)
-          }
         }
 
         // Fetch subject details
@@ -144,29 +135,18 @@ export default function SubjectPage() {
           <h2 className="mb-4 text-xl font-bold text-dark-brown">
             ไฟล์เนื้อหา
           </h2>
-          <div className="flex flex-col gap-4">
-            {files.map((file, index) => (
-              <FileCard
-                key={index}
-                fileTitle={file.fileTitle}
-                fileLocation={file.fileLocation}
-                fileDescription={file.fileDescription}
-                fileUploadTime={new Date(file.fileUpLoadTime)}
-                isTutor={true}
-              />
-            ))}
-          </div>
-          <div className="absolute bottom-0 right-3 mt-5 flex h-12 w-40 cursor-pointer items-center justify-center">
-            <UploadForm
-              uploadSuccess={async () => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-                await tableRef?.current?.fetchFiles()
-              }}
-            />
-          </div>
+          <FileTable ref={tableRef} subjectId={subjectId} />
         </div>
-        <FileTable ref={tableRef} subjectId={subjectId} />
+        <div className="absolute bottom-0 right-3 mt-5 flex h-12 w-40 cursor-pointer items-center justify-center">
+          <UploadForm
+            uploadSuccess={async () => {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+              await tableRef?.current?.fetchFiles()
+            }}
+          />
+        </div>
       </div>
     </div>
+    // </div>
   )
 }

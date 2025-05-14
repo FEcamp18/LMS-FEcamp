@@ -4,33 +4,41 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { getFile } from "../fileupload/getFile"
 import { FaRegFile } from "react-icons/fa"
+import { disableFile } from "../fileupload/disableFile"
+import toast from "react-hot-toast"
 
 type fileCard = {
   fileTitle: string
-  fileLocation: string
   fileDescription: string
   fileUploadTime: Date
+  fileId: number
   isTutor: boolean
+  fetchFiles: () => Promise<void>
 }
 
 export default function FileCard({
   fileTitle,
-  fileLocation,
+  fileId,
   fileDescription,
   fileUploadTime,
   isTutor,
+  fetchFiles,
 }: fileCard) {
-  const downloadFile = () => {
-    const aTag = document.createElement("a")
-    aTag.href = fileLocation
-    aTag.setAttribute("download", fileTitle)
-    document.body.appendChild(aTag)
-    aTag.click()
-    aTag.remove()
+  const downloadFile = async () => {
+    await getFile(fileId, fileTitle)
   }
 
+  const handleDelete = async (fileId: number) => {
+    const success = await disableFile(fileId)
+    if (success) {
+      toast.success("Successfully deleted file")
+      await fetchFiles()
+    } else {
+      toast.error("Failed to delete file")
+    }
+  }
   return (
-    <div className="relative m-3 max-h-40 max-w-3xl grid-cols-8 gap-3 bg-[url('/image/subject-picture/bg-card.webp')] bg-cover bg-center p-3 pl-5 max-sm:flex max-sm:flex-row sm:grid">
+    <div className="relative m-3 mt-10 max-h-40 max-w-3xl grid-cols-8 gap-3 bg-[url('/image/subject-picture/bg-card.webp')] bg-cover bg-center p-3 pl-5 max-sm:flex max-sm:flex-row sm:grid">
       <Image
         className="absolute -left-12 -top-16"
         src="/image/subject-picture/deco-1.svg"
@@ -81,6 +89,7 @@ export default function FileCard({
             {isTutor && (
               <Button
                 variant="link"
+                onClick={() => handleDelete(fileId)}
                 className="z-20 cursor-pointer bg-inherit p-1"
               >
                 <Image
