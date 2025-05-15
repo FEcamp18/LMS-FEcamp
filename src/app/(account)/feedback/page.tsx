@@ -69,14 +69,6 @@ export default function FeedbackPage() {
 
   return (
     <main className="relative flex w-full flex-col space-y-8 overflow-x-visible p-4">
-      <button
-        className="bg-brown p-10"
-        onClick={() => {
-          console.log(groupedFeedback)
-        }}
-      >
-        click
-      </button>
       {/* Main Text */}
       <div className="w-full items-center justify-center text-center">
         <p className="bg-gradient-to-b from-brown to-light-gray bg-clip-text font-inknut text-[4vw] text-transparent">

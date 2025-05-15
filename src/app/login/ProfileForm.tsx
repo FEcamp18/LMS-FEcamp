@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import Link from "next/link";
-import Image from "next/image";
-import { User, Lock, Eye, EyeOff } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import Link from "next/link"
+import Image from "next/image"
+import { User, Lock, Eye, EyeOff } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -15,23 +15,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { signIn } from "next-auth/react";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
+import { signIn } from "next-auth/react"
 
 const formSchema = z.object({
   username: z.string(),
   password: z.string().min(6, {
     message: "Password Must be longer than 6 characters",
   }),
-});
+})
 
 export default function ProfileForm() {
-  const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,7 +39,7 @@ export default function ProfileForm() {
       username: "",
       password: "",
     },
-  });
+  })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -47,23 +47,23 @@ export default function ProfileForm() {
         username: values.username,
         password: values.password,
         redirect: false,
-      });
+      })
 
       if (result?.error) {
-        console.error("Login error:", result.error);
-        toast.error(result.error || "Login failed");
-        return;
+        console.error("Login error:", result.error)
+        toast.error(result.error || "Login failed")
+        return
       }
 
       // Show success message
-      toast.success("เข้าสู่ระบบสำเร็จ");
+      toast.success("เข้าสู่ระบบสำเร็จ")
       // Add a small delay to ensure toast is visible
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      await new Promise((resolve) => setTimeout(resolve, 300))
 
-      router.push("/board");
+      router.push("/board")
     } catch (error) {
-      console.error("Login error:", error);
-      toast.error("An error occurred during login");
+      console.error("Login error:", error)
+      toast.error("An error occurred during login")
     }
   }
 
@@ -72,6 +72,7 @@ export default function ProfileForm() {
       {/*Login Form Container*/}
       <div className="flex w-full flex-col items-center justify-center gap-y-7 rounded-2xl bg-gradient-to-b from-white to-cream px-8 pb-5 pt-3 md:max-w-md">
         <div className="flex flex-col items-center">
+          {/* case sensitive */}
           <Image
             src="/logo.svg"
             alt="FE Camp"
@@ -175,5 +176,5 @@ export default function ProfileForm() {
         </div>
       </div>
     </main>
-  );
+  )
 }
