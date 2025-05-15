@@ -1,44 +1,36 @@
 "use client"
+import { parse } from "csv-parse/sync"
+import Link from "next/link"
 import { useEffect, useState } from "react"
+interface FeedbackInterface {
+  id: number
+  name: string
+  topic: string
+  link: string
+}
 
 export default function FeedbackPage() {
-  const [feedbackLinks, setFeedbackLinks] = useState<
-    { id: number; name: string; topic: string; link: string }[]
-  >([])
+  const [feedbackLinks, setFeedbackLinks] = useState<FeedbackInterface[]>([])
   const [checkedState, setCheckedState] = useState<number[]>([])
 
-  // Load feedbackLinks from CSV
   useEffect(() => {
     const fetchFeedbackLinks = async () => {
       const response = await fetch("/data/feedbackLinks.csv")
       const csvText = await response.text()
+      console.log("csvText", csvText)
 
+      let records: FeedbackInterface[] = []
       try {
-        // Parse CSV manually
-        const rows = csvText.trim().split("\n")
-        if (!rows || rows.length === 0) return
-        const firstRow = rows[0]
-        if (!firstRow) return
-        const headers = firstRow.split(",")
-        const data = rows.slice(1).map((row) => {
-          const values = row.split(",")
-          const feedback: Record<string, string | number> = {}
-          headers.forEach((header, index) => {
-            const value = values[index] ?? ""
-            feedback[header] = isNaN(Number(value)) ? value : Number(value)
-          })
-          return feedback as {
-            id: number
-            name: string
-            topic: string
-            link: string
-          }
-        })
-
-        setFeedbackLinks(data)
+        records = parse(csvText, {
+          columns: true,
+          skip_empty_lines: true,
+          cast: true,
+        }) as FeedbackInterface[]
       } catch {
-        setFeedbackLinks([])
+        console.log("error while read staff.csv")
+        return
       }
+      setFeedbackLinks(records)
     }
 
     void fetchFeedbackLinks()
@@ -77,6 +69,14 @@ export default function FeedbackPage() {
 
   return (
     <main className="relative flex w-full flex-col space-y-8 overflow-x-visible p-4">
+      <button
+        className="bg-brown p-10"
+        onClick={() => {
+          console.log(groupedFeedback)
+        }}
+      >
+        click
+      </button>
       {/* Main Text */}
       <div className="w-full items-center justify-center text-center">
         <p className="bg-gradient-to-b from-brown to-light-gray bg-clip-text font-inknut text-[4vw] text-transparent">
@@ -98,6 +98,7 @@ export default function FeedbackPage() {
                 className="flex flex-col items-center justify-between rounded-lg border-2 border-light-brown p-4"
               >
                 <p className="text-center font-semibold">{feedback.name}</p>
+
                 <a
                   href={feedback.link}
                   target="_blank"
