@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
 import axios from "axios"
 import { type WebphaseAPIResponse } from "@/types/api/webphase"
 import Link from "next/link"
@@ -8,6 +9,7 @@ import Link from "next/link"
 export default function Home() {
   const [webPhase, setWebPhase] = useState<string>("")
   const [load, setLoad] = useState<boolean>(true)
+  const { status } = useSession()
 
   useEffect(() => {
     const fetchWebPhase = async () => {
@@ -31,7 +33,7 @@ export default function Home() {
   } else if (webPhase === "ARCHIVE") {
     return <LandingPreClose />
   } else {
-    return <LandingCamp />
+    return <LandingCamp status={status} />
   }
 }
 
@@ -65,7 +67,7 @@ function LandingPreClose() {
   )
 }
 
-function LandingCamp() {
+function LandingCamp(props: { status: string }) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center pt-16">
       <div className="text-center">
@@ -76,12 +78,21 @@ function LandingCamp() {
         <h1 className="mb-4 text-3xl font-semibold">
           เว็บเปิดแล้ว ลงทะเบียนได้เลย
         </h1>
-        <Link
-          href={"/login"}
-          className="rounded-full bg-blue-500 px-8 py-3 text-white hover:bg-blue-400"
-        >
-          Login
-        </Link>
+        {props.status != "authenticated" ? (
+          <Link
+            href={"/login"}
+            className="rounded-full bg-blue-500 px-8 py-3 text-white hover:bg-blue-400"
+          >
+            Login
+          </Link>
+        ) : (
+          <Link
+            href={"/board"}
+            className="rounded-full bg-blue-500 px-8 py-3 text-white hover:bg-blue-400"
+          >
+            เข้าหน้าเว็บ
+          </Link>
+        )}
       </div>
     </div>
   )
