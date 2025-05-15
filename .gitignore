@@ -53,3 +53,5 @@ yarn-error.log*
 
 # idea files
 .idea
+
+ecosystem.config.cjs
