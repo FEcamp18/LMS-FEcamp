@@ -83,7 +83,6 @@ export default function CreateAnnounce({
       const data = (await response.json()) as ApiResponse
 
       if (response.ok && data.message === "success") {
-        console.log("Announcement created successfully:", data)
         toast.success("ประกาศถูกเพิ่ม! โปรดรีเฟรชหน้าเว็บ")
         form.reset()
         setOpen(false)

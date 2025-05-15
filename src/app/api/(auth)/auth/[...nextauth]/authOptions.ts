@@ -197,8 +197,6 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     jwt: async ({ token, user }: { token: JWT; user?: User }) => {
-      // console.log("JWT callback called with token:", token, "and user:", user);
-
       if (user) {
         token.id = user.id;
         token.username = user.username;

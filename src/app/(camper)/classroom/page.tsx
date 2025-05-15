@@ -31,7 +31,6 @@ function ClassroomItems() {
           roomId: roomNumber?.toString() ?? "0",
         })
         setSubjects(data.courses)
-        console.log(data.courses)
 
         setFilterSubject(data.courses)
       } catch (error) {
@@ -41,7 +40,6 @@ function ClassroomItems() {
       const god_schedule_image_path_res = await get_god_schedule_image_path(
         roomNumber ?? 0,
       )
-      console.log(god_schedule_image_path_res)
 
       set_god_name(god_name_res ?? "")
       set_god_schedule_image_path(god_schedule_image_path_res)

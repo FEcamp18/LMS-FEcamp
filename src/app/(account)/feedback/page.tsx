@@ -17,7 +17,6 @@ export default function FeedbackPage() {
     const fetchFeedbackLinks = async () => {
       const response = await fetch("/data/feedbackLinks.csv")
       const csvText = await response.text()
-      console.log("csvText", csvText)
 
       let records: FeedbackInterface[] = []
       try {

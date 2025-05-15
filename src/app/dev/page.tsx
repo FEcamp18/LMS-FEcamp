@@ -31,13 +31,6 @@ export default function Dev() {
     <div className="flex flex-col items-center justify-center space-y-5">
       {/* Display Session Information */}
       <div className="mt-5 text-center">
-        <button
-          onClick={() => {
-            console.log(session)
-          }}
-        >
-          click
-        </button>
         <h2 className="text-xl font-bold">Session Information</h2>
         {session && "yes"}
         {session ? (
