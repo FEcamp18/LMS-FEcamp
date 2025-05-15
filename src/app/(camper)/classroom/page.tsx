@@ -118,14 +118,14 @@ function ClassroomItems() {
           alt="Helm"
           width={200}
           height={200}
-          className="absolute -top-2 right-14 hidden w-[200px] sm:block"
+          className="absolute -top-2 right-14 hidden w-[200px] lg:block"
         />
         <Image
           src="/image/subject-picture/swordfx1 1.webp"
           alt="Helm"
           width={200}
           height={200}
-          className="absolute -top-2 left-14 hidden w-[200px] scale-x-[-1] transform sm:block"
+          className="absolute -top-2 left-14 hidden w-[200px] scale-x-[-1] transform lg:block"
         />
       </div>
 

@@ -1,18 +1,18 @@
-"use client";
-import { type Subject } from "@prisma/client";
-import { useState, useEffect } from "react";
-import { ClassCardTutor } from "@/components/classroom/classCardTutor";
-import Image from "next/image";
+"use client"
+import { type Subject } from "@prisma/client"
+import { useState, useEffect } from "react"
+import { ClassCardTutor } from "@/components/classroom/classCardTutor"
+import Image from "next/image"
 
 interface SubjectResponse {
-  message: string;
-  subjects: Subject[];
+  message: string
+  subjects: Subject[]
 }
 
 export default function TutorPage() {
-  const [subjects, setSubjects] = useState<Subject[] | null>(null);
-  const [filterSubject, setFilterSubject] = useState<Subject[] | null>(null);
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [subjects, setSubjects] = useState<Subject[] | null>(null)
+  const [filterSubject, setFilterSubject] = useState<Subject[] | null>(null)
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,35 +25,35 @@ export default function TutorPage() {
             Accept: "application/json",
           },
         },
-      );
+      )
       if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
+        throw new Error(`Error: ${response.statusText}`)
       }
 
-      const data = (await response.json()) as SubjectResponse;
-      setSubjects(data.subjects);
-      setFilterSubject(data.subjects); // Initially show all subjects
-    };
-    void fetchData();
-  }, []);
+      const data = (await response.json()) as SubjectResponse
+      setSubjects(data.subjects)
+      setFilterSubject(data.subjects) // Initially show all subjects
+    }
+    void fetchData()
+  }, [])
 
   const handleFilter = (filter: string | null) => {
-    setSelectedFilter(filter);
+    setSelectedFilter(filter)
     if (!filter) {
-      setFilterSubject(subjects); // Show all subjects if no filter is selected
+      setFilterSubject(subjects) // Show all subjects if no filter is selected
     } else {
       setFilterSubject(
         subjects?.filter((subject) => subject.subjectName === filter) ?? null,
-      );
+      )
     }
-  };
+  }
 
   if (!subjects)
     return (
       <p className="h-full w-full py-5 text-center text-xl font-bold text-dark-brown">
         Loading...
       </p>
-    );
+    )
 
   return (
     <div className="w-full flex-col p-4 lg:grid-cols-4">
@@ -71,14 +71,14 @@ export default function TutorPage() {
           alt="Helm"
           width={200}
           height={200}
-          className="absolute -top-5 right-5 hidden w-[150px] sm:block"
+          className="absolute -top-5 right-5 hidden w-[150px] lg:block"
         />
         <Image
           src="/image/subject-picture/shieldfx1 1.webp"
           alt="Helm"
           width={200}
           height={200}
-          className="absolute left-10 top-2 hidden w-[150px] sm:block"
+          className="absolute left-10 top-2 hidden w-[150px] lg:block"
         />
       </div>
 
@@ -110,8 +110,8 @@ export default function TutorPage() {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 // fix build error (headers in route)
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"

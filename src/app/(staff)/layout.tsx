@@ -8,20 +8,21 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/components/femainlogo.svg" }],
 }
 
-import { Prompt, Inknut_Antiqua } from "next/font/google";
-import "@/styles/globals.css";
+import { Prompt, Inknut_Antiqua } from "next/font/google"
+import "@/styles/globals.css"
+import Footer from "@/components/footer/Footer"
 
 const prompt = Prompt({
   subsets: ["latin"],
   variable: "--font-prompt",
   weight: ["400", "500", "600", "700"],
-});
+})
 
 const inknut = Inknut_Antiqua({
   subsets: ["latin"],
   variable: "--font-inknut",
   weight: ["400", "500", "600", "700"],
-});
+})
 
 export default async function RootLayout({
   children,
@@ -34,6 +35,7 @@ export default async function RootLayout({
     <main className="m-5 min-h-screen w-[95%] bg-cream shadow-2xl sm:w-[80%]">
       <Header />
       {children}
+      <Footer />
     </main>
   )
 }

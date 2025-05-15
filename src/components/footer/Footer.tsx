@@ -8,7 +8,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="relative flex w-full flex-col">
+    <footer className="relative flex w-full flex-col pb-10 md:pb-0">
       <div className="relative mt-auto flex w-full flex-row items-center justify-between bg-white px-2">
         {/* Sponsor Text - Hidden on mobile */}
         <p className="hidden font-semibold text-dark-brown md:block">
