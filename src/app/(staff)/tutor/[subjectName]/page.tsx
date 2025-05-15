@@ -3,12 +3,7 @@
 import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import AnnouncementCard from "@/components/classroom/announcementCard"
-import FileCard from "@/components/classroom/fileCard"
-import {
-  type Subject,
-  type SubjectAnnouncements,
-  type SubjectFiles,
-} from "@prisma/client"
+import { type Subject, type SubjectAnnouncements } from "@prisma/client"
 import React from "react"
 import { FaArrowLeft } from "react-icons/fa"
 import FileTable, { type FileTableRef } from "@/components/fileupload/fileTable"
@@ -18,10 +13,6 @@ import CreateAnnounce from "@/components/modal/createAnnounce"
 interface AnnouncementResponse {
   message: string
   announcements: SubjectAnnouncements[]
-}
-interface FileResponse {
-  message: string
-  files: SubjectFiles[]
 }
 
 interface SubjectResponse {
@@ -139,6 +130,7 @@ export default function SubjectPage() {
         </div>
         <div className="absolute bottom-0 right-3 mt-5 flex h-12 w-40 cursor-pointer items-center justify-center">
           <UploadForm
+            fileTopic={subjectDetails.subjectTopic}
             uploadSuccess={async () => {
               // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
               await tableRef?.current?.fetchFiles()

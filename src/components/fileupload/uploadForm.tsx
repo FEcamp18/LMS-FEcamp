@@ -41,8 +41,10 @@ const formSchema = z.object({
 
 export default function UploadForm({
   uploadSuccess,
+  fileTopic,
 }: {
   uploadSuccess: () => Promise<void>
+  fileTopic: string
 }) {
   const [open, setOpen] = useState(false)
   const params = useParams()
@@ -97,6 +99,7 @@ export default function UploadForm({
         fileName: values.fileName,
         fileSubject: values.fileSubject,
         fileDescription: values.fileDescription,
+        fileTopic: fileTopic,
       })
 
       if (result.success) {

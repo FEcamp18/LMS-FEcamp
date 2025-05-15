@@ -133,7 +133,7 @@ export default function SubjectPage() {
                 fileTitle={file.fileTitle}
                 fileDescription={file.fileDescription}
                 fileUploadTime={new Date(file.fileUpLoadTime)}
-                isTutor={true}
+                isTutor={false}
               />
             ))}
           </div>
