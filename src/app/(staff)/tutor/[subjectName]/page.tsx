@@ -22,6 +22,7 @@ interface SubjectResponse {
 
 import { useParams, useRouter } from "next/navigation"
 import { useRef } from "react"
+import NotFound from "@/app/not-found"
 
 export default function SubjectPage() {
   const router = useRouter()
@@ -30,6 +31,7 @@ export default function SubjectPage() {
   const { data: session } = useSession()
 
   const [announcements, setAnnouncements] = useState<SubjectAnnouncements[]>([])
+  const [notfound, setNotFound] = useState(false)
   const [subjectDetails, setSubjectDetails] = useState<{
     subjectId: string
     subjectName: string
@@ -45,6 +47,8 @@ export default function SubjectPage() {
 
         const annoResponse = await fetch(`/api/anno/${subjectName}`)
         const annoData = (await annoResponse.json()) as AnnouncementResponse
+        if (annoData.message == "failed") setNotFound(true)
+
         if (annoData.message === "success") {
           setAnnouncements(annoData.announcements)
         }
@@ -52,7 +56,7 @@ export default function SubjectPage() {
         // Fetch subject details
         const subjectResponse = await fetch(`/api/subject/${subjectName}`)
         const subjectData = (await subjectResponse.json()) as SubjectResponse
-
+        if (subjectData.message == "failed") setNotFound(true)
         if (subjectData.message == "success" && subjectData.subject) {
           setSubjectDetails({
             subjectId: subjectData.subject.subjectId,
@@ -69,6 +73,7 @@ export default function SubjectPage() {
     void fetchData()
   }, [params.subjectName])
 
+  if (notfound) return <NotFound />
   if (!subjectDetails) {
     return (
       <p className="h-full w-full py-5 text-center text-xl font-bold text-dark-brown">

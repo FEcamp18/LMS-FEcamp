@@ -11,6 +11,7 @@ import {
 } from "@prisma/client"
 import React from "react"
 import { FaArrowLeft } from "react-icons/fa"
+import NotFound from "@/app/not-found"
 
 interface AnnouncementResponse {
   message: string
@@ -32,6 +33,7 @@ export default function SubjectPage() {
 
   const [announcements, setAnnouncements] = useState<SubjectAnnouncements[]>([])
   const [files, setFiles] = useState<SubjectFiles[]>([])
+  const [notfound, setNotFound] = useState(false)
   const [subjectDetails, setSubjectDetails] = useState<{
     subjectId: string
     subjectName: string
@@ -46,12 +48,15 @@ export default function SubjectPage() {
 
         const annoResponse = await fetch(`/api/anno/${subjectName}`)
         const annoData = (await annoResponse.json()) as AnnouncementResponse
+        if (annoData.message == "failed") setNotFound(true)
         if (annoData.message === "success") {
           setAnnouncements(annoData.announcements)
         }
 
         const fileResponse = await fetch(`/api/file/${subjectName}`)
         const fileData = (await fileResponse.json()) as FileResponse
+        if (fileData.message == "failed") setNotFound(true)
+
         if (fileData.message === "success") {
           if (fileData.message === "success") {
             setFiles(fileData.files)
@@ -61,6 +66,7 @@ export default function SubjectPage() {
         // Fetch subject details
         const subjectResponse = await fetch(`/api/subject/${subjectName}`)
         const subjectData = (await subjectResponse.json()) as SubjectResponse
+        if (subjectData.message == "failed") setNotFound(true)
         if (subjectData.message == "success" && subjectData.subject) {
           setSubjectDetails({
             subjectId: subjectData.subject.subjectId,
@@ -76,7 +82,7 @@ export default function SubjectPage() {
 
     void fetchData()
   }, [params.classname])
-
+  if (notfound) return <NotFound />
   if (!subjectDetails) {
     return (
       <p className="h-full w-full py-5 text-center text-xl font-bold text-dark-brown">
