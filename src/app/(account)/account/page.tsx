@@ -33,24 +33,40 @@ export default function AccountPage() {
     return <div>You are not logged in. Please log in to access this page.</div>
   }
 
-  return (
-    <>
-      <Toaster />
-      {!loading &&
-        (session?.user?.role === "CAMPER" ? (
-          <CamperAccount />
-        ) : (
-          <StaffAccount />
-        ))}
-      <div className="mx-6 my-8 flex h-[55px] justify-end space-x-4">
-        <Link
-          href="resetpassnotice"
-          className="w-full max-w-[190px] content-center border-[0.5px] border-black bg-cream py-[8px] text-center text-xl font-normal text-dark-gray hover:bg-light-gray hover:text-cream active:bg-dark-gray active:text-cream md:text-2xl"
-        >
-          เปลี่ยนรหัส
-        </Link>
-        <Logout />
-      </div>
-    </>
-  )
+  if (loading || !session)
+    return <p className="text-xl text-dark-brown">Loading...</p>
+
+  if (session.user.role === "CAMPER")
+    return (
+      <>
+        <Toaster />
+        <CamperAccount />
+        <div className="mx-6 my-8 flex h-[55px] justify-end space-x-4">
+          <Link
+            href="resetpassnotice"
+            className="w-full max-w-[190px] content-center border-[0.5px] border-black bg-cream py-[8px] text-center text-xl font-normal text-dark-gray hover:bg-light-gray hover:text-cream active:bg-dark-gray active:text-cream md:text-2xl"
+          >
+            เปลี่ยนรหัส
+          </Link>
+          <Logout />
+        </div>
+      </>
+    )
+  else {
+    return (
+      <>
+        <Toaster />
+        <StaffAccount />
+        <div className="mx-6 my-8 flex h-[55px] justify-end space-x-4">
+          <Link
+            href="resetpassnotice"
+            className="w-full max-w-[190px] content-center border-[0.5px] border-black bg-cream py-[8px] text-center text-xl font-normal text-dark-gray hover:bg-light-gray hover:text-cream active:bg-dark-gray active:text-cream md:text-2xl"
+          >
+            เปลี่ยนรหัส
+          </Link>
+          <Logout />
+        </div>
+      </>
+    )
+  }
 }

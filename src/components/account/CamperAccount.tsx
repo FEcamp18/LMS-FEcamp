@@ -36,7 +36,7 @@ export default function CamperAccount() {
     }
     const fetchCamperInfo = async () => {
       try {
-        const response = await axios.get(`/api/camper/${"camper1"}`)
+        const response = await axios.get(`/api/camper/${session?.user.id}`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         setCamper(response.data.camper)
       } catch (error) {
@@ -67,10 +67,10 @@ export default function CamperAccount() {
   // TODO : mock score fix
   const mockScoreData = {
     score: {
-      maths: "70/100",
-      physics: "80/100",
-      chemistry: "80/100",
-      tpat3: "22.3/50",
+      maths: `${camper?.scorePostTest?.[0] ?? 0}/100`,
+      physics: `${camper?.scorePostTest?.[1] ?? 0}/100`,
+      chemistry: `${camper?.scorePostTest?.[2] ?? 0}/100`,
+      tpat3: `${camper?.scorePostTest?.[3] ?? 0}/100`,
     },
     mean: {
       maths: "85",
