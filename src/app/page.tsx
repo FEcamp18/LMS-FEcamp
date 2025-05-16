@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react"
 import axios from "axios"
 import { type WebphaseAPIResponse } from "@/types/api/webphase"
 import Link from "next/link"
+import Image from "next/image"
 
 export default function Home() {
   const [webPhase, setWebPhase] = useState<string>("")
@@ -25,13 +26,13 @@ export default function Home() {
     setLoad(false)
   }, [])
 
-  if (load || webPhase === "") return <>dev อย่าลืมเปิด docker</>
+  if (load || webPhase === "") return <div>Loading</div>
   if (webPhase === "CLOSED") {
     return <LandingClose />
   } else if (webPhase === "BEFORE_CAMP") {
     return <LandingPreCamp />
   } else if (webPhase === "ARCHIVE") {
-    return <LandingPreClose />
+    return <LandingArchive />
   } else {
     return <LandingCamp status={status} />
   }
@@ -39,8 +40,28 @@ export default function Home() {
 
 function LandingClose() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center pt-16">
-      <div className="text-4xl font-bold">เว็บไซต์กำลังปิดปรับปรุง</div>
+    <div className="relative h-screen w-screen bg-[url('/image/background/landingpage_background.webp')] bg-contain bg-center bg-no-repeat">
+      <div className="absolute inset-0 bg-white/10" />
+      <div className="flex h-full w-full flex-col items-center justify-center pt-16 backdrop-brightness-75">
+        <Image
+          src="/logo.svg"
+          alt="Logo"
+          width={288}
+          height={288}
+          className="absolute top-0 mb-6 h-72 w-72"
+        />
+        <div className="px-4 text-center text-4xl font-bold text-white">
+          ตอนนี้วิหารได้ปิดลงแล้ว
+          <br />
+          ร่อยรอยความทรงจำของเรายังคงอยู่เสมอ
+        </div>
+        <Link
+          href="/login"
+          className="mt-6 rounded-full bg-blue-500 px-6 py-3 text-white hover:bg-blue-400"
+        >
+          เข้าสู่ระบบ
+        </Link>
+      </div>
     </div>
   )
 }
@@ -55,7 +76,7 @@ function LandingPreCamp() {
   )
 }
 
-function LandingPreClose() {
+function LandingArchive() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center pt-16">
       <div className="text-center">
