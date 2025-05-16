@@ -32,13 +32,14 @@ export default function CamperAccount() {
       const name = get_god_name(session?.user.roomNumber ?? 0) ?? ""
       setGod({ name, path })
       await fetchWebPhase()
-      setLoading(false)
     }
     const fetchCamperInfo = async () => {
       try {
+        if (!session) return
         const response = await axios.get(`/api/camper/${session?.user.id}`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         setCamper(response.data.camper)
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching camper info:", error)
       }
@@ -55,7 +56,7 @@ export default function CamperAccount() {
     void handleLoad()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [session])
 
   if (loading)
     return (

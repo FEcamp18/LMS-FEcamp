@@ -16,18 +16,20 @@ export default function StaffAccount() {
 
     const fetchStaffInfo = async () => {
       try {
+        if (!session) return
         const response = await axios.get(`/api/staff/${session?.user.id}`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         setStaff(response.data.staff)
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching staff info:", error)
       }
     }
 
     void handleLoad()
-    setLoading(false)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [session])
 
   if (loading)
     return (
