@@ -4,7 +4,7 @@ import type { Staff } from "@/types/staff"
 import axios from "axios"
 
 export default function StaffAccount() {
-  const { data: session, update } = useSession()
+  const { data: session, update, status } = useSession()
   const [loading, setLoading] = useState(true)
   const [staff, setStaff] = useState<Staff | null>(null)
 
@@ -29,7 +29,7 @@ export default function StaffAccount() {
     void handleLoad()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session])
+  }, [status])
 
   if (loading)
     return (

@@ -1,20 +1,20 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
+import React from "react"
+import Link from "next/link"
+import Image from "next/image"
 
-import type { MergeClassData } from "@/types/class";
+import type { MergeClassData } from "@/types/class"
 const ClassCard: React.FC<{ subject: MergeClassData }> = ({ subject }) => {
   // Map subjectName to corresponding background image
   const BGimageMap: Record<string, string> = {
-    MATHS: "/image/subject-picture/Math.png",
-    CHEMISTRY: "/image/subject-picture/Chem.png",
-    PHYSICS: "/image/subject-picture/Physic.png",
-    TPAT3: "/image/subject-picture/TPAT.png",
-  };
+    MATHS: "/image/subject-picture/Math.webp",
+    CHEMISTRY: "/image/subject-picture/Chem.webp",
+    PHYSICS: "/image/subject-picture/Physic.webp",
+    TPAT3: "/image/subject-picture/TPAT.webp",
+  }
 
   const BGimage =
     BGimageMap[subject.subjectId?.slice(0, -2)] ??
-    "/image/subject-picture/temp-subject-image.jpg";
+    "/image/subject-picture/temp-subject-image.jpg"
 
   return (
     <>
@@ -59,7 +59,7 @@ const ClassCard: React.FC<{ subject: MergeClassData }> = ({ subject }) => {
         />
       </Link>
     </>
-  );
-};
+  )
+}
 
-export { ClassCard };
+export { ClassCard }
