@@ -16,7 +16,7 @@ interface godProps {
 }
 
 export default function CamperAccount() {
-  const { data: session, update, status } = useSession()
+  const { data: session, update } = useSession()
   const [loading, setLoading] = useState(true)
   const [webPhase, setWebPhase] = useState<string>("")
   const [god, setGod] = useState<godProps | null>(null)
@@ -25,6 +25,7 @@ export default function CamperAccount() {
   useEffect(() => {
     const handleLoad = async () => {
       await update()
+      if (!session) return
       await fetchCamperInfo()
       const path = await get_god_statue_image_path(
         session?.user.roomNumber ?? 0,
@@ -35,7 +36,6 @@ export default function CamperAccount() {
     }
     const fetchCamperInfo = async () => {
       try {
-        if (!session) return
         const response = await axios.get(`/api/camper/${session?.user.id}`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         setCamper(response.data.camper)
@@ -54,9 +54,7 @@ export default function CamperAccount() {
     }
 
     void handleLoad()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status])
+  }, [])
 
   if (loading)
     return (

@@ -86,9 +86,9 @@ export default function BroadcastForm() {
           className="rounded border p-2"
         >
           <option value="all camper">All Camper</option>
-          {Array.from({ length: 8 }).map((_, i) => (
+          {Array.from({ length: 7 }).map((_, i) => (
             <option key={i + 1} value={i + 1}>
-              {i + 1} : {get_god_name(i)}
+              {i + 1} : {get_god_name(i + 1) ?? ""}
             </option>
           ))}
         </select>
