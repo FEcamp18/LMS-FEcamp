@@ -56,14 +56,14 @@ async function main() {
             ...(record.staffDepartment_2 ? [record.staffDepartment_2] : []),
           ].filter(Boolean),
           contactEmail: record.contactEmail || "",
-          contactTel: record.contactTel || "",
+          contactTel: String(record.contactTel) || "",
           FEYear: parseInt(record.FEYear) || 18,
           foodInfo: record.foodInfo === "-" ? "" : record.foodInfo,
           healthInfo: record.healthInfo === "-" ? "" : record.healthInfo,
         },
       });
 
-      console.log(`Created staff: ${record.staffId} - ${record.name}`);
+      // console.log(`Created staff: ${record.staffId} - ${record.name}`);
     } catch (error) {
       console.error(`Error creating staff ${record.staffId}:`, error);
     }

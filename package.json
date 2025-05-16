@@ -20,6 +20,8 @@
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "seed": "node prisma/seed/init_seed.js && node prisma/seed/camper_seed.js && node prisma/seed/staff_seed.js && node prisma/seed/subject_and_class_seed.js && node prisma/seed/file_and_announcement_seed.js && node prisma/seed/notes_and_phase_seed.js && node prisma/seed/pretest_seed.js && node prisma/seed/dev_seed.js",
+    "FE_seed" : "node prisma/csv_data/real_init_seed.js && node prisma/csv_data/real_VCK_seed.js && node prisma/csv_data/real_staff_seed.js && node prisma/csv_data/real_camper_seed.js && node prisma/csv_data/dev_seed.js",
+    "FE_room" :"node prisma/csv_data/real_camper_room",
     "postbuild": "mkdir .next\\standalone\\.next\\static 2>nul & xcopy /E /I /Y .next\\static .next\\standalone\\.next\\static & mkdir .next\\standalone\\public 2>nul & xcopy /E /I /Y public .next\\standalone\\public"
   },
   "dependencies": {
