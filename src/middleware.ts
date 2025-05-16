@@ -22,10 +22,12 @@ const accessControl = {
     allowedPaths: [
       "/board",
       "/camperinfo",
+      "/boardcast",
       "/tutor",
       "/classroom",
       "/feedback",
-      "/pretest","/account"
+      "/pretest",
+      "/account"
     ],
     defaultPath: "/board",
   },
