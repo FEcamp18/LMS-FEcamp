@@ -36,6 +36,8 @@ export default function CamperAccount() {
     }
     const fetchCamperInfo = async () => {
       try {
+        if (!session?.user.id || session.user.role != "CAMPER") return
+
         const response = await axios.get(`/api/camper/${session?.user.id}`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         setCamper(response.data.camper)
