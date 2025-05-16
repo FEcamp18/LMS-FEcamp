@@ -64,8 +64,23 @@ export default {
           "3": "hsl(var(--chart-3))",
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
-        },
+        }
       },
+      keyframes: {
+          'x-move': {
+            '0%, 100%': { transform: 'translateX(0)' },
+            '50%': { transform: 'translateX(40px)' },
+          },
+          'y-move': {
+            '0%, 100%': { transform: 'translateY(0)' },
+            '50%': { transform: 'translateY(40px)' },
+          },
+        },
+        animation: {
+          'x-move': 'x-move 5s ease-in-out infinite alternate',
+          'x-move-reverse': 'x-move 5s ease-in-out infinite alternate',
+          'y-move': 'y-move 5s ease-in-out infinite alternate',
+        },
     },
   },
   // eslint-disable-next-line @typescript-eslint/no-require-imports
