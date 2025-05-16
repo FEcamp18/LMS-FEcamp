@@ -4,7 +4,7 @@ import type { Staff } from "@/types/staff"
 import axios from "axios"
 
 export default function StaffAccount() {
-  const { update } = useSession()
+  const { data: session, update } = useSession()
   const [loading, setLoading] = useState(true)
   const [staff, setStaff] = useState<Staff | null>(null)
 
@@ -16,7 +16,7 @@ export default function StaffAccount() {
 
     const fetchStaffInfo = async () => {
       try {
-        const response = await axios.get(`/api/staff/${"dev-staff"}`)
+        const response = await axios.get(`/api/staff/${session?.user.id}`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         setStaff(response.data.staff)
       } catch (error) {
