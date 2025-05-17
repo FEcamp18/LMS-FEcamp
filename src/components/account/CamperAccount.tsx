@@ -143,22 +143,23 @@ export default function CamperAccount() {
           )}
 
           <a
-            download
+            href={`/api/get-pdf/certificate/${session?.user.id ?? 0}`}
+            download={`certificate_${session?.user.id}.pdf`}
             className="relative mx-6 mt-4 h-[160px] w-[350px] cursor-pointer content-center lg:h-[155px] lg:w-[800px]"
           >
             <Image
-              layout="fill"
-              objectFit="cover"
+              fill
               className="hidden transition-all hover:scale-110 lg:block"
               src="/image/account/CertificateLaptop.webp"
               alt="background"
+              style={{ objectFit: "cover" }}
             />
             <Image
-              layout="fill"
-              objectFit="cover"
+              fill
               className="block lg:hidden"
               src="/image/account/CertificateMobile.webp"
               alt="background"
+              style={{ objectFit: "cover" }}
             />
           </a>
         </section>
