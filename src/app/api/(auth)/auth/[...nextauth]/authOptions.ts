@@ -166,7 +166,7 @@ export const authOptions: NextAuthOptions = {
               }
 
               if (
-                ["BOARD", "REGISTER", "IT", "ROOMSTAFF", "NURSE", "CENTRAl"].some(
+                ["BOARD", "REGISTER", "IT", "ROOMSTAFF", "NURSE", "CENTRAL"].some(
                   (dept) => departmentDetails.department.includes(dept)
                 )
               ) {
