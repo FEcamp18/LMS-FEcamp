@@ -30,7 +30,7 @@ export default function Home() {
   if (webPhase === "CLOSED") {
     return <LandingClose />
   } else if (webPhase === "BEFORE_CAMP") {
-    return <LandingPreCamp />
+    return <LandingPreCamp status={status} />
   } else if (webPhase === "ARCHIVE") {
     return <LandingArchive />
   } else {
@@ -62,14 +62,35 @@ function LandingClose() {
   )
 }
 
-function LandingPreCamp() {
+function LandingPreCamp(props: { status: string }) {
   return (
     <LandingBackground>
       <div className="flex min-h-screen flex-col items-center justify-center pt-16">
-        <div className="text-center">
+        <div className="flex flex-col items-center justify-center space-y-2 text-center">
           <h1 className="mb-4 text-4xl font-semibold text-white">
-            อดใจรอค่ายเปิดก่อนนะ
+            เห็นวิหารเทพอยู่ไกลๆ อดใจรอค่ายเปิดก่อนนะ
           </h1>
+          <Link
+            href={"/pretest"}
+            className="w-52 rounded-full bg-light-gray px-8 py-3 text-white hover:bg-dark-gray"
+          >
+            เช็คที่นั่งสอบ
+          </Link>
+          {props.status != "authenticated" ? (
+            <Link
+              href={"/login"}
+              className="w-52 rounded-full bg-light-brown px-8 py-3 text-white hover:bg-dark-brown"
+            >
+              Login
+            </Link>
+          ) : (
+            <Link
+              href={"/board"}
+              className="w-52 rounded-full bg-light-brown px-8 py-3 text-white hover:bg-dark-brown"
+            >
+              เข้าหน้าเว็บ
+            </Link>
+          )}
         </div>
       </div>
     </LandingBackground>
@@ -128,21 +149,21 @@ function LandingBackground({ children }: { children: React.ReactNode }) {
         alt="element01"
         width={300}
         height={300}
-        className="animate-x-move pointer-events-none absolute right-0 top-0 z-10"
+        className="pointer-events-none absolute right-0 top-0 z-10 animate-x-move"
       />
       <Image
         src="/image/landingpage_element/element03.webp"
         alt="element03"
         width={300}
         height={300}
-        className="animate-x-move pointer-events-none absolute left-0 top-0 z-10"
+        className="pointer-events-none absolute left-0 top-0 z-10 animate-x-move"
       />
       <Image
         src="/image/landingpage_element/element04.webp"
         alt="element04"
         width={200}
         height={200}
-        className="animate-y-move pointer-events-none absolute -bottom-52 z-10 sm:bottom-0 lg:left-36 lg:top-52"
+        className="pointer-events-none absolute -bottom-52 z-10 animate-y-move sm:bottom-0 lg:left-36 lg:top-52"
       />
       {children}
     </div>
