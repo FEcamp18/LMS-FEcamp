@@ -94,14 +94,14 @@ function ClassroomItems() {
         />
       </div>
 
-      <div className="relative left-1/2 min-h-64 w-[115%] -translate-x-1/2 bg-white p-10 px-8 sm:w-[110%] sm:px-20">
+      <div className="relative left-1/2 flex max-h-[450px] min-h-[100px] w-[115%] -translate-x-1/2 items-center justify-center bg-white p-10 px-8 sm:w-[110%] sm:px-10">
         {god_schedule_image_path != "" && (
           <Image
             src={god_schedule_image_path}
             alt={"schedule"}
             height={300}
             width={2400}
-            className="h-full w-auto"
+            className="h-auto w-auto"
           />
         )}
       </div>
