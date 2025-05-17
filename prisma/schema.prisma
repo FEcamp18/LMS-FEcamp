@@ -209,6 +209,7 @@ enum ENGINEERINGDEPARTMENT {
   NANO
   ICE
   ChPE
+  Accounting
 }
 
 enum STAFFDEPARTMENT {

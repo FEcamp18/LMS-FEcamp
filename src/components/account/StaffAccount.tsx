@@ -17,6 +17,7 @@ export default function StaffAccount() {
     const fetchStaffInfo = async () => {
       try {
         if (!session) return
+        if (!session?.user.id || session.user.role == "CAMPER") return
         const response = await axios.get(`/api/staff/${session?.user.id}`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         setStaff(response.data.staff)

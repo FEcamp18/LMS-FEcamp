@@ -4,7 +4,8 @@
 /prisma/csv_data/FE_camper.csv
 /prisma/csv_data/FE_staff.csv
 /prisma/csv_data/FE_camper_room.csv
-
+/prisma/csv_data/FE_staff.csv
+prisma/csv_data/FE_staff.csv
 .env
 # package files
 package-lock.json
@@ -55,3 +56,4 @@ yarn-error.log*
 .idea
 
 ecosystem.config.cjs
+

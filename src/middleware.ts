@@ -22,6 +22,7 @@ const accessControl = {
     allowedPaths: [
       "/board",
       "/camperinfo",
+      "/boardcast",
       "/tutor",
       "/classroom",
       "/feedback",
