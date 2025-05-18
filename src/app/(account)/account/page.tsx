@@ -44,7 +44,7 @@ export default function AccountPage() {
         ))}
       <div className="mx-6 my-8 flex h-[55px] justify-end space-x-4">
         <Link
-          href="resetpassnotice"
+          href="https://drive.google.com/file/d/1crGiS7kBE4KRQlB-s9La-8_iFZdkRQka/view?usp=drivesdk"
           className="w-full max-w-[400px] content-center border-2 border-dark-gray bg-light-gray py-[8px] text-center text-xl font-normal text-white hover:bg-dark-gray md:text-2xl"
         >
           รับหนังสือค่าย
