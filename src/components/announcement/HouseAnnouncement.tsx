@@ -78,7 +78,7 @@ const HouseAnnouncement = ({
               ผลการคัดเลือกจากเทพเจ้าได้ออกมาแล้ว
             </div>
             <div className="text-xl text-white sm:text-3xl">
-              น้อง {camper_name} ได้ถูกต้องรับสู่
+              น้อง {camper_name} ได้ถูกต้อนรับสู่
             </div>
             <div className="text-5xl font-bold text-amber-950">
               วิหารเทพ {god_name}
