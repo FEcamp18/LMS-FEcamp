@@ -6,9 +6,11 @@ import Image from "next/image"
 const HouseAnnouncement = ({
   camper_name,
   god_name,
+  setShowAnnouncement,
 }: {
   camper_name: string
   god_name: string
+  setShowAnnouncement: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const [activeBackground, setActiveBackground] = useState(0)
   const [textStep, setTextStep] = useState(0)
@@ -71,7 +73,7 @@ const HouseAnnouncement = ({
         )
       case 2:
         return (
-          <div className="translate-y-0 justify-center space-y-4 text-center opacity-100 transition-all duration-1000">
+          <div className="flex translate-y-0 flex-col items-center justify-center space-y-4 text-center opacity-100 transition-all duration-1000">
             <div className="text-xl text-white sm:text-3xl">
               ผลการคัดเลือกจากเทพเจ้าได้ออกมาแล้ว
             </div>
@@ -81,6 +83,21 @@ const HouseAnnouncement = ({
             <div className="text-5xl font-bold text-amber-950">
               วิหารเทพ {god_name}
             </div>
+            <Image
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              src={`/image/god-room/statue/${god_name}_statue.webp`}
+              alt="Leaf"
+              width={250}
+              height={250}
+            />
+            <button
+              onClick={() => {
+                setShowAnnouncement(false)
+              }}
+              className="absolute bottom-0 right-1 bg-dark-brown px-6 py-2 text-white"
+            >
+              ปิด
+            </button>
           </div>
         )
       default:

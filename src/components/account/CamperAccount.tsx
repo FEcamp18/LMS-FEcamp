@@ -19,7 +19,8 @@ interface godProps {
 export default function CamperAccount() {
   const { data: session } = useSession()
   const [loading, setLoading] = useState(true)
-  const [webPhase, setWebPhase] = useState<string>("")
+  const [showAnnouncement, setShowAnnouncement] = useState(false)
+  const [webPhase, setWebPhase] = useState<string | null>(null)
   const [god, setGod] = useState<godProps | null>(null)
   const [camper, setCamper] = useState<Camper | null>(null)
 
@@ -59,6 +60,27 @@ export default function CamperAccount() {
     void handleLoad()
   }, [session])
 
+  useEffect(() => {
+    // Only run on client
+    const checkAndShowAnnouncement = async () => {
+      try {
+        const storedState_isTrigger = localStorage.getItem("isTriggered")
+        if (storedState_isTrigger === "True") return
+
+        // Fetch web phase
+        const response: WebphaseAPIResponse = await axios.get("/api/web/phase")
+        const phase = response.data?.phase
+        setWebPhase(phase)
+
+        if (phase === "CAMP") {
+          setShowAnnouncement(true)
+          localStorage.setItem("isTriggered", "True")
+        }
+      } catch {}
+    }
+    void checkAndShowAnnouncement()
+  }, [])
+
   if (loading)
     return (
       <div className="w-full pt-10 text-3xl font-bold text-dark-brown">
@@ -83,10 +105,13 @@ export default function CamperAccount() {
   }
   return (
     <>
-      <HouseAnnouncement
-        camper_name={camper?.nickname ?? "ค่าย"}
-        god_name={god?.name ?? "เทพ"}
-      />
+      {showAnnouncement && camper && god && (
+        <HouseAnnouncement
+          camper_name={camper.nickname ?? "ค่าย"}
+          god_name={god.name ?? "เทพ"}
+          setShowAnnouncement={setShowAnnouncement}
+        />
+      )}
       <div className="mx-8 mt-14 flex flex-col justify-between text-brown md:flex-row">
         <div className="w-full space-y-6">
           <h1 className="text-3xl font-semibold">
