@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import CamperInfoTable from "@/components/info/camperInfoTable"
-import { type Camper } from "@prisma/client"
+import StaffInfoTable from "@/components/info/staffInfoTable"
+
+import { type Staff, type Camper } from "@prisma/client"
 import axios from "axios"
 
 interface CamperResponseInterface {
@@ -12,11 +14,18 @@ interface CamperResponseInterface {
   error?: string
 }
 
+interface StaffResponseInterface {
+  message: "success" | "failed"
+  data: Staff[]
+  error?: string
+}
+
 export default function ClassroomPage() {
   const { data: session } = useSession()
   const [campers, setCampers] = useState<Camper[]>([])
   const [selectedRoom, setSelectedRoom] = useState(1)
   const [error, setError] = useState("")
+  const [staffs, setStaffs] = useState<Staff[]>([])
 
   useEffect(() => {
     const fetchCampers = async () => {
@@ -30,8 +39,18 @@ export default function ClassroomPage() {
         setError("Failed to get data")
       }
     }
+    const fetchStaffs = async () => {
+      try {
+        const response =
+          await axios.get<StaffResponseInterface>("/api/allstaff")
+        setStaffs(response.data.data)
+      } catch (err) {
+        console.error("Error fetching staffs:", err)
+      }
+    }
 
     void fetchCampers()
+    void fetchStaffs()
   }, [])
 
   if (error) {
@@ -61,16 +80,32 @@ export default function ClassroomPage() {
               </button>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => setSelectedRoom(0)}
+              className={`w-[100px] rounded-lg p-2 text-left sm:w-full ${
+                selectedRoom === 0 ? "bg-gray-100" : "hover:bg-gray-300"
+              }`}
+            >
+              staff
+            </button>
+          </li>
         </ul>
       </div>
 
       {/* Main Content */}
       <main className="w-full p-4">
         <h1 className="mb-4 text-2xl font-bold">Camper Information</h1>
-        <CamperInfoTable
-          camper={filteredCampers}
-          infoPrio={session?.user.infoPrio ?? false}
-        />
+        {selectedRoom == 0 ? (
+          <>
+            <StaffInfoTable staff={staffs} />
+          </>
+        ) : (
+          <CamperInfoTable
+            camper={filteredCampers}
+            infoPrio={session?.user.infoPrio ?? false}
+          />
+        )}
       </main>
     </div>
   )

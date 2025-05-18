@@ -109,24 +109,24 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if the tutor is assigned to the class
-    const staffClass = await prisma.staffClass.findFirst({
-      where: {
-        staffId: staffId,
-        class: {
-          subjectId: subjectId,
-        },
-      },
-    })
+    // const staffClass = await prisma.staffClass.findFirst({
+    //   where: {
+    //     staffId: staffId,
+    //     class: {
+    //       subjectId: subjectId,
+    //     },
+    //   },
+    // })
 
-    if (!staffClass) {
-      return new Response(
-        JSON.stringify({
-          message: "failed",
-          error: "Tutor not assigned to this class.",
-        }),
-        { status: 403, headers: { "Content-Type": "application/json" } },
-      )
-    }
+    // if (!staffClass) {
+    //   return new Response(
+    //     JSON.stringify({
+    //       message: "failed",
+    //       error: "Tutor not assigned to this class.",
+    //     }),
+    //     { status: 403, headers: { "Content-Type": "application/json" } },
+    //   )
+    // }
 
     // Create the announcement
     await prisma.subjectAnnouncements.create({

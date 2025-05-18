@@ -11,7 +11,8 @@ export async function GET(req:NextRequest) {
         name: true,
         surname: true,
         nickname: true,
-        room: true,
+        miscellaneous: true,
+        room: true
       },
     })
 

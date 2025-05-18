@@ -1,4 +1,4 @@
-import { PrismaClient, ROLE } from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 import { authOptions } from "@/app/api/(auth)/auth/[...nextauth]/authOptions"
 import { getServerSession } from "next-auth"
 
@@ -11,7 +11,7 @@ export async function PATCH(
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session?.user || session.user.role !== (ROLE.STAFF || ROLE.BOARD)) {
+    if (!session?.user || (session.user.role != "STAFF" && session.user.role != "BOARD")) {
       return Response.json(
         { message: "failed", error: "Unauthorized" },
         { status: 403 },

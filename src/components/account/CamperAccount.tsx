@@ -9,6 +9,7 @@ import {
 import type { WebphaseAPIResponse } from "@/types/api/webphase"
 import axios from "axios"
 import type { Camper } from "@/types/camper"
+import HouseAnnouncement from "../announcement/HouseAnnouncement"
 
 interface godProps {
   name: string
@@ -16,15 +17,17 @@ interface godProps {
 }
 
 export default function CamperAccount() {
-  const { data: session, update } = useSession()
+  const { data: session } = useSession()
   const [loading, setLoading] = useState(true)
-  const [webPhase, setWebPhase] = useState<string>("")
+  const [showAnnouncement, setShowAnnouncement] = useState(false)
+  const [webPhase, setWebPhase] = useState<string | null>(null)
   const [god, setGod] = useState<godProps | null>(null)
   const [camper, setCamper] = useState<Camper | null>(null)
 
   useEffect(() => {
     const handleLoad = async () => {
-      await update()
+      // await update()
+      if (!session) return
       await fetchCamperInfo()
       const path = await get_god_statue_image_path(
         session?.user.roomNumber ?? 0,
@@ -32,13 +35,15 @@ export default function CamperAccount() {
       const name = get_god_name(session?.user.roomNumber ?? 0) ?? ""
       setGod({ name, path })
       await fetchWebPhase()
-      setLoading(false)
     }
     const fetchCamperInfo = async () => {
       try {
-        const response = await axios.get(`/api/camper/${"camper1"}`)
+        if (!session?.user.id || session.user.role != "CAMPER") return
+
+        const response = await axios.get(`/api/camper/${session?.user.id}`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         setCamper(response.data.camper)
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching camper info:", error)
       }
@@ -53,8 +58,27 @@ export default function CamperAccount() {
     }
 
     void handleLoad()
+  }, [session])
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    // Only run on client
+    const checkAndShowAnnouncement = async () => {
+      try {
+        const storedState_isTrigger = localStorage.getItem("isTriggered")
+        if (storedState_isTrigger === "True") return
+
+        // Fetch web phase
+        const response: WebphaseAPIResponse = await axios.get("/api/web/phase")
+        const phase = response.data?.phase
+        setWebPhase(phase)
+
+        if (phase === "CAMP") {
+          setShowAnnouncement(true)
+          localStorage.setItem("isTriggered", "True")
+        }
+      } catch {}
+    }
+    void checkAndShowAnnouncement()
   }, [])
 
   if (loading)
@@ -67,10 +91,10 @@ export default function CamperAccount() {
   // TODO : mock score fix
   const mockScoreData = {
     score: {
-      maths: "70/100",
-      physics: "80/100",
-      chemistry: "80/100",
-      tpat3: "22.3/50",
+      maths: `${camper?.scorePostTest?.[0] ?? 0}/100`,
+      physics: `${camper?.scorePostTest?.[1] ?? 0}/100`,
+      chemistry: `${camper?.scorePostTest?.[2] ?? 0}/100`,
+      tpat3: `${camper?.scorePostTest?.[3] ?? 0}/100`,
     },
     mean: {
       maths: "85",
@@ -81,6 +105,13 @@ export default function CamperAccount() {
   }
   return (
     <>
+      {showAnnouncement && camper && god && (
+        <HouseAnnouncement
+          camper_name={camper.nickname ?? "ค่าย"}
+          god_name={god.name ?? "เทพ"}
+          setShowAnnouncement={setShowAnnouncement}
+        />
+      )}
       <div className="mx-8 mt-14 flex flex-col justify-between text-brown md:flex-row">
         <div className="w-full space-y-6">
           <h1 className="text-3xl font-semibold">
@@ -142,22 +173,23 @@ export default function CamperAccount() {
           )}
 
           <a
-            download
+            href={`/api/get-pdf/certificate/${session?.user.id ?? 0}`}
+            download={`certificate_${session?.user.id}.pdf`}
             className="relative mx-6 mt-4 h-[160px] w-[350px] cursor-pointer content-center lg:h-[155px] lg:w-[800px]"
           >
             <Image
-              layout="fill"
-              objectFit="cover"
+              fill
               className="hidden transition-all hover:scale-110 lg:block"
               src="/image/account/CertificateLaptop.webp"
               alt="background"
+              style={{ objectFit: "cover" }}
             />
             <Image
-              layout="fill"
-              objectFit="cover"
+              fill
               className="block lg:hidden"
               src="/image/account/CertificateMobile.webp"
               alt="background"
+              style={{ objectFit: "cover" }}
             />
           </a>
         </section>

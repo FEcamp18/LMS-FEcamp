@@ -32,6 +32,7 @@ const formSchema = z.object({
 export default function ProfileForm() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
+  const [wait, setWait] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,6 +44,7 @@ export default function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      setWait(true)
       const result = await signIn("credentials", {
         username: values.username,
         password: values.password,
@@ -54,6 +56,7 @@ export default function ProfileForm() {
         toast.error(result.error || "Login failed")
         return
       }
+      setWait(false)
 
       // Show success message
       toast.success("เข้าสู่ระบบสำเร็จ")
@@ -169,7 +172,7 @@ export default function ProfileForm() {
                 type="submit"
                 className="w-full bg-gray-500 py-3 hover:bg-gray-600"
               >
-                Sign In
+                {wait ? "loading" : "Sign In"}
               </Button>
             </form>
           </Form>

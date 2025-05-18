@@ -45,6 +45,14 @@ export default function AccountPage() {
       <div className="mx-6 my-8 flex h-[55px] justify-end space-x-4">
         <Link
           href="resetpassnotice"
+          className="w-full max-w-[400px] content-center border-2 border-dark-gray bg-light-gray py-[8px] text-center text-xl font-normal text-white hover:bg-dark-gray md:text-2xl"
+        >
+          รับหนังสือค่าย
+        </Link>
+      </div>
+      <div className="mx-6 my-8 flex h-[55px] justify-end space-x-4">
+        <Link
+          href="resetpassnotice"
           className="w-full max-w-[190px] content-center border-[0.5px] border-black bg-cream py-[8px] text-center text-xl font-normal text-dark-gray hover:bg-light-gray hover:text-cream active:bg-dark-gray active:text-cream md:text-2xl"
         >
           เปลี่ยนรหัส

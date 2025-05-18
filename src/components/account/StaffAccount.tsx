@@ -4,30 +4,33 @@ import type { Staff } from "@/types/staff"
 import axios from "axios"
 
 export default function StaffAccount() {
-  const { update } = useSession()
+  const { data: session } = useSession()
   const [loading, setLoading] = useState(true)
   const [staff, setStaff] = useState<Staff | null>(null)
 
   useEffect(() => {
     const handleLoad = async () => {
-      await update()
+      // await update()
       await fetchStaffInfo()
     }
 
     const fetchStaffInfo = async () => {
       try {
-        const response = await axios.get(`/api/staff/${"dev-staff"}`)
+        if (!session) return
+        if (!session?.user.id || session.user.role == "CAMPER") return
+        const response = await axios.get(`/api/staff/${session?.user.id}`)
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
         setStaff(response.data.staff)
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching staff info:", error)
       }
     }
 
     void handleLoad()
-    setLoading(false)
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [session])
 
   if (loading)
     return (

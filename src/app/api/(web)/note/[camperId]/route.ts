@@ -29,6 +29,14 @@ export async function GET(
       where: {
         camperId: camperId,
       },
+      include: {
+        staff: {
+          select: {
+            name: true,
+            nickname: true,
+          },
+        },
+      },
     })
 
     return new Response(

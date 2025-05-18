@@ -25,7 +25,9 @@ const accessControl = {
       "/tutor",
       "/classroom",
       "/feedback",
-      "/pretest","/account"
+      "/pretest",
+      "/account",
+      "/boardcast"
     ],
     defaultPath: "/board",
   },

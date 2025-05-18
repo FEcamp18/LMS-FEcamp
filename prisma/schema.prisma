@@ -186,6 +186,7 @@ enum SUBJECT {
 }
 
 enum ENGINEERINGDEPARTMENT {
+  ENGINEERINGDEPARTMENT
   Engineering
   Civil
   Electrical

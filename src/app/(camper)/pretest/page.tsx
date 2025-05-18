@@ -16,17 +16,7 @@ export default function PretestPage() {
         </p>
         <p className="font-xl text-brown">ประกาศห้องสอบ</p>
       </div>
-      {/* Pretest Statemant */}
-      <div className="relative left-1/2 min-h-64 w-[115%] -translate-x-1/2 bg-white p-10 px-8 sm:w-[110%] sm:px-20">
-        <p>ข้อกำหนดห้องสอบ</p>
-        <ol className="list-[upper-roman] space-y-1">
-          <li className="ml-16">ข้อยาวๆ นี่นะน้อง บลาบลา</li>
-          <li className="ml-16">ข้อยาวๆ นี่นะน้อง บลาบลา</li>
-          <li className="ml-16">ข้อยาวๆ นี่นะน้อง บลาบลา</li>
-          <li className="ml-16">ข้อยาวๆ นี่นะน้อง บลาบลา</li>
-          <li className="ml-16">ข้อยาวๆ นี่นะน้อง บลาบลา</li>
-        </ol>
-      </div>
+
       <ExamList />
     </main>
   )

@@ -1,4 +1,5 @@
 "use server"
+import { sendAnnouncement } from "@/lib/sendAnnouncement"
 import { PrismaClient } from "@prisma/client"
 import axios from "axios"
 import { promises as fs } from "fs"
@@ -68,21 +69,24 @@ export default async function UploadFile({
     const responseData: FileResponse = response.data
     if (!response) throw new Error("Can't POST /api/file")
 
-    await fetch(`/api/proxy/send-announcement`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/proxy/send-announcement`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: `ไฟล์ ${fileName} ถูกเพิ่มในวิชา ${fileTopic}!`,
+        }),
       },
-      body: JSON.stringify({
-        message: `ไฟล์ ${fileName} ถูกเพิ่มในวิชา ${fileTopic}!`,
-      }),
-    })
+    )
     return {
       success: true,
       fileInfo: responseData,
     }
   } catch (error: unknown) {
-    toast.error(
+    console.log(
       `File upload failed: ${error instanceof Error ? error.message : String(error)}`,
     )
     throw new Error(

@@ -34,13 +34,25 @@ async function main() {
       const hashedPassword = await hash(String(record.password), 10);
 
       // First, create the account
-      await prisma.account.create({
-        data: {
-          username: record.staffId,
-          password: hashedPassword,
-          role: "STAFF",
-        },
-      });
+
+      if (record.staffDepartment_1 == "BOARD" || record.staffDepartment_2 == "BOARD") {
+        await prisma.account.create({
+          data: {
+            username: record.staffId,
+            password: hashedPassword,
+            role: "BOARD",
+          },
+        });
+      } else {
+        await prisma.account.create({
+          data: {
+            username: record.staffId,
+            password: hashedPassword,
+            role: "STAFF",
+          },
+        });
+      }
+      
 
       // Then, create the staff record
       await prisma.staff.create({
