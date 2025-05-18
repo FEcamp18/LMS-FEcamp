@@ -9,6 +9,7 @@ import {
 import type { WebphaseAPIResponse } from "@/types/api/webphase"
 import axios from "axios"
 import type { Camper } from "@/types/camper"
+import HouseAnnouncement from "../announcement/HouseAnnouncement"
 
 interface godProps {
   name: string
@@ -82,6 +83,10 @@ export default function CamperAccount() {
   }
   return (
     <>
+      <HouseAnnouncement
+        camper_name={camper?.nickname ?? "ค่าย"}
+        god_name={god?.name ?? "เทพ"}
+      />
       <div className="mx-8 mt-14 flex flex-col justify-between text-brown md:flex-row">
         <div className="w-full space-y-6">
           <h1 className="text-3xl font-semibold">
