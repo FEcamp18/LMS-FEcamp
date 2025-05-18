@@ -34,7 +34,7 @@ export default function CamperInfoTable({
             <TableHead>ชื่อ</TableHead>
             <TableHead>นามสกุล</TableHead>
             <TableHead>ชื่อเล่น</TableHead>
-            <TableHead>ห้อง</TableHead>
+            <TableHead>หนังสือ</TableHead>
             <TableHead>note</TableHead>
           </TableRow>
         </TableHeader>
@@ -45,7 +45,14 @@ export default function CamperInfoTable({
               <TableCell>{camper.name}</TableCell>
               <TableCell>{camper.surname}</TableCell>
               <TableCell>{camper.nickname}</TableCell>
-              <TableCell>{camper.room}</TableCell>
+              <TableCell>
+                {
+                  camper.miscellaneous
+                    ?.replace("Book: Hardcopy (รูปเล่ม)", "Hardcopy")
+                    .replace("Book: PDF File", "PDF")
+                    .split(";")[0]
+                }
+              </TableCell>
               <TableCell>
                 {infoPrio ? (
                   <button
