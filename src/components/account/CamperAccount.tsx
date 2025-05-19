@@ -64,7 +64,7 @@ export default function CamperAccount() {
     // Only run on client
     const checkAndShowAnnouncement = async () => {
       try {
-        const storedState_isTrigger = localStorage.getItem("isTriggered")
+        const storedState_isTrigger = localStorage.getItem("isTriggeredOnCamp")
         if (storedState_isTrigger === "True") return
 
         // Fetch web phase
@@ -74,7 +74,7 @@ export default function CamperAccount() {
 
         if (phase === "CAMP") {
           setShowAnnouncement(true)
-          localStorage.setItem("isTriggered", "True")
+          localStorage.setItem("isTriggeredOnCamp", "True")
         }
       } catch {}
     }
