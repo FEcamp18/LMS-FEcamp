@@ -47,10 +47,16 @@ export async function GET(
 
     const fileBuffer = await fs.readFile(fileData.fileLocation);
 
+    // Properly encode filename for non-ASCII (RFC 5987)
+    const asciiFallback = "download" + fileExtension;
+    const encodedFilename = encodeURIComponent(fileData.fileTitle + fileExtension);
+
     return new Response(new Uint8Array(fileBuffer), {
       headers: {
         "Content-Type": contentType,
-        "Content-Disposition": `attachment; filename=${fileData.fileTitle}${fileExtension}`,
+        // Both ASCII fallback and UTF-8 encoded filename
+        "Content-Disposition":
+          `attachment; filename="${asciiFallback}"; filename*=UTF-8''${encodedFilename}`,
       },
     });
   } catch (error) {
