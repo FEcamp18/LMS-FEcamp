@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { empty } from "@prisma/client/runtime/library"
 
 interface requestBodySchema {
   camperId: string
@@ -82,7 +83,7 @@ export async function DELETE(request: Request) {
         camperId: camperBycamperId.camperId,
       },
       data: {
-        chatbotUserId: "no-line-id",
+        chatbotUserId: undefined,
       },
     })
 
