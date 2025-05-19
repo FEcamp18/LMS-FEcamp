@@ -22,7 +22,7 @@ export default function BroadcastForm() {
 
     try {
       const payload: { message: string; condition?: string } = {
-        message: `ประกาศใหม่ถูกเพิ่มในวิชา! หัวข้อ ${announceName}`,
+        message: `${announceName}`,
       }
 
       if (roomNumber !== "all camper") {
