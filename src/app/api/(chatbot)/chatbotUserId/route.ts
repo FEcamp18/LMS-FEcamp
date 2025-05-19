@@ -83,7 +83,7 @@ export async function DELETE(request: Request) {
         camperId: camperBycamperId.camperId,
       },
       data: {
-        chatbotUserId: undefined,
+        chatbotUserId: "",
       },
     })
 
