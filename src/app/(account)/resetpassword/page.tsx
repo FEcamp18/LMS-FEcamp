@@ -79,7 +79,7 @@ function ResetPasswordForm() {
 
   const defaultView = (
     <div className="flex w-full flex-col items-center justify-center gap-y-6 rounded-2xl bg-gradient-to-b from-white to-cream px-4 py-6 sm:px-6 md:max-w-md md:px-8 md:py-10">
-      <Image src="Logo.svg" alt="Logo" width={100} height={100} />
+      <Image src="logo.svg" alt="Logo" width={100} height={100} />
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center gap-4"
