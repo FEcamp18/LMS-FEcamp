@@ -159,14 +159,14 @@ export const authOptions: NextAuthOptions = {
                 prio = 1;
               }
 
-              if (["VCK", "BOARD", "CENTRAL"].some((dept) => departmentDetails.department.includes(dept))) {
+              if (["VCK", "BOARD", "PRASARN"].some((dept) => departmentDetails.department.includes(dept))) {
                 boardcastPrio = true;
               }else {
                 boardcastPrio = false; 
               }
 
               if (
-                ["BOARD", "REGISTER", "IT", "ROOMSTAFF", "NURSE", "CENTRAL", "PLAN"].some(
+                ["BOARD", "REGISTER", "IT", "ROOMSTAFF", "NURSE", "PRASARN", "PLAN"].some(
                   (dept) => departmentDetails.department.includes(dept)
                 )
               ) {
