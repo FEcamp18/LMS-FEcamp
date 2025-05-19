@@ -1,0 +1,16 @@
+/*
+  Warnings:
+
+  - The values [PRASARN] on the enum `STAFFDEPARTMENT` will be removed. If these variants are still used in the database, this will fail.
+
+*/
+-- AlterEnum
+BEGIN;
+CREATE TYPE "STAFFDEPARTMENT_new" AS ENUM ('NORMALSTAFF', 'ROOMSTAFF', 'REGISTER', 'VCK', 'NURSE', 'WELFARE', 'CENTRAL', 'BOARD', 'IT', 'PLAN');
+ALTER TABLE "Staff" ALTER COLUMN "staffDepartment" DROP DEFAULT;
+ALTER TABLE "Staff" ALTER COLUMN "staffDepartment" TYPE "STAFFDEPARTMENT_new"[] USING ("staffDepartment"::text::"STAFFDEPARTMENT_new"[]);
+ALTER TYPE "STAFFDEPARTMENT" RENAME TO "STAFFDEPARTMENT_old";
+ALTER TYPE "STAFFDEPARTMENT_new" RENAME TO "STAFFDEPARTMENT";
+DROP TYPE "STAFFDEPARTMENT_old";
+ALTER TABLE "Staff" ALTER COLUMN "staffDepartment" SET DEFAULT ARRAY[]::"STAFFDEPARTMENT"[];
+COMMIT;
