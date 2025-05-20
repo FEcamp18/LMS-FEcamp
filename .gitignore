@@ -60,3 +60,6 @@ ecosystem.config.cjs
 
 prisma/csv_data/FE_camper_room.csv
 prisma/csv_data/real_staff_update.js
+prisma/csv_data/real_camper_update.js
+prisma/csv_data/FE_camper.csv
+prisma/csv_data/FE_camper.csv
