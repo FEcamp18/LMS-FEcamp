@@ -42,7 +42,8 @@ const config = {
     "prisma/csv_data/real_camper_seed.js",
     "prisma/csv_data/real_camper_room.js",
     "prisma/csv_data/real_camper_score.js",
-    "prisma/csv_data/real_staff_update.js"
+    "prisma/csv_data/real_staff_update.js",
+    "prisma/csv_data/real_camper_update.js"
   ],
 }
 module.exports = config;

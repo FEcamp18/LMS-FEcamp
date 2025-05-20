@@ -37,7 +37,7 @@ const accessControl = {
 const publicRoutes = [
   "/",
   "/dev",
-  "/pretest",
+  "/posttest",
   "/login",
   "/resetpassnotice",
   "/resetpassword",
