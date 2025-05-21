@@ -11,7 +11,7 @@ export async function GET(
   try {
     await checkAuthToken(req);
     const isSubjectIdExist = await prisma.subject.findUnique({
-      where: { subjectId },
+      where: { subjectId},
     })
 
     if (!isSubjectIdExist) {
@@ -25,7 +25,7 @@ export async function GET(
     }
 
     const filesBySubjectId = await prisma.subjectFiles.findMany({
-      where: { subjectId },
+      where: { subjectId , isDisable:false},
     })
 
     return new Response(
